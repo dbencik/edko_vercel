@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reproductive System Flashcards</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sea:#0ea5e9; --sun:#f59e0b; --olive:#16a34a;
+  --bg:#f0f9ff; --text:#1e293b; --muted:#64748b; --border:#e2e8f0;
+  --correct:#dcfce7; --cb:#16a34a;
+  --wrong:#fee2e2; --wb:#ef4444;
+  --card:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HEADER */
+.ph{background:linear-gradient(135deg,#0369a1 0%,#0284c7 40%,#0ea5e9 70%,#38bdf8 100%);
+    padding:32px 24px 28px;text-align:center;position:relative;overflow:hidden;}
+.ph::before{content:'🧬';position:absolute;font-size:160px;opacity:.07;bottom:-20px;right:-10px;}
+.ub{display:inline-block;background:rgba(255,255,255,.18);color:white;font-size:11px;
+    font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:4px 14px;
+    border-radius:20px;margin-bottom:10px;}
+.ph h1{font-family:'Lora',serif;font-style:italic;color:white;font-size:28px;margin-bottom:6px;}
+.ph .sub{color:rgba(255,255,255,.82);font-size:14px;font-weight:600;}
+
+/* PROGRESS BAR */
+.pb-wrap{background:white;border-bottom:2px solid var(--border);padding:12px 20px;
+         display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;flex-wrap:wrap;}
+.pb-label{font-size:12px;font-weight:800;color:var(--muted);}
+.pb-track{flex:1;height:10px;background:#e2e8f0;border-radius:6px;overflow:hidden;min-width:80px;}
+.pb-fill{height:100%;background:linear-gradient(90deg,var(--sea),var(--sun));border-radius:6px;transition:width .5s;}
+.pb-stat{font-size:13px;font-weight:800;color:var(--sea);}
+.pile-badge{background:#fee2e2;color:#991b1b;font-size:11px;font-weight:800;padding:3px 9px;
+            border-radius:20px;border:1px solid #fecaca;}
+.correct-badge{background:var(--correct);color:#166534;font-size:11px;font-weight:800;
+               padding:3px 9px;border-radius:20px;border:1px solid #bbf7d0;}
+
+/* MAIN */
+.main{max-width:680px;margin:0 auto;padding:28px 16px 60px;}
+
+/* DECK AREA */
+.deck-area{position:relative;min-height:340px;display:flex;align-items:center;
+           justify-content:center;margin-bottom:24px;}
+
+/* SHADOW CARDS (stack illusion) */
+.shadow-card{position:absolute;border-radius:18px;border:2px solid var(--border);
+             background:white;width:100%;max-width:580px;}
+.sc1{transform:rotate(-2.5deg) translateY(10px);z-index:1;height:180px;
+     box-shadow:0 4px 18px rgba(0,0,0,.07);}
+.sc2{transform:rotate(1.5deg) translateY(6px);z-index:2;height:180px;
+     box-shadow:0 4px 14px rgba(0,0,0,.06);}
+
+/* MAIN CARD */
+.card{position:relative;z-index:10;background:white;border-radius:18px;
+      border:2px solid var(--border);padding:28px 28px 24px;width:100%;max-width:580px;
+      box-shadow:0 8px 32px rgba(0,0,0,.1);transition:transform .15s;}
+.card-tag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;
+          letter-spacing:.12em;color:var(--sea);background:#e0f2fe;padding:3px 10px;
+          border-radius:12px;margin-bottom:14px;}
+.card-question{font-family:'Lora',serif;font-size:20px;font-weight:600;color:var(--text);
+               line-height:1.5;margin-bottom:8px;}
+.card-hint{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:20px;}
+
+/* OPTIONS */
+.options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px;}
+.opt{padding:11px 14px;border:2px solid var(--border);border-radius:11px;
+     background:white;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
+     cursor:pointer;transition:all .17s;text-align:left;line-height:1.4;color:var(--text);}
+.opt:hover:not(:disabled){border-color:var(--sea);background:#e0f2fe;}
+.opt.correct{background:var(--correct);border-color:var(--cb);color:#166534;pointer-events:none;}
+.opt.wrong{background:var(--wrong);border-color:var(--wb);color:#991b1b;pointer-events:none;}
+.opt.revealed-correct{background:var(--correct);border-color:var(--cb);color:#166534;}
+.opt:disabled{cursor:default;}
+
+/* FEEDBACK */
+.feedback{margin-top:14px;padding:10px 14px;border-radius:10px;font-size:13px;
+           font-weight:700;display:none;line-height:1.55;}
+.feedback.ok{display:block;background:var(--correct);color:#166534;border:1px solid var(--cb);}
+.feedback.no{display:block;background:var(--wrong);color:#991b1b;border:1px solid var(--wb);}
+
+/* NEXT BUTTON */
+.next-btn{display:none;margin-top:16px;width:100%;padding:13px;
+          background:linear-gradient(90deg,var(--sea),#0369a1);color:white;
+          border:none;border-radius:11px;font-family:'Nunito',sans-serif;
+          font-size:15px;font-weight:800;cursor:pointer;transition:opacity .2s;}
+.next-btn:hover{opacity:.88;}
+.next-btn.wrong-next{background:linear-gradient(90deg,#ef4444,#dc2626);}
+
+/* DONE SCREEN */
+.done-screen{display:none;background:white;border-radius:18px;border:2px solid var(--border);
+             padding:40px 28px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.1);}
+.done-screen.show{display:block;}
+.done-emoji{font-size:64px;margin-bottom:16px;}
+.done-title{font-family:'Lora',serif;font-size:28px;font-weight:600;margin-bottom:8px;}
+.done-score{font-size:40px;font-weight:900;color:var(--sea);margin-bottom:6px;}
+.done-msg{color:var(--muted);font-size:14px;margin-bottom:28px;}
+.stats-row{display:flex;gap:12px;justify-content:center;margin-bottom:24px;flex-wrap:wrap;}
+.stat-pill{background:var(--bg);border:2px solid var(--border);border-radius:12px;
+           padding:10px 20px;font-size:13px;font-weight:700;}
+.stat-pill span{display:block;font-size:22px;font-weight:900;color:var(--sea);}
+.restart-btn{padding:14px 32px;background:linear-gradient(90deg,var(--sea),#0369a1);
+             color:white;border:none;border-radius:11px;font-family:'Nunito',sans-serif;
+             font-size:15px;font-weight:800;cursor:pointer;transition:opacity .2s;}
+.restart-btn:hover{opacity:.88;}
+
+/* CONFETTI */
+.cfp{position:fixed;width:9px;height:9px;top:-9px;border-radius:2px;
+     animation:fall linear forwards;z-index:9999;pointer-events:none;}
+@keyframes fall{to{top:110vh;transform:rotate(720deg) translateX(var(--drift,0px));}}
+
+/* NO MORE CARDS */
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted);}
+.empty-icon{font-size:48px;margin-bottom:12px;}
+
+@media(max-width:500px){
+  .options{grid-template-columns:1fr;}
+  .ph h1{font-size:22px;}
+  .card-question{font-size:17px;}
+}
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="ub">7th Grade Biology</div>
+  <h1>Reproductive System</h1>
+  <div class="sub">Interactive Flashcard Deck — 50 Cards</div>
+</div>
+
+<div class="pb-wrap">
+  <div class="pb-label">Progress</div>
+  <div class="pb-track"><div class="pb-fill" id="pbFill" style="width:0%"></div></div>
+  <div class="pb-stat" id="pbStat">0 / 50</div>
+  <div class="pile-badge" id="pileBadge">📚 50 left</div>
+  <div class="correct-badge" id="correctBadge">✅ 0 correct</div>
+</div>
+
+<div class="main">
+  <div class="deck-area">
+    <div class="shadow-card sc1"></div>
+    <div class="shadow-card sc2"></div>
+
+    <div class="card" id="mainCard">
+      <div class="card-tag" id="cardTag">Terminology</div>
+      <div class="card-question" id="cardQ">Loading…</div>
+      <div class="card-hint" id="cardHint"></div>
+      <div class="options" id="optionsGrid"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="nextBtn" onclick="nextCard()">Next Card →</button>
+    </div>
+  </div>
+
+  <div class="done-screen" id="doneScreen">
+    <div class="done-emoji" id="doneEmoji">🏆</div>
+    <div class="done-title" id="doneTitle">Outstanding!</div>
+    <div class="done-score" id="doneScore">50 / 50</div>
+    <div class="done-msg" id="doneMsg">You mastered every card in the deck!</div>
+    <div class="stats-row">
+      <div class="stat-pill">Total Rounds<span id="statRounds">-</span></div>
+      <div class="stat-pill">Best Streak<span id="statStreak">-</span></div>
+      <div class="stat-pill">Accuracy<span id="statAcc">-</span></div>
+    </div>
+    <button class="restart-btn" onclick="restartDeck()">🔄 Restart Deck</button>
+  </div>
+</div>
+
+<script>
+var ALL_CARDS = [
+  // ── MALE SYSTEM ──
+  {tag:"Male System",q:"What is the PRIMARY function of the testes?",hint:"Think about the two things testes produce.",
+   ans:"Produce sperm cells and testosterone",
+   opts:["Produce sperm cells and testosterone","Store mature sperm for 2–3 weeks","Carry sperm toward the urethra","Produce semen by mixing fluid with sperm"]},
+
+  {tag:"Male System",q:"Why are the testes located OUTSIDE the body in the scrotum?",hint:"Think about temperature requirements for sperm development.",
+   ans:"Sperm require a slightly lower temperature than normal body temperature to develop correctly",
+   opts:["Sperm require a slightly lower temperature than normal body temperature to develop correctly","The scrotum produces testosterone more efficiently when external","Sperm need exposure to air to mature and become motile","The testes must remain moist, which is easier outside the body"]},
+
+  {tag:"Male System",q:"What is the EPIDIDYMIS?",hint:"It is located on the back of each testis.",
+   ans:"A coiled tube where sperm are stored and mature for approximately 2–3 weeks",
+   opts:["A coiled tube where sperm are stored and mature for approximately 2–3 weeks","A gland that produces fluid giving sperm energy to swim","A muscular tube that carries sperm from the testis to the urethra","A valve that prevents urine and semen from mixing during ejaculation"]},
+
+  {tag:"Male System",q:"What does the VAS DEFERENS do?",hint:"Also called the sperm duct — it is a muscular tube.",
+   ans:"Carries sperm from the epididymis to the urethra during ejaculation",
+   opts:["Carries sperm from the epididymis to the urethra during ejaculation","Stores and matures sperm before they enter the urethra","Produces a sugar-rich fluid that gives sperm energy to move","Connects the scrotum to the prostate gland"]},
+
+  {tag:"Male System",q:"What do the SEMINAL VESICLES produce, and why is it important?",hint:"The product mixes with sperm to form a well-known fluid.",
+   ans:"A sugar-rich fluid that provides sperm with energy to swim; combined with sperm it forms semen",
+   opts:["A sugar-rich fluid that provides sperm with energy to swim; combined with sperm it forms semen","A protective alkaline fluid that prevents the urethra from becoming too acidic","A hormone fluid that triggers sperm maturation inside the epididymis","A lubricating fluid that coats the urethra to help sperm pass without friction"]},
+
+  {tag:"Male System",q:"What is the role of the PROSTATE GLAND?",hint:"Think about the chemical environment inside the female system.",
+   ans:"Produces a protective fluid that makes semen less acidic, helping sperm survive longer in the female system",
+   opts:["Produces a protective fluid that makes semen less acidic, helping sperm survive longer in the female system","Produces testosterone to regulate sperm count and motility","Stores and releases sperm at the moment of ejaculation","Produces a sugar-rich fluid that provides sperm with energy to swim"]},
+
+  {tag:"Male System",q:"What important fact is true about the URETHRA in males?",hint:"It has two functions but they never happen at the same time.",
+   ans:"It carries both semen and urine, but a valve ensures they never travel together",
+   opts:["It carries both semen and urine, but a valve ensures they never travel together","It carries only semen; a separate tube carries urine out of the body","It connects the vas deferens directly to the epididymis","It is the tube connecting the seminal vesicles to the prostate gland"]},
+
+  {tag:"Male System",q:"What is TESTOSTERONE?",hint:"It is produced by the testes and affects secondary sex characteristics.",
+   ans:"The male sex hormone produced by the testes; responsible for deeper voice, facial hair, and muscle growth",
+   opts:["The male sex hormone produced by the testes; responsible for deeper voice, facial hair, and muscle growth","A fluid produced by the seminal vesicles that nourishes sperm cells","A hormone produced by the pituitary gland that triggers sperm release","The protein coat surrounding a sperm cell that helps it penetrate an egg"]},
+
+  {tag:"Male System",q:"What is SEMEN?",hint:"It is a mixture of two things.",
+   ans:"The fluid that results from mixing sperm with fluids from the seminal vesicles and prostate gland",
+   opts:["The fluid that results from mixing sperm with fluids from the seminal vesicles and prostate gland","Another name for the fluid produced exclusively by the epididymis","A hormone secreted by the testes alongside sperm production","The lubricating liquid coating the inner walls of the vas deferens"]},
+
+  {tag:"Male System",q:"What is the correct PATH OF SPERM through the male reproductive system?",hint:"Follow sperm from where they are made to where they exit.",
+   ans:"Testes → Epididymis → Vas Deferens → Urethra → Outside the body",
+   opts:["Testes → Epididymis → Vas Deferens → Urethra → Outside the body","Epididymis → Testes → Prostate → Vas Deferens → Outside the body","Testes → Vas Deferens → Epididymis → Seminal Vesicles → Urethra","Scrotum → Testes → Urethra → Vas Deferens → Outside the body"]},
+
+  // ── FEMALE SYSTEM ──
+  {tag:"Female System",q:"Where does FERTILIZATION most commonly occur?",hint:"It is not in the uterus.",
+   ans:"Inside the fallopian tube (oviduct)",
+   opts:["Inside the fallopian tube (oviduct)","On the surface of the ovary immediately after ovulation","In the upper portion of the uterus near the endometrium","At the cervix, where sperm first enter the uterus"]},
+
+  {tag:"Female System",q:"What are CILIA in the fallopian tubes and what do they do?",hint:"Think about tiny hair-like structures with a movement function.",
+   ans:"Tiny hair-like structures that push the egg along the fallopian tube toward the uterus",
+   opts:["Tiny hair-like structures that push the egg along the fallopian tube toward the uterus","Specialized receptor cells that detect whether the egg has been fertilized","Folds in the fallopian tube lining that increase surface area for nutrient absorption","Muscle fibers that cause the tube to contract and propel sperm toward the egg"]},
+
+  {tag:"Female System",q:"What is the ENDOMETRIUM?",hint:"It is a lining that has a monthly cycle of building up and breaking down.",
+   ans:"The inner lining of the uterus that thickens monthly to prepare for pregnancy and is shed during menstruation if no pregnancy occurs",
+   opts:["The inner lining of the uterus that thickens monthly to prepare for pregnancy and is shed during menstruation if no pregnancy occurs","The outer muscular wall of the uterus that contracts during childbirth","The lower narrow section of the uterus that connects to the vagina","A thick membrane covering the ovaries that releases eggs during ovulation"]},
+
+  {tag:"Female System",q:"What is the function of the CERVIX?",hint:"It is a structure at the bottom of the uterus.",
+   ans:"The lower narrow part of the uterus that connects to the vagina and allows the baby to pass through during birth",
+   opts:["The lower narrow part of the uterus that connects to the vagina and allows the baby to pass through during birth","The muscular tube that serves as the birth canal and receives sperm during intercourse","The layer of tissue lining the uterus that is shed during menstruation","The region of the fallopian tube where fertilization most commonly occurs"]},
+
+  {tag:"Female System",q:"A female is born with approximately how many eggs? How many mature each month?",hint:"The numbers are very different — millions vs. one.",
+   ans:"Born with approximately 1–2 million eggs; only one matures and is released each month",
+   opts:["Born with approximately 1–2 million eggs; only one matures and is released each month","Born with no eggs — they develop during puberty at a rate of several hundred per month","Born with approximately 400 eggs — one matures per month until menopause","Born with approximately 1–2 million eggs; about 20 mature monthly but only one is released"]},
+
+  {tag:"Female System",q:"What are the TWO sex hormones produced by the ovaries?",hint:"One controls the follicular phase; the other is dominant after ovulation.",
+   ans:"Estrogen and progesterone",
+   opts:["Estrogen and progesterone","Testosterone and estrogen","Progesterone and FSH (follicle-stimulating hormone)","Oxytocin and estrogen"]},
+
+  {tag:"Female System",q:"What is the VAGINA and what are its three main functions?",hint:"Think about what goes in, what comes out, and what it connects.",
+   ans:"A muscular tube connecting the cervix to outside the body; serves as birth canal, allows menstrual blood out, and receives sperm",
+   opts:["A muscular tube connecting the cervix to outside the body; serves as birth canal, allows menstrual blood out, and receives sperm","The lower narrow opening of the uterus; produces mucus and allows sperm to enter","An internal reproductive organ that produces eggs and the hormones estrogen and progesterone","The external folds of skin that protect the inner reproductive structures of the vulva"]},
+
+  {tag:"Female System",q:"What is the UTERUS and what shape is it described as?",hint:"It is where the baby grows; its shape is compared to a common fruit.",
+   ans:"A strong muscular organ shaped like an upside-down pear that receives the fertilized egg and supports baby development until birth",
+   opts:["A strong muscular organ shaped like an upside-down pear that receives the fertilized egg and supports baby development until birth","A hollow tube shaped like a funnel that connects the ovaries to the uterus","A two-lobed gland shaped like a butterfly that produces estrogen and regulates ovulation","A muscular canal shaped like a cylinder connecting the cervix to the outside of the body"]},
+
+  {tag:"Female System",q:"The URETHRAL OPENING in females is:",hint:"Pay attention — this often gets confused with another opening.",
+   ans:"A SEPARATE opening above the vaginal opening that carries only urine — it is NOT part of the reproductive system",
+   opts:["A SEPARATE opening above the vaginal opening that carries only urine — it is NOT part of the reproductive system","The same as the vaginal opening — both urine and menstrual blood pass through it","Located inside the vaginal canal — it is part of the reproductive and urinary systems","The internal opening at the base of the cervix through which urine is released"]},
+
+  // ── MENSTRUAL CYCLE ──
+  {tag:"Menstrual Cycle",q:"What happens during the MENSTRUAL PHASE (Days 1–5)?",hint:"This is the first phase — something leaves the body.",
+   ans:"The endometrium breaks down and leaves the body as a period; approximately 10–35 mL of blood is lost over 3–7 days",
+   opts:["The endometrium breaks down and leaves the body as a period; approximately 10–35 mL of blood is lost over 3–7 days","An egg is released from the ovary as estrogen levels reach their peak","The endometrium thickens under the influence of rising estrogen levels","The corpus luteum releases progesterone to maintain the uterine lining"]},
+
+  {tag:"Menstrual Cycle",q:"What occurs during the FOLLICULAR PHASE (Days 1–13)?",hint:"Both the egg AND the uterine lining are getting ready.",
+   ans:"An egg develops inside a follicle in the ovary while estrogen rises, causing the endometrium to thicken again",
+   opts:["An egg develops inside a follicle in the ovary while estrogen rises, causing the endometrium to thicken again","A mature egg is released from the ovary as the empty follicle becomes the corpus luteum","The endometrium is shed as progesterone levels drop, marking the start of menstruation","The corpus luteum produces progesterone to prepare the uterus for possible implantation"]},
+
+  {tag:"Menstrual Cycle",q:"What is OVULATION and on approximately which day does it occur?",hint:"Something is released — and it only stays viable for a short time.",
+   ans:"The release of a mature egg from the ovary; occurs around Day 14; the egg can be fertilized for approximately 24 hours",
+   opts:["The release of a mature egg from the ovary; occurs around Day 14; the egg can be fertilized for approximately 24 hours","The thickening of the endometrium driven by rising progesterone; occurs on Days 15–28","The breakdown of the uterine lining; occurs on Days 1–5 when hormone levels drop","The formation of the corpus luteum from the follicle wall; occurs immediately on Day 1"]},
+
+  {tag:"Menstrual Cycle",q:"What is the CORPUS LUTEUM and what does it produce?",hint:"It forms from the empty follicle after ovulation.",
+   ans:"The structure formed from the empty follicle after ovulation; it releases progesterone during the luteal phase",
+   opts:["The structure formed from the empty follicle after ovulation; it releases progesterone during the luteal phase","The layer of cells lining the follicle that releases estrogen before ovulation","A cluster of cells in the endometrium that releases HCG to signal implantation","A structure in the ovary that stores immature eggs until puberty"]},
+
+  {tag:"Menstrual Cycle",q:"The menstrual cycle is controlled by hormones from which TWO sources?",hint:"One is in the brain; one is a reproductive organ.",
+   ans:"The pituitary gland (brain) and the ovaries",
+   opts:["The pituitary gland (brain) and the ovaries","The hypothalamus and the uterus","The adrenal glands and the ovaries","The thyroid gland and the pituitary gland"]},
+
+  {tag:"Menstrual Cycle",q:"MENOPAUSE refers to:",hint:"Think about the age range and what permanently stops.",
+   ans:"The permanent end of the menstrual cycle, occurring around age 50, when the ovaries stop releasing eggs",
+   opts:["The permanent end of the menstrual cycle, occurring around age 50, when the ovaries stop releasing eggs","The temporary pause of menstruation during puberty as hormones stabilize","The first occurrence of menstruation, typically between ages 8 and 14","The phase of the menstrual cycle when progesterone causes the endometrium to thicken"]},
+
+  // ── GAMETES ──
+  {tag:"Gametes",q:"What is a GAMETE?",hint:"Both sexes produce them; they combine during fertilization.",
+   ans:"A sex cell (sperm or egg/ovum) that contains half the normal number of chromosomes",
+   opts:["A sex cell (sperm or egg/ovum) that contains half the normal number of chromosomes","Any body cell that undergoes mitosis to produce two identical daughter cells","A fertilized egg that forms after a sperm cell penetrates the ovum","The outer protein coat of a sperm cell that helps it bind to the egg"]},
+
+  {tag:"Gametes",q:"What is the difference between HAPLOID and DIPLOID cells?",hint:"Think about chromosome number — normal body cells vs. sex cells.",
+   ans:"Haploid cells have one set of chromosomes (23 in humans — gametes); diploid cells have two sets (46 — normal body cells)",
+   opts:["Haploid cells have one set of chromosomes (23 in humans — gametes); diploid cells have two sets (46 — normal body cells)","Haploid cells divide by mitosis; diploid cells divide by meiosis to form sex cells","Haploid means the cell has no nucleus; diploid means it has a double-layered nuclear membrane","Haploid cells contain only X chromosomes; diploid cells contain both X and Y chromosomes"]},
+
+  {tag:"Gametes",q:"What type of cell division produces gametes?",hint:"It is NOT mitosis — it has a specific name for producing sex cells.",
+   ans:"Meiosis — a two-stage division that halves the chromosome number to produce four haploid cells",
+   opts:["Meiosis — a two-stage division that halves the chromosome number to produce four haploid cells","Mitosis — producing two identical diploid daughter cells from one parent cell","Binary fission — the splitting of a cell used exclusively in reproductive cells","Cytokinesis — the division of cytoplasm following nuclear division in body cells"]},
+
+  {tag:"Gametes",q:"What is OOGENESIS?",hint:"The prefix gives it away — which sex does this apply to?",
+   ans:"The process of egg (ovum) production in females through meiosis in the ovaries",
+   opts:["The process of egg (ovum) production in females through meiosis in the ovaries","The process by which sperm develop acrosomes and tails in the testes","The maturation of the endometrium in preparation for implantation each month","The release of a mature egg from the ovary during ovulation"]},
+
+  {tag:"Gametes",q:"What is SPERMATOGENESIS?",hint:"It happens continuously in males after puberty.",
+   ans:"The continuous production of sperm cells from stem cells in the testes via meiosis",
+   opts:["The continuous production of sperm cells from stem cells in the testes via meiosis","The process by which sperm are stored and matured for 2–3 weeks in the epididymis","The production of testosterone by Leydig cells in the testes","The mixing of sperm with seminal vesicle fluid to form semen"]},
+
+  {tag:"Gametes",q:"What is the ACROSOME in a sperm cell?",hint:"It is located at the tip of the sperm head.",
+   ans:"A cap-like structure at the tip of the sperm head containing enzymes that help the sperm penetrate the egg",
+   opts:["A cap-like structure at the tip of the sperm head containing enzymes that help the sperm penetrate the egg","The long tail of the sperm cell that provides propulsion through the female reproductive tract","The middle section of the sperm cell that is packed with mitochondria for energy","The outer membrane of the egg that hardens after fertilization to block other sperm"]},
+
+  {tag:"Gametes",q:"What is the ZONA PELLUCIDA?",hint:"It surrounds the egg and plays a role in fertilization.",
+   ans:"The thick glycoprotein coat surrounding the egg that sperm must penetrate to achieve fertilization",
+   opts:["The thick glycoprotein coat surrounding the egg that sperm must penetrate to achieve fertilization","The outer jelly layer of a sperm cell that helps it bind to the fallopian tube lining","The inner cell mass of a blastocyst that will develop into the embryo","The protective membrane lining the uterus that prevents the immune system from rejecting the embryo"]},
+
+  // ── PREGNANCY & DEVELOPMENT ──
+  {tag:"Pregnancy",q:"What is a ZYGOTE?",hint:"It is the very first stage after fertilization — Day 1.",
+   ans:"A fertilized egg formed when one sperm successfully penetrates the ovum — the first cell of a new individual",
+   opts:["A fertilized egg formed when one sperm successfully penetrates the ovum — the first cell of a new individual","A 16-cell ball formed by Day 3 after the zygote undergoes rapid division","A hollow ball of cells with an outer trophoblast and inner embryoblast that implants in the uterus","A cluster of undifferentiated cells that develop into the placenta after implantation"]},
+
+  {tag:"Pregnancy",q:"What is CLEAVAGE?",hint:"It happens on Days 2–3 after fertilization.",
+   ans:"Rapid mitotic cell division of the zygote that produces smaller cells called blastomeres",
+   opts:["Rapid mitotic cell division of the zygote that produces smaller cells called blastomeres","The process by which the blastocyst burrows into the endometrium during implantation","The first stage of meiosis in which homologous chromosomes separate","The breakdown of the zona pellucida immediately after fertilization"]},
+
+  {tag:"Pregnancy",q:"What is the MORULA?",hint:"Think about Day 3 — and a small round fruit.",
+   ans:"A tight ball of approximately 16 blastomeres formed by Day 3 after fertilization, before the blastocyst stage",
+   opts:["A tight ball of approximately 16 blastomeres formed by Day 3 after fertilization, before the blastocyst stage","A hollow ball of cells with an inner cell mass that implants in the uterine wall","A single fertilized egg immediately after the sperm penetrates the zona pellucida","The inner cell mass inside the blastocyst that eventually becomes the embryo"]},
+
+  {tag:"Pregnancy",q:"What is the BLASTOCYST and what are its two key parts?",hint:"It is hollow and has an outer layer and an inner layer.",
+   ans:"A hollow ball of cells with a trophoblast (outer shell → placenta) and an embryoblast (inner cell mass → baby)",
+   opts:["A hollow ball of cells with a trophoblast (outer shell → placenta) and an embryoblast (inner cell mass → baby)","A solid 16-cell ball with an outer cortex (egg zone) and an inner medulla (fetal zone)","A two-layered disc with an ectoderm (future skin) and an endoderm (future gut)","A hollow structure with a chorion (outer layer → fetus) and a yolk sac (inner layer → placenta)"]},
+
+  {tag:"Pregnancy",q:"What is IMPLANTATION and when does it occur?",hint:"This is when pregnancy officially begins.",
+   ans:"The attachment of the blastocyst to the wall of the uterus (endometrium), occurring on Days 6–10; this is when pregnancy officially begins",
+   opts:["The attachment of the blastocyst to the wall of the uterus (endometrium), occurring on Days 6–10; this is when pregnancy officially begins","The penetration of the egg by a sperm cell inside the fallopian tube on Day 1","The formation of the placenta from the trophoblast during the second week of development","The shedding of the endometrium at the start of the menstrual phase"]},
+
+  {tag:"Pregnancy",q:"What is the PLACENTA and how is it connected to the baby?",hint:"Think about what it exchanges and how it is physically attached.",
+   ans:"An organ that develops from the trophoblast and connects mother to baby via the umbilical cord (1 vein + 2 arteries) to exchange nutrients, gases, and waste",
+   opts:["An organ that develops from the trophoblast and connects mother to baby via the umbilical cord (1 vein + 2 arteries) to exchange nutrients, gases, and waste","A fluid-filled sac that surrounds and protects the fetus from physical shocks during development","An organ that develops from the embryoblast and filters the mother's blood before passing it to the fetus","A thick membrane between the fetus and the uterine wall that prevents the mother's immune system from attacking the fetus"]},
+
+  {tag:"Pregnancy",q:"Which hormone does the PLACENTA produce to MAINTAIN PREGNANCY?",hint:"This hormone is also detected by pregnancy tests.",
+   ans:"HCG (Human Chorionic Gonadotropin), along with estrogen and progesterone",
+   opts:["HCG (Human Chorionic Gonadotropin), along with estrogen and progesterone","Oxytocin, which signals the uterine muscles to contract during implantation","FSH (Follicle-Stimulating Hormone), which keeps the ovaries from releasing more eggs","LH (Luteinizing Hormone), which triggers continued release of progesterone from the corpus luteum"]},
+
+  {tag:"Pregnancy",q:"In the FIRST TRIMESTER (Weeks 1–12), what are two key developmental milestones?",hint:"Two specific organs are mentioned as the FIRST to develop.",
+   ans:"The brain and spinal cord are the first organs to develop; the heart begins beating around Week 4; all major organs are present by Week 12",
+   opts:["The brain and spinal cord are the first organs to develop; the heart begins beating around Week 4; all major organs are present by Week 12","The lungs and liver are the first organs to form; the skeleton begins calcifying by Week 6","Eyelids, eyelashes, and nails develop; the fetus begins moving and kicking by Week 10","The fetus responds to light and sound; significant weight gain begins as the lungs mature"]},
+
+  {tag:"Pregnancy",q:"What is QUICKENING?",hint:"It is something the mother feels during the second trimester.",
+   ans:"The moment the mother can first feel the baby's movements, typically around the second trimester (5 months)",
+   opts:["The moment the mother can first feel the baby's movements, typically around the second trimester (5 months)","The rapid cell division of the zygote in the first days after fertilization","The sudden surge in estrogen levels that triggers ovulation around Day 14","The accelerated growth phase in the third trimester when the fetus gains most of its weight"]},
+
+  {tag:"Pregnancy",q:"In what ORDER do these developmental stages occur?",hint:"Arrange from fertilization to implantation.",
+   ans:"Zygote → Morula → Blastocyst → Implantation",
+   opts:["Zygote → Morula → Blastocyst → Implantation","Zygote → Blastocyst → Morula → Implantation","Morula → Zygote → Blastocyst → Embryo","Blastocyst → Zygote → Morula → Implantation"]},
+
+  {tag:"Pregnancy",q:"From which WEEK does the developing human change from EMBRYO to FETUS?",hint:"It is a specific week number — memorize it.",
+   ans:"Week 9 — the embryo becomes a fetus at Week 9 and remains so until birth",
+   opts:["Week 9 — the embryo becomes a fetus at Week 9 and remains so until birth","Week 4 — once the heart starts beating the embryo becomes a fetus","Week 12 — once all major organs are present the transition to fetus occurs","Week 13 — the start of the second trimester marks the embryo-to-fetus change"]},
+
+  {tag:"Pregnancy",q:"The UMBILICAL CORD contains which combination of blood vessels?",hint:"Count the veins and arteries carefully.",
+   ans:"1 vein (carries oxygenated blood to the baby) and 2 arteries (carry deoxygenated blood back to the placenta)",
+   opts:["1 vein (carries oxygenated blood to the baby) and 2 arteries (carry deoxygenated blood back to the placenta)","2 veins and 1 artery — the extra vein delivers additional nutrients during rapid growth","2 veins and 2 arteries — a dual-circuit system for both nutrition and waste removal","1 vein and 1 artery — a simple circuit identical to the arrangement in any limb"]},
+
+  // ── STIs & STDs ──
+  {tag:"STIs & STDs",q:"What is the difference between an STI and an STD?",hint:"One has symptoms; one might not yet.",
+   ans:"An STI is an infection (pathogen present, possibly no symptoms yet); an STD is when the infection has progressed and now causes visible symptoms",
+   opts:["An STI is an infection (pathogen present, possibly no symptoms yet); an STD is when the infection has progressed and now causes visible symptoms","An STI is spread only through blood; an STD is spread only through sexual contact","An STI is always viral; an STD is always bacterial and can be treated with antibiotics","An STI is curable; an STD is a chronic condition with no possibility of treatment"]},
+
+  {tag:"STIs & STDs",q:"Which STIs are caused by VIRUSES and therefore CANNOT be cured with antibiotics?",hint:"There are four viral STIs listed in the guide.",
+   ans:"HPV, HIV, Hepatitis B, and Genital Herpes",
+   opts:["HPV, HIV, Hepatitis B, and Genital Herpes","Chlamydia, Gonorrhea, Syphilis, and Trichomoniasis","HPV, Chlamydia, HIV, and Pubic Lice","Gonorrhea, HPV, Hepatitis B, and Syphilis"]},
+
+  {tag:"STIs & STDs",q:"How does HIV cause harm to the body?",hint:"It targets a specific type of blood cell.",
+   ans:"HIV attacks the immune system by destroying white blood cells (CD4 cells), eventually leading to AIDS when the immune system is severely damaged",
+   opts:["HIV attacks the immune system by destroying white blood cells (CD4 cells), eventually leading to AIDS when the immune system is severely damaged","HIV attacks the reproductive system by inflaming the fallopian tubes, causing infertility","HIV embeds in liver cells, eventually causing hepatitis and liver failure","HIV targets nerve cells and progressively destroys the brain, causing dementia"]},
+
+  {tag:"STIs & STDs",q:"What is ART and what does it do for HIV patients?",hint:"ART is a type of medication — look at what the letters stand for.",
+   ans:"Antiretroviral Therapy — medication that suppresses HIV, preventing progression to AIDS and allowing patients to live long, healthy lives",
+   opts:["Antiretroviral Therapy — medication that suppresses HIV, preventing progression to AIDS and allowing patients to live long, healthy lives","Antibiotic Resistance Treatment — a protocol used to treat HIV strains resistant to standard antibiotics","Assisted Reproductive Technology — a fertility treatment unrelated to HIV management","Acute Retroviral Treatment — a one-time injection given immediately after HIV exposure to cure the infection"]},
+
+  {tag:"STIs & STDs",q:"What is CHLAMYDIA known for, and what happens if it is left untreated?",hint:"It is the most common bacterial STI — and it is often silent.",
+   ans:"Caused by Chlamydia trachomatis; often has NO symptoms; if untreated it can cause infertility; easily cured with antibiotics",
+   opts:["Caused by Chlamydia trachomatis; often has NO symptoms; if untreated it can cause infertility; easily cured with antibiotics","Caused by Treponema pallidum; first symptom is a painless sore; can cause brain damage if untreated","Caused by Herpes Simplex Virus; causes painful blisters; no cure but managed with antivirals","Caused by Trichomonas vaginalis; often no symptoms; treated with a special medicated shampoo"]},
+
+  {tag:"STIs & STDs",q:"What are the THREE STAGES of untreated SYPHILIS?",hint:"It progresses from a sore to a rash to organ damage.",
+   ans:"Stage 1: painless sore (chancre); Stage 2: skin rash and flu symptoms; Stage 3: brain damage, heart disease, and movement disorders",
+   opts:["Stage 1: painless sore (chancre); Stage 2: skin rash and flu symptoms; Stage 3: brain damage, heart disease, and movement disorders","Stage 1: burning urination; Stage 2: unusual discharge; Stage 3: infertility and organ failure","Stage 1: painful blisters; Stage 2: flu-like illness; Stage 3: immune system collapse (AIDS)","Stage 1: genital warts; Stage 2: cervical cell changes; Stage 3: invasive cancer"]},
+
+  {tag:"STIs & STDs",q:"Which STI has a VACCINE available, and at what age is it recommended?",hint:"Only one STI on the list can be prevented with a vaccine.",
+   ans:"HPV (Human Papillomavirus); the vaccine is recommended at approximately age 11–12",
+   opts:["HPV (Human Papillomavirus); the vaccine is recommended at approximately age 11–12","Chlamydia; the vaccine is given at birth and provides lifetime immunity","HIV; a preventive vaccine is given to high-risk individuals annually","Gonorrhea; a new mRNA vaccine is recommended before age 16"]},
+
+  {tag:"STIs & STDs",q:"What is a CHANCRE?",hint:"It is associated with the first stage of a specific bacterial STI.",
+   ans:"A painless sore that is the first symptom of syphilis, appearing approximately 6 months after infection",
+   opts:["A painless sore that is the first symptom of syphilis, appearing approximately 6 months after infection","Painful blisters in the genital area caused by Herpes Simplex Virus","Genital warts caused by certain strains of Human Papillomavirus","A skin rash associated with the second stage of an HIV infection"]},
+
+  {tag:"STIs & STDs",q:"Why is GONORRHEA becoming harder to treat?",hint:"Think about a resistance that bacteria can develop.",
+   ans:"Due to antibiotic resistance — the bacteria have evolved to survive standard antibiotic treatments",
+   opts:["Due to antibiotic resistance — the bacteria have evolved to survive standard antibiotic treatments","Because it is viral and therefore has never been treatable with antibiotics","Because the bacteria live deep inside cells where antibiotics cannot reach","Because no pharmaceutical company has developed a targeted antibiotic for it yet"]},
+
+  {tag:"STIs & STDs",q:"Which of the following STIs are PARASITIC?",hint:"Parasites are not viruses or bacteria — they are larger organisms.",
+   ans:"Pubic Lice and Trichomoniasis",
+   opts:["Pubic Lice and Trichomoniasis","Chlamydia and Gonorrhea","Genital Herpes and HPV","Syphilis and Trichomoniasis"]}
+];
+
+// ── STATE ──
+var pile = [];
+var correctSet = {};
+var totalCorrect = 0;
+var totalAnswers = 0;
+var totalRounds = 0;
+var streak = 0;
+var bestStreak = 0;
+var currentIdx = 0;
+var answered = false;
+
+function shuffle(arr){
+  for(var i=arr.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=arr[i];arr[i]=arr[j];arr[j]=t;
+  }
+  return arr;
+}
+
+function initDeck(){
+  pile = shuffle(ALL_CARDS.slice());
+  correctSet = {};
+  totalCorrect = 0;
+  totalAnswers = 0;
+  totalRounds = 0;
+  streak = 0;
+  bestStreak = 0;
+  currentIdx = 0;
+  answered = false;
+  document.getElementById('doneScreen').classList.remove('show');
+  document.getElementById('mainCard').style.display = '';
+  document.querySelectorAll('.shadow-card').forEach(function(el){el.style.display='';});
+  showCard();
+  updateProgress();
+}
+
+function showCard(){
+  if(pile.length === 0){
+    showDone();
+    return;
+  }
+  answered = false;
+  var c = pile[currentIdx % pile.length];
+  document.getElementById('cardTag').textContent = c.tag;
+  document.getElementById('cardQ').textContent = c.q;
+  document.getElementById('cardHint').textContent = '💡 Hint: ' + c.hint;
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.getElementById('nextBtn').className = 'next-btn';
+
+  // shuffle options each time
+  var opts = shuffle(c.opts.slice());
+  var grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+  opts.forEach(function(o){
+    var btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.textContent = o;
+    var isCorrect = (o === c.ans);
+    btn.onclick = function(){ if(!answered) checkAnswer(btn, isCorrect, c.ans); };
+    grid.appendChild(btn);
+  });
+}
+
+function checkAnswer(btn, isCorrect, correctAns){
+  answered = true;
+  totalAnswers++;
+  var c = pile[currentIdx % pile.length];
+  var fb = document.getElementById('feedback');
+  var nextBtn = document.getElementById('nextBtn');
+
+  // disable all buttons, highlight correct
+  document.querySelectorAll('.opt').forEach(function(b){
+    b.disabled = true;
+    if(b.textContent === correctAns) b.classList.add('revealed-correct');
+  });
+
+  if(isCorrect){
+    btn.classList.remove('revealed-correct');
+    btn.classList.add('correct');
+    fb.className = 'feedback ok';
+    fb.textContent = '✅ Correct! Well done.';
+    streak++;
+    if(streak > bestStreak) bestStreak = streak;
+    // remove from pile
+    pile.splice(currentIdx % pile.length, 1);
+    totalCorrect++;
+    nextBtn.className = 'next-btn';
+    nextBtn.textContent = pile.length > 0 ? 'Next Card →' : 'See Results 🏆';
+  } else {
+    btn.classList.add('wrong');
+    fb.className = 'feedback no';
+    fb.textContent = '❌ Not quite. This card goes back in the pile — try again later!';
+    streak = 0;
+    // move card to random position later in pile
+    var removed = pile.splice(currentIdx % pile.length, 1)[0];
+    var insertAt = Math.min(pile.length, Math.floor(Math.random()*3)+2+(currentIdx%Math.max(pile.length,1)));
+    if(insertAt > pile.length) insertAt = pile.length;
+    pile.splice(insertAt, 0, removed);
+    nextBtn.className = 'next-btn wrong-next';
+    nextBtn.textContent = pile.length > 0 ? 'Continue →' : 'See Results 🏆';
+  }
+
+  nextBtn.style.display = 'block';
+  updateProgress();
+}
+
+function nextCard(){
+  if(pile.length === 0){ showDone(); return; }
+  totalRounds++;
+  showCard();
+}
+
+function updateProgress(){
+  var done = ALL_CARDS.length - pile.length;
+  var pct = Math.round(done / ALL_CARDS.length * 100);
+  document.getElementById('pbFill').style.width = pct + '%';
+  document.getElementById('pbStat').textContent = done + ' / ' + ALL_CARDS.length;
+  document.getElementById('pileBadge').textContent = '📚 ' + pile.length + ' left';
+  document.getElementById('correctBadge').textContent = '✅ ' + done + ' correct';
+}
+
+function showDone(){
+  document.getElementById('mainCard').style.display = 'none';
+  document.querySelectorAll('.shadow-card').forEach(function(el){el.style.display='none';});
+  var pct = Math.round(totalCorrect / totalAnswers * 100) || 100;
+  var configs = [
+    {min:90,emoji:'🏆',title:'Outstanding!',msg:'Perfect mastery of the Reproductive System!'},
+    {min:75,emoji:'🌟',title:'Well done!',msg:'Great understanding — review any tricky cards and you are ready.'},
+    {min:55,emoji:'👍',title:'Good effort!',msg:'Keep reviewing the harder terms and try again.'},
+    {min:0, emoji:'📚',title:'Keep practising!',msg:'Focus on the core concepts and go through the deck again.'}
+  ];
+  var cfg = configs.find(function(c){return pct>=c.min;});
+  document.getElementById('doneEmoji').textContent = cfg.emoji;
+  document.getElementById('doneTitle').textContent = cfg.title;
+  document.getElementById('doneScore').textContent = ALL_CARDS.length + ' / ' + ALL_CARDS.length;
+  document.getElementById('doneMsg').textContent = cfg.msg;
+  document.getElementById('statRounds').textContent = totalAnswers;
+  document.getElementById('statStreak').textContent = bestStreak;
+  document.getElementById('statAcc').textContent = pct + '%';
+  document.getElementById('doneScreen').classList.add('show');
+  if(pct>=90) confetti();
+}
+
+function restartDeck(){
+  initDeck();
+}
+
+function confetti(){
+  var cols=['#f59e0b','#0ea5e9','#16a34a','#ef4444','#a855f7','#ec4899'];
+  for(var i=0;i<80;i++){
+    var p=document.createElement('div');
+    p.className='cfp';
+    p.style.cssText='left:'+Math.random()*100+'vw;background:'+cols[Math.floor(Math.random()*cols.length)]+';'
+      +'width:'+(6+Math.random()*9)+'px;height:'+(6+Math.random()*9)+'px;'
+      +'border-radius:'+(Math.random()>.5?'50%':'2px')+';'
+      +'animation-duration:'+(2+Math.random()*3)+'s;animation-delay:'+(Math.random()*1.5)+'s;'
+      +'--drift:'+(Math.random()-.5)*200+'px';
+    document.body.appendChild(p);
+    setTimeout(function(){p.remove();},6000);
+  }
+}
+
+// START
+initDeck();
+</script>
+</body>
+</html>

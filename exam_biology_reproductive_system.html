@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biology Exam — Human Reproductive System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sun:#f59e0b;--sea:#0ea5e9;--olive:#16a34a;
+  --bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --correct:#dcfce7;--cb:#16a34a;
+  --wrong:#fee2e2;--wb:#ef4444;
+  --partial:#fef9c3;--pb:#ca8a04;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+/* Header */
+.ph{background:linear-gradient(135deg,#0369a1 0%,#0284c7 40%,#0ea5e9 70%,#38bdf8 100%);
+    padding:36px 24px 28px;text-align:center;position:relative;overflow:hidden;color:white}
+.ph::before{content:'🧬';position:absolute;font-size:160px;opacity:.07;bottom:-20px;right:-10px}
+.ub{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);
+    border-radius:20px;padding:4px 14px;font-size:11px;font-weight:800;letter-spacing:.1em;
+    text-transform:uppercase;margin-bottom:10px}
+.ph h1{font-family:'Lora',serif;font-style:italic;font-size:2rem;margin-bottom:6px}
+.sub{font-size:13px;opacity:.85;margin-bottom:12px}
+.ops{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
+.op{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+    border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700}
+/* Score bar */
+.sb{background:white;border-bottom:2px solid var(--border);padding:10px 20px;
+    display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;flex-wrap:wrap}
+.sl{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.sv{font-size:18px;font-weight:900;color:var(--sea)}
+.pw{flex:1;min-width:80px;background:#e2e8f0;border-radius:6px;height:8px;overflow:hidden}
+.pf{height:100%;background:linear-gradient(90deg,var(--sea),var(--sun));border-radius:6px;transition:width .5s;width:0%}
+.pt{font-size:12px;font-weight:700;color:var(--muted)}
+.tm{font-size:12px;font-weight:700;color:#92400e;background:#fef3c7;padding:3px 8px;border-radius:6px}
+/* Main */
+.main{max-width:820px;margin:0 auto;padding:24px 20px 80px}
+/* Vocab ref */
+.vr{background:#fffbeb;border:2px solid var(--sun);border-radius:12px;margin-bottom:24px}
+.vt-btn{width:100%;padding:12px 18px;background:none;border:none;cursor:pointer;
+    font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#92400e;
+    display:flex;align-items:center;justify-content:space-between}
+.arr{transition:transform .3s;font-size:11px}
+.vt-btn.open .arr{transform:rotate(180deg)}
+.vb{display:none;padding:0 18px 16px}
+.vb.open{display:block}
+.vst{font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#92400e;margin-bottom:8px}
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:5px}
+.vi{display:flex;justify-content:space-between;align-items:center;font-size:12px;
+    padding:5px 9px;background:white;border-radius:5px;border:1px solid #fde68a;gap:6px}
+.ves{font-weight:800;flex-shrink:0}
+.ven{color:var(--muted);font-style:italic;font-size:11px;text-align:right}
+/* Section cards */
+.sec{background:white;border-radius:14px;padding:24px;margin-bottom:20px;
+     border:2px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.sh{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;
+    padding-bottom:14px;border-bottom:2px solid var(--border)}
+.si{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;
+    justify-content:center;font-size:20px;flex-shrink:0}
+.ib{background:#e0f2fe}.ig{background:#dcfce7}.ir{background:#fee2e2}
+.iy{background:#fef9c3}.ip{background:#f3e8ff}
+.sh-info h2{font-size:15px;font-weight:900;margin-bottom:2px}
+.sh-info p{font-size:12px;color:var(--muted);line-height:1.5}
+.pts-badge{margin-left:auto;background:var(--bg);border:2px solid var(--border);
+           border-radius:8px;padding:4px 10px;font-size:11px;font-weight:800;
+           color:var(--muted);white-space:nowrap;flex-shrink:0}
+/* Match */
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mc{display:flex;flex-direction:column;gap:7px}
+.mit{padding:9px 14px;border:2px solid var(--border);border-radius:9px;cursor:pointer;
+     font-size:13px;font-weight:700;transition:all .18s;background:#f8fafc;
+     text-align:center;min-height:44px;display:flex;align-items:center;justify-content:center;
+     line-height:1.3;user-select:none}
+.mit:hover:not(.matched):not(.selected){border-color:var(--sea);background:#e0f2fe}
+.mit.selected{border-color:var(--sea);background:var(--sea);color:white}
+.mit.matched{border-color:var(--cb);background:var(--correct);color:#166534;cursor:default}
+.mit.wf{border-color:var(--wb);background:var(--wrong);animation:shake .35s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}60%{transform:translateX(6px)}}
+.match-score{font-size:12px;font-weight:700;color:var(--muted);margin-top:10px;text-align:right}
+/* MCQ */
+.qb{margin-bottom:16px;padding:14px;background:#f8fafc;border-radius:10px;border:1px solid var(--border)}
+.ql{font-size:14px;font-weight:700;margin-bottom:10px;line-height:1.5}
+.qn{font-size:11px;font-weight:800;color:var(--sea);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ob{padding:9px 12px;border:2px solid var(--border);border-radius:9px;background:white;
+    font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;
+    transition:all .18s;text-align:left;line-height:1.4;width:100%}
+.ob:hover:not(:disabled){border-color:var(--sea);background:#e0f2fe}
+.ob.correct{background:var(--correct);border-color:var(--cb);color:#166534}
+.ob.incorrect{background:var(--wrong);border-color:var(--wb);color:#991b1b}
+.ob:disabled{cursor:default}
+.fb{margin-top:8px;padding:8px 12px;border-radius:7px;font-size:12px;font-weight:700;display:none;line-height:1.5}
+.fb.ok{display:block;background:var(--correct);color:#166534;border:1px solid var(--cb)}
+.fb.no{display:block;background:var(--wrong);color:#991b1b;border:1px solid var(--wb)}
+/* Blank */
+.bl-item{margin-bottom:14px}
+.bs{font-size:14px;font-weight:600;line-height:1.9;display:flex;flex-wrap:wrap;
+    align-items:center;gap:5px;background:#f8fafc;padding:12px 14px;
+    border-radius:9px;border-left:4px solid var(--olive)}
+.binp{border:2px solid var(--border);border-radius:7px;padding:5px 10px;
+      font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;outline:none;
+      min-width:150px;transition:border-color .2s}
+.binp:focus{border-color:var(--sea)}
+.binp.correct{border-color:var(--cb);background:var(--correct);color:#166534}
+.binp.incorrect{border-color:var(--wb);background:var(--wrong);color:#991b1b}
+.bl-row{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap}
+.bcb{padding:5px 14px;background:var(--olive);color:white;border:none;border-radius:7px;
+     font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer}
+.bcb:disabled{opacity:.5;cursor:default}
+.bar{font-size:12px;font-weight:700;color:#991b1b;display:none;
+     padding:3px 8px;background:var(--wrong);border-radius:5px}
+.bar.show{display:inline-block}
+/* Free response */
+.fr-item{margin-bottom:16px;padding:14px;background:#fdf4ff;border-radius:10px;border:1px solid #e9d5ff}
+.fr-q{font-size:14px;font-weight:700;margin-bottom:8px;color:#4c1d95;line-height:1.5}
+.tir{display:flex;gap:7px;align-items:flex-start}
+.tinp{flex:1;border:2px solid var(--border);border-radius:7px;padding:7px 12px;
+      font-family:'Nunito',sans-serif;font-size:13px;resize:vertical;outline:none;min-height:80px}
+.tinp:focus{border-color:#a855f7}
+.tcb{padding:7px 14px;background:#a855f7;color:white;border:none;border-radius:7px;
+     font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
+.tcb:disabled{opacity:.5;cursor:default}
+.tf{margin-top:8px;padding:9px 12px;border-radius:7px;font-size:12px;font-weight:700;
+    display:none;line-height:1.6}
+.tf.full{display:block;background:var(--correct);color:#166534;border:1px solid var(--cb)}
+.tf.partial{display:block;background:var(--partial);color:#854d0e;border:1px solid var(--pb)}
+.tf.miss{display:block;background:var(--wrong);color:#991b1b;border:1px solid var(--wb)}
+/* Rules / Classify */
+.ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.ait{background:#f8fafc;border:2px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.aw{font-size:12px;font-weight:800;color:var(--text);margin-bottom:9px;line-height:1.4;min-height:34px;
+    display:flex;align-items:center;justify-content:center}
+.ao{display:flex;gap:5px;justify-content:center}
+.aob{padding:5px 10px;border:2px solid var(--border);border-radius:6px;
+     font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;
+     cursor:pointer;background:white;transition:all .15s}
+.aob:hover:not(:disabled){border-color:var(--sea);background:#e0f2fe}
+.aob.correct{background:var(--correct);border-color:var(--cb);color:#166534}
+.aob.incorrect{background:var(--wrong);border-color:var(--wb);color:#991b1b}
+.aob:disabled{cursor:default}
+/* Submit */
+.subb{display:block;margin:24px auto 0;padding:14px 44px;background:var(--olive);color:white;
+      border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:16px;
+      font-weight:900;cursor:pointer;letter-spacing:.04em;transition:all .2s}
+.subb:hover:not(:disabled){opacity:.9;transform:translateY(-2px);box-shadow:0 4px 16px rgba(22,163,74,.3)}
+.subb:disabled{opacity:.5;cursor:default;transform:none}
+/* Results */
+.rsd{display:none;background:white;border-radius:20px;padding:32px;text-align:center;
+     border:3px solid var(--sea);margin-top:28px;box-shadow:0 4px 24px rgba(14,165,233,.15)}
+.rsd.show{display:block}
+.re{font-size:64px;margin-bottom:8px;display:block}
+.rt{font-size:22px;font-weight:900;margin-bottom:6px}
+.rsc{font-size:36px;font-weight:900;color:var(--sea);margin-bottom:8px}
+.rm{font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+.rstats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.rst{background:var(--bg);border:2px solid var(--border);border-radius:10px;padding:12px 20px;text-align:center}
+.rst-l{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.rst-v{font-size:20px;font-weight:900;color:var(--text)}
+.rbtn{margin-top:20px;padding:10px 28px;background:var(--sea);color:white;border:none;
+      border-radius:10px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer}
+/* Confetti */
+.cfp{position:fixed;width:9px;height:9px;top:-9px;border-radius:2px;
+     animation:fall linear forwards;z-index:9999;pointer-events:none}
+@keyframes fall{to{top:110vh;transform:rotate(720deg) translateX(var(--drift,0px))}}
+/* Responsive */
+@media(max-width:560px){
+  .og,.mg{grid-template-columns:1fr}
+  .sec{padding:16px 14px}
+  .main{padding:16px 14px 60px}
+  .ph h1{font-size:1.5rem}
+  .ag{grid-template-columns:repeat(2,1fr)}
+  .rstats{gap:10px}
+}
+@media print{
+  .sb,.subb,.rbtn,.bcb,.tcb,.ob,.mit,.vt-btn,.aob{display:none!important}
+  body{background:white}
+  .sec{box-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="ub">Unit 6 &nbsp;·&nbsp; Biology — 7th Grade</div>
+  <h1>Human Reproductive System</h1>
+  <div class="sub">Comprehensive Interactive Exam &nbsp;·&nbsp; 80 Points</div>
+  <div class="ops">
+    <span class="op">♂ Male Anatomy</span>
+    <span class="op">♀ Female Anatomy</span>
+    <span class="op">🔄 Menstrual Cycle</span>
+    <span class="op">🧬 Gametes</span>
+    <span class="op">🍼 Pregnancy</span>
+    <span class="op">🦠 STIs &amp; STDs</span>
+  </div>
+</div>
+
+<div class="sb">
+  <div class="sl">Score</div>
+  <div class="sv" id="sv">0</div>
+  <div class="pw"><div class="pf" id="pf"></div></div>
+  <div class="pt" id="pt">0 / 80 pts</div>
+  <div class="tm" id="tm">⏱ 0:00</div>
+</div>
+
+<div class="main">
+
+<!-- Reference Panel -->
+<div class="vr">
+  <button class="vt-btn" id="vt" onclick="toggleV()">
+    📖 Key Terms Reference — click to show / hide &nbsp;<span class="arr">▼</span>
+  </button>
+  <div class="vb" id="vb">
+    <div class="vst">Key Vocabulary</div>
+    <div class="vg" id="vocabGrid"></div>
+  </div>
+</div>
+
+<!-- ── Exercise 1: Vocabulary Matching ── -->
+<div class="sec">
+  <div class="sh">
+    <div class="si ib">🔗</div>
+    <div class="sh-info">
+      <h2>Exercise 1 — Vocabulary Matching</h2>
+      <p>Click a term on the left, then click its matching definition on the right. 8 pairs · 2 pts each.</p>
+    </div>
+    <div class="pts-badge">16 pts</div>
+  </div>
+  <div class="mg">
+    <div class="mc" id="leftCol"></div>
+    <div class="mc" id="rightCol"></div>
+  </div>
+  <div class="match-score" id="matchScore">Matched: 0 / 8</div>
+</div>
+
+<!-- ── Exercise 2: MCQ – Anatomy ── -->
+<div class="sec">
+  <div class="sh">
+    <div class="si ig">🔬</div>
+    <div class="sh-info">
+      <h2>Exercise 2 — Anatomy: Multiple Choice</h2>
+      <p>Male and female reproductive structures and their functions. 6 questions · 2 pts each.</p>
+    </div>
+    <div class="pts-badge">12 pts</div>
+  </div>
+  <div id="mcq1Container"></div>
+</div>
+
+<!-- ── Exercise 3: MCQ – Menstrual Cycle ── -->
+<div class="sec">
+  <div class="sh">
+    <div class="si ir">🔄</div>
+    <div class="sh-info">
+      <h2>Exercise 3 — Menstrual Cycle &amp; Hormones</h2>
+      <p>Phases, hormone roles, and key events of the menstrual cycle. 5 questions · 2 pts each.</p>
+    </div>
+    <div class="pts-badge">10 pts</div>
+  </div>
+  <div id="mcq2Container"></div>
+</div>
+
+<!-- ── Exercise 4: Fill in the Blank ── -->
+<div class="sec">
+  <div class="sh">
+    <div class="si ig">✏️</div>
+    <div class="sh-info">
+      <h2>Exercise 4 — Fill in the Blank</h2>
+      <p>Type the missing term. Spelling errors are corrected automatically in the answer box. Press Enter or click Check. 6 items · 2 pts each.</p>
+    </div>
+    <div class="pts-badge">12 pts</div>
+  </div>
+  <div id="blanksContainer"></div>
+</div>
+
+<!-- ── Exercise 5: STI Matching ── -->
+<div class="sec">
+  <div class="sh">
+    <div class="si iy">🦠</div>
+    <div class="sh-info">
+      <h2>Exercise 5 — STI / STD Matching</h2>
+      <p>Match each infection to its correct description. 6 pairs · 2 pts each.</p>
+    </div>
+    <div class="pts-badge">12 pts</div>
+  </div>
+  <div class="mg">
+    <div class="mc" id="sLeftCol"></div>
+    <div class="mc" id="sRightCol"></div>
+  </div>
+  <div class="match-score" id="specialScore">Matched: 0 / 6</div>
+</div>
+
+<!-- ── Exercise 6: Free Response ── -->
+<div class="sec">
+  <div class="sh">
+    <div class="si ip">💬</div>
+    <div class="sh-info">
+      <h2>Exercise 6 — Short Answer / Free Response</h2>
+      <p>Write your answer in full sentences. Key concepts and terminology are checked. Partial credit is awarded. 5 questions · 2 pts each.</p>
+    </div>
+    <div class="pts-badge">10 pts</div>
+  </div>
+  <div id="freeContainer"></div>
+</div>
+
+<!-- ── Exercise 7: Haploid or Diploid? ── -->
+<div class="sec">
+  <div class="sh">
+    <div class="si ib">🧬</div>
+    <div class="sh-info">
+      <h2>Exercise 7 — Haploid or Diploid?</h2>
+      <p>Classify each cell type. Haploid = 23 chromosomes (sex cells). Diploid = 46 chromosomes (body cells). 8 items · 1 pt each.</p>
+    </div>
+    <div class="pts-badge">8 pts</div>
+  </div>
+  <div class="ag" id="rulesGrid"></div>
+</div>
+
+<button class="subb" id="subb" onclick="finish()">📊 Submit Exam &amp; See Results</button>
+
+<!-- Results Screen -->
+<div class="rsd" id="rsd">
+  <span class="re" id="re">🏆</span>
+  <div class="rt" id="rt">Results</div>
+  <div class="rsc" id="rsc"></div>
+  <div class="rm" id="rm"></div>
+  <div class="rstats">
+    <div class="rst"><div class="rst-l">Points Earned</div><div class="rst-v" id="stP">—</div></div>
+    <div class="rst"><div class="rst-l">Percentage</div><div class="rst-v" id="stPct">—</div></div>
+    <div class="rst"><div class="rst-l">Time Taken</div><div class="rst-v" id="stT">—</div></div>
+  </div>
+  <button class="rbtn" onclick="location.reload()">🔄 Try Again</button>
+</div>
+
+</div><!-- /.main -->
+
+<script>
+var DATA = {
+  "vocab": [
+    {"t":"Gamete","d":"Sex cell — sperm or egg"},
+    {"t":"Sperm","d":"Male sex cell (male gamete)"},
+    {"t":"Ovum (Egg)","d":"Female sex cell (female gamete)"},
+    {"t":"Zygote","d":"Fertilized egg cell after sperm meets egg"},
+    {"t":"Testosterone","d":"Male sex hormone produced by the testes"},
+    {"t":"Estrogen","d":"Female hormone — thickens uterus lining"},
+    {"t":"Progesterone","d":"Maintains uterus lining after ovulation"},
+    {"t":"FSH","d":"Follicle Stimulating Hormone — grows follicle in ovary"},
+    {"t":"LH","d":"Luteinising Hormone — triggers ovulation"},
+    {"t":"Ovulation","d":"Release of a mature egg from the ovary"},
+    {"t":"Endometrium","d":"Inner lining of the uterus"},
+    {"t":"Implantation","d":"Blastocyst attaches to the uterus wall — pregnancy begins"},
+    {"t":"Corpus luteum","d":"Empty follicle after ovulation — releases progesterone"},
+    {"t":"Trophoblast","d":"Outer shell of blastocyst — becomes the placenta"},
+    {"t":"Embryoblast","d":"Inner cell mass of blastocyst — becomes the baby"},
+    {"t":"Semen","d":"Fluid mixture containing sperm and glandular fluids"},
+    {"t":"Ejaculation","d":"Release of semen from the penis"},
+    {"t":"Epididymis","d":"Coiled tube where sperm mature (takes 2-3 weeks)"},
+    {"t":"Vas Deferens","d":"Muscular tube carrying sperm from epididymis to urethra"},
+    {"t":"Haploid (n)","d":"23 chromosomes — sex cells (sperm and egg)"},
+    {"t":"Diploid (2n)","d":"46 chromosomes — normal body cells"},
+    {"t":"Morula","d":"16-cell ball formed by Day 3 after fertilization"},
+    {"t":"Blastocyst","d":"Hollow ball of cells — Days 4-5 after fertilization"},
+    {"t":"Cleavage","d":"Rapid mitotic cell division of the zygote"},
+    {"t":"Placenta","d":"Organ connecting mother to fetus via umbilical cord"},
+    {"t":"Trimester","d":"One of three 3-month stages of pregnancy"},
+    {"t":"STI","d":"Sexually Transmitted Infection — may have no symptoms yet"},
+    {"t":"STD","d":"Sexually Transmitted Disease — infection has caused visible symptoms"},
+    {"t":"Chancre","d":"Painless sore — first sign of syphilis infection"},
+    {"t":"Antiretroviral (ART)","d":"Treatment for HIV — not a cure but allows normal life span"}
+  ],
+  "matches": [
+    {"id":"m1","term":"Gamete","def":"A sex cell — either sperm or egg — carries 23 chromosomes"},
+    {"id":"m2","term":"Zygote","def":"The fertilized egg formed when a sperm cell penetrates an egg"},
+    {"id":"m3","term":"Ovulation","def":"The release of a mature egg from the ovary — occurs around Day 14"},
+    {"id":"m4","term":"Endometrium","def":"The inner lining of the uterus that thickens each month for pregnancy"},
+    {"id":"m5","term":"Testosterone","def":"The male sex hormone produced by the testes — controls puberty changes"},
+    {"id":"m6","term":"Implantation","def":"When the blastocyst attaches itself to the wall of the uterus"},
+    {"id":"m7","term":"Corpus luteum","def":"The empty follicle after ovulation that releases progesterone"},
+    {"id":"m8","term":"Trophoblast","def":"The outer layer of the blastocyst that develops into the placenta"}
+  ],
+  "mcq1": [
+    {
+      "q":"Which organ produces BOTH sperm AND the hormone testosterone?",
+      "opts":["Epididymis","Testes","Prostate gland","Seminal vesicles"],
+      "ans":1,
+      "fb":"Correct! The testes produce sperm cells and testosterone — responsible for deeper voice, facial hair, and muscle growth during puberty."
+    },
+    {
+      "q":"Why are the testes located OUTSIDE the body in the scrotum?",
+      "opts":["To produce more testosterone","Sperm only develop correctly at a lower temperature","To protect them from infection","To allow ejaculation to occur"],
+      "ans":1,
+      "fb":"Correct! Sperm can only develop properly at a temperature slightly lower than body temperature. The scrotum keeps the testes cooler outside the body."
+    },
+    {
+      "q":"Where does fertilization of the egg USUALLY occur?",
+      "opts":["Uterus (womb)","Ovary","Fallopian tube","Cervix"],
+      "ans":2,
+      "fb":"Correct! Fertilization usually occurs inside the fallopian tube (oviduct), specifically in a region called the ampulla."
+    },
+    {
+      "q":"What is the PRIMARY function of the EPIDIDYMIS?",
+      "opts":["Produce testosterone","Store sperm and allow them to mature","Carry urine out of the body","Produce the seminal fluid"],
+      "ans":1,
+      "fb":"Correct! The epididymis is a long coiled tube behind each testis. Sperm are stored and mature here over approximately 2-3 weeks."
+    },
+    {
+      "q":"What does the PROSTATE GLAND produce and why is it important?",
+      "opts":["Sperm cells — for reproduction","Testosterone — for male development","A fluid that reduces acidity — so sperm survive longer in the female system","Estrogen — to support pregnancy"],
+      "ans":2,
+      "fb":"Correct! The prostate produces an alkaline protective fluid added to semen. It neutralises acidity inside the female reproductive tract so sperm can survive and reach the egg."
+    },
+    {
+      "q":"In the female system, what are CILIA inside the fallopian tube responsible for?",
+      "opts":["Producing the egg cell","Pushing the egg along toward the uterus","Fertilizing the egg","Preventing sperm from entering"],
+      "ans":1,
+      "fb":"Correct! Tiny hair-like structures called cilia line the fallopian tubes and wave to push the egg from the ovary toward the uterus after ovulation."
+    }
+  ],
+  "mcq2": [
+    {
+      "q":"On approximately which DAY does ovulation occur in a typical 28-day menstrual cycle?",
+      "opts":["Day 1","Day 7","Day 14","Day 28"],
+      "ans":2,
+      "fb":"Correct! Ovulation occurs around Day 14 when a surge of LH from the pituitary gland triggers the release of the mature egg from the ovary."
+    },
+    {
+      "q":"Which hormone SPECIFICALLY TRIGGERS the release of the egg during ovulation?",
+      "opts":["Estrogen","FSH — Follicle Stimulating Hormone","Progesterone","LH — Luteinising Hormone"],
+      "ans":3,
+      "fb":"Correct! LH (Luteinising Hormone), produced by the pituitary gland in the brain, causes the mature follicle to release the egg — this is ovulation."
+    },
+    {
+      "q":"After ovulation, the empty follicle becomes the CORPUS LUTEUM. What does it release?",
+      "opts":["Estrogen","FSH","LH","Progesterone"],
+      "ans":3,
+      "fb":"Correct! The corpus luteum releases progesterone, which maintains the thickened uterus lining. If no pregnancy occurs, it breaks down, progesterone drops, and menstruation begins."
+    },
+    {
+      "q":"What happens to the endometrium during the MENSTRUAL PHASE (Days 1-5)?",
+      "opts":["It thickens in preparation for an egg","It releases a mature egg into the tube","It breaks down and leaves the body as a period","It produces progesterone to maintain pregnancy"],
+      "ans":2,
+      "fb":"Correct! During menstruation (Days 1-5), the endometrium breaks down and exits the body as menstrual blood — this is called a period. The cycle then starts again."
+    },
+    {
+      "q":"Which gland in the BRAIN controls the menstrual cycle by producing FSH and LH?",
+      "opts":["Thyroid gland","Adrenal gland","Pituitary gland","Hypothalamus"],
+      "ans":2,
+      "fb":"Correct! The pituitary gland (a small gland in the brain) produces FSH and LH — the two master hormones that control the entire menstrual cycle."
+    }
+  ],
+  "blanks": [
+    {
+      "before":"Path of sperm: Testes → Epididymis →",
+      "after":"→ Urethra → outside the body",
+      "ans":["Vas Deferens","vas deferens","Sperm Duct","sperm duct","vas deferans","Vas Deferans"]
+    },
+    {
+      "before":"A sex cell (gamete) contains only",
+      "after":"chromosomes — this is described as haploid.",
+      "ans":["23","twenty-three"]
+    },
+    {
+      "before":"The inner lining of the uterus that thickens each month is called the",
+      "after":".",
+      "ans":["endometrium","Endometrium","endomet rium"]
+    },
+    {
+      "before":"The blastocyst attaches to the wall of the uterus in a process called",
+      "after":"— this marks the official start of pregnancy.",
+      "ans":["implantation","Implantation"]
+    },
+    {
+      "before":"FSH stands for Follicle",
+      "after":"Hormone and is produced by the pituitary gland.",
+      "ans":["Stimulating","stimulating"]
+    },
+    {
+      "before":"The rapid mitotic division of the zygote after fertilization is called",
+      "after":", producing cells called blastomeres.",
+      "ans":["cleavage","Cleavage"]
+    }
+  ],
+  "special": [
+    {"id":"s1","term":"HPV","def":"The only viral STI with an available vaccine — can cause genital warts and lead to cervical cancer"},
+    {"id":"s2","term":"HIV","def":"Destroys CD4 white blood cells and leads to AIDS — treated with ART but has no cure"},
+    {"id":"s3","term":"Chlamydia","def":"The most common bacterial STI worldwide — often causes NO symptoms and can cause infertility"},
+    {"id":"s4","term":"Syphilis","def":"Caused by Treponema pallidum — first sign is a painless sore called a chancre"},
+    {"id":"s5","term":"Genital Herpes","def":"Caused by HSV (Herpes Simplex Virus) — no cure, causes painful blisters, stays in body for life"},
+    {"id":"s6","term":"Trichomoniasis","def":"A parasitic STI caused by Trichomonas vaginalis — often no symptoms — treated with antibiotics"}
+  ],
+  "free": [
+    {
+      "q":"1.  Explain the difference between an STI and an STD. Why can someone have an STI without knowing it? (2 pts)",
+      "keys":["infection","disease","symptom","symptoms","no symptom","untreated","progress","progresses","testing","detected","pathogen","visible"],
+      "thresh":[3,1],
+      "model":"An STI (Sexually Transmitted Infection) means a pathogen is present in the body but may produce NO visible symptoms yet — it is only detected through testing. An STD (Sexually Transmitted Disease) means the infection has progressed and now causes visible symptoms (e.g. sores, discharge). A person can have an STI without knowing it because there are no symptoms — this is why regular testing is important. An STI can become an STD if left untreated."
+    },
+    {
+      "q":"2.  Describe THREE functions of the PLACENTA and explain how it connects to the baby. (2 pts)",
+      "keys":["nutrition","oxygen","protection","waste","hormone","glucose","respiration","excretion","amino acids","hcg","umbilical","cord","progesterone","estrogen","co2"],
+      "thresh":[4,2],
+      "model":"The placenta connects to the baby via the umbilical cord (1 vein + 2 arteries). Its functions include: NUTRITION — passes glucose, amino acids and vitamins from mother to baby; RESPIRATION — delivers oxygen to baby and removes CO2; PROTECTION — shields the fetus from some infections and harmful substances; EXCRETION — removes waste from the baby's blood; HORMONE PRODUCTION — produces HCG, estrogen, and progesterone to maintain pregnancy."
+    },
+    {
+      "q":"3.  Explain why the testes MUST be located outside the body in the scrotum. What would happen if they were inside? (2 pts)",
+      "keys":["temperature","cooler","cool","lower","sperm","develop","correctly","outside","body temperature","heat","overheat","too hot","cannot","would not"],
+      "thresh":[3,1],
+      "model":"Sperm cells can only develop correctly at a temperature slightly lower (about 2-3 degrees) than the rest of the body. The scrotum keeps the testes outside the body in a cooler environment. If the testes were inside the body, the sperm would be exposed to too much heat and could not develop correctly — leading to infertility."
+    },
+    {
+      "q":"4.  Does the MOTHER or the FATHER determine the sex of a baby? Explain your answer using chromosomes and give both possible outcomes. (2 pts)",
+      "keys":["father","X","Y","XX","XY","chromosome","determines","male","female","sperm","always","provides","mother"],
+      "thresh":[4,2],
+      "model":"The FATHER determines the sex of the baby. The mother always contributes an X chromosome in her egg. The father's sperm carries either X or Y. If the father provides an X chromosome the baby will be FEMALE (XX). If the father provides a Y chromosome the baby will be MALE (XY). The mother cannot determine sex because she can only provide X."
+    },
+    {
+      "q":"5.  A student confuses the terms MORULA, BLASTOCYST, and EMBRYO. Explain what each is and when it occurs during development. (2 pts)",
+      "keys":["morula","blastocyst","embryo","16","day 3","day 4","day 5","hollow","trophoblast","embryoblast","weeks","implantation","zygote","cell","division"],
+      "thresh":[4,2],
+      "model":"The MORULA is a solid 16-cell ball formed by Day 3 after fertilization, when the zygote has undergone rapid cleavage (cell division). The BLASTOCYST forms on Days 4-5 when the morula develops a hollow cavity — it has a trophoblast (outer shell, becomes placenta) and an embryoblast (inner mass, becomes baby). The EMBRYO is the developmental stage from Week 3 to Week 8, after implantation, when major organs begin to form."
+    }
+  ],
+  "rules": [
+    {"term":"Sperm cell (spermatozoon)","ans":"Haploid"},
+    {"term":"Egg cell (Ovum)","ans":"Haploid"},
+    {"term":"Skin cell","ans":"Diploid"},
+    {"term":"Zygote (fertilized egg)","ans":"Diploid"},
+    {"term":"Spermatogonium (before meiosis)","ans":"Diploid"},
+    {"term":"Morula (16-cell ball)","ans":"Diploid"},
+    {"term":"Primary oocyte","ans":"Diploid"},
+    {"term":"Mature sperm (after meiosis)","ans":"Haploid"}
+  ]
+};
+
+// ── Scoring ──────────────────────────────────────────────────────────────────
+var score = 0, scored = {}, startTime = Date.now(), timerInterval;
+var MAX = 80;
+
+timerInterval = setInterval(function() {
+  var e = Math.floor((Date.now() - startTime) / 1000);
+  document.getElementById('tm').textContent = '⏱ ' + Math.floor(e/60) + ':' + (e%60).toString().padStart(2,'0');
+}, 1000);
+
+function addPts(pts, id) {
+  if (scored[id]) return;
+  scored[id] = true;
+  score += pts;
+  document.getElementById('sv').textContent = score;
+  document.getElementById('pf').style.width = Math.min(Math.round(score / MAX * 100), 100) + '%';
+  document.getElementById('pt').textContent = score + ' / 80 pts';
+}
+
+// ── Normalizer (accent-insensitive, punctuation-stripped) ────────────────────
+function norm(s) {
+  return s.toLowerCase().normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\s+/g, ' ').trim();
+}
+
+// ── Vocab Reference Panel ────────────────────────────────────────────────────
+function toggleV() {
+  document.getElementById('vt').classList.toggle('open');
+  document.getElementById('vb').classList.toggle('open');
+}
+
+(function buildVocab() {
+  var g = document.getElementById('vocabGrid');
+  DATA.vocab.forEach(function(v) {
+    var d = document.createElement('div');
+    d.className = 'vi';
+    var t = document.createElement('span'); t.className = 'ves'; t.textContent = v.t;
+    var df = document.createElement('span'); df.className = 'ven'; df.textContent = v.d;
+    d.appendChild(t); d.appendChild(df);
+    g.appendChild(d);
+  });
+}());
+
+// ── Exercise 1 & 5: Matching ─────────────────────────────────────────────────
+var selMatch = null, matchCounts = {};
+
+function selM(el) {
+  if (el.classList.contains('matched')) return;
+  var lang = el.dataset.lang, id = el.dataset.id;
+  var prefix = id.replace(/[0-9]/g, '');
+  var scoreId = prefix === 'm' ? 'matchScore' : 'specialScore';
+  var maxP = prefix === 'm' ? 8 : 6;
+
+  if (!selMatch) {
+    el.classList.add('selected');
+    selMatch = {el: el, id: id, lang: lang, prefix: prefix};
+    return;
+  }
+  if (selMatch.lang === lang) {
+    selMatch.el.classList.remove('selected');
+    el.classList.add('selected');
+    selMatch = {el: el, id: id, lang: lang, prefix: prefix};
+    return;
+  }
+  if (selMatch.id === id) {
+    [selMatch.el, el].forEach(function(e) {
+      e.classList.remove('selected'); e.classList.add('matched');
+    });
+    addPts(2, 'match_' + id);
+    matchCounts[prefix] = (matchCounts[prefix] || 0) + 1;
+    document.getElementById(scoreId).textContent = 'Matched: ' + matchCounts[prefix] + ' / ' + maxP;
+  } else {
+    [selMatch.el, el].forEach(function(e) {
+      e.classList.remove('selected'); e.classList.add('wf');
+      setTimeout(function() { e.classList.remove('wf'); }, 400);
+    });
+  }
+  selMatch = null;
+}
+
+function buildMatchExercise(pairs, leftId, rightId) {
+  var left = document.getElementById(leftId);
+  var right = document.getElementById(rightId);
+  var defs = pairs.map(function(p) { return {id: p.id, text: p.def}; });
+  // shuffle definitions
+  for (var i = defs.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = defs[i]; defs[i] = defs[j]; defs[j] = tmp;
+  }
+  pairs.forEach(function(p) {
+    var el = document.createElement('div');
+    el.className = 'mit'; el.dataset.lang = 'L'; el.dataset.id = p.id;
+    el.textContent = p.term;
+    el.onclick = function() { selM(this); };
+    left.appendChild(el);
+  });
+  defs.forEach(function(d) {
+    var el = document.createElement('div');
+    el.className = 'mit'; el.dataset.lang = 'R'; el.dataset.id = d.id;
+    el.textContent = d.text;
+    el.onclick = function() { selM(this); };
+    right.appendChild(el);
+  });
+}
+
+buildMatchExercise(DATA.matches, 'leftCol', 'rightCol');
+buildMatchExercise(DATA.special, 'sLeftCol', 'sRightCol');
+
+// ── Exercise 2 & 3: MCQ ──────────────────────────────────────────────────────
+function chkMCQ(btn) {
+  var q = btn.closest('.qb');
+  if (q.dataset.answered) return;
+  q.dataset.answered = '1';
+  var correct = parseInt(q.dataset.correct);
+  var set = q.dataset.set;
+  var idx = parseInt(q.dataset.idx);
+  var chosen = parseInt(btn.dataset.opt);
+  var allBtns = q.querySelectorAll('.ob');
+  allBtns.forEach(function(b) { b.disabled = true; });
+  var isCorr = (chosen === correct);
+  btn.classList.add(isCorr ? 'correct' : 'incorrect');
+  if (!isCorr) allBtns[correct].classList.add('correct');
+  var fbEl = q.querySelector('.fb');
+  fbEl.textContent = DATA[set][idx].fb;
+  fbEl.className = 'fb ' + (isCorr ? 'ok' : 'no');
+  if (isCorr) addPts(2, q.id);
+}
+
+(function buildMCQ() {
+  function renderSet(setName, containerId, startNum) {
+    var c = document.getElementById(containerId);
+    DATA[setName].forEach(function(item, idx) {
+      var qid = 'q' + (startNum + idx);
+      var wrap = document.createElement('div');
+      wrap.className = 'qb'; wrap.id = qid;
+      wrap.dataset.correct = item.ans; wrap.dataset.set = setName; wrap.dataset.idx = idx;
+
+      var qn = document.createElement('div'); qn.className = 'qn';
+      qn.textContent = 'Question ' + (startNum + idx);
+      var ql = document.createElement('div'); ql.className = 'ql';
+      ql.textContent = item.q;
+      var og = document.createElement('div'); og.className = 'og';
+
+      item.opts.forEach(function(opt, oi) {
+        var btn = document.createElement('button');
+        btn.className = 'ob'; btn.dataset.opt = oi; btn.textContent = opt;
+        btn.onclick = function() { chkMCQ(this); };
+        og.appendChild(btn);
+      });
+
+      var fb = document.createElement('div'); fb.className = 'fb';
+      wrap.appendChild(qn); wrap.appendChild(ql); wrap.appendChild(og); wrap.appendChild(fb);
+      c.appendChild(wrap);
+    });
+  }
+  renderSet('mcq1', 'mcq1Container', 1);
+  renderSet('mcq2', 'mcq2Container', 7);
+}());
+
+// ── Exercise 4: Fill in the Blank ────────────────────────────────────────────
+function chkBlank(i) {
+  var inp = document.getElementById('bi' + i);
+  var rev = document.getElementById('br' + i);
+  var btn = document.getElementById('bb' + i);
+  if (inp.disabled) return;
+  inp.disabled = true;
+  if (btn) btn.disabled = true;
+  var val = norm(inp.value.trim());
+  var ok = DATA.blanks[i].ans.some(function(a) { return norm(a) === val; });
+  if (ok) {
+    inp.classList.add('correct');
+    inp.value = DATA.blanks[i].ans[0]; // show correct spelling in the box
+    addPts(2, 'blank_' + i);
+  } else {
+    inp.classList.add('incorrect');
+    rev.textContent = '→ Correct spelling: ' + DATA.blanks[i].ans[0];
+    rev.classList.add('show');
+  }
+}
+
+(function buildBlanks() {
+  var c = document.getElementById('blanksContainer');
+  DATA.blanks.forEach(function(bl, i) {
+    var wrap = document.createElement('div');
+    wrap.className = 'bl-item';
+
+    var bs = document.createElement('div'); bs.className = 'bs';
+    var before = document.createElement('span'); before.textContent = bl.before + ' ';
+    var inp = document.createElement('input');
+    inp.type = 'text'; inp.className = 'binp'; inp.id = 'bi' + i;
+    inp.placeholder = 'type answer…';
+    inp.addEventListener('keypress', function(e) { if (e.key === 'Enter') chkBlank(i); });
+    var after = document.createElement('span'); after.textContent = ' ' + bl.after;
+    bs.appendChild(before); bs.appendChild(inp); bs.appendChild(after);
+
+    var row = document.createElement('div'); row.className = 'bl-row';
+    var btn = document.createElement('button');
+    btn.className = 'bcb'; btn.id = 'bb' + i; btn.textContent = 'Check';
+    btn.onclick = (function(idx) { return function() { chkBlank(idx); }; }(i));
+    var rev = document.createElement('span'); rev.className = 'bar'; rev.id = 'br' + i;
+    row.appendChild(btn); row.appendChild(rev);
+
+    wrap.appendChild(bs); wrap.appendChild(row);
+    c.appendChild(wrap);
+  });
+}());
+
+// ── Exercise 6: Free Response ─────────────────────────────────────────────────
+function chkFree(i) {
+  var inp = document.getElementById('fi' + i);
+  var fbEl = document.getElementById('ff' + i);
+  var wrap = document.getElementById('fr' + i);
+  if (wrap.dataset.answered) return;
+  wrap.dataset.answered = '1';
+  inp.disabled = true;
+  wrap.querySelector('.tcb').disabled = true;
+  var val = norm(inp.value);
+  var keys = DATA.free[i].keys;
+  var thresh = DATA.free[i].thresh;
+  var matched = 0;
+  keys.forEach(function(k) { if (val.indexOf(norm(k)) >= 0) matched++; });
+  var pts = 0;
+  if (matched >= thresh[0]) { pts = 2; fbEl.className = 'tf full'; }
+  else if (matched >= thresh[1]) { pts = 1; fbEl.className = 'tf partial'; }
+  else { fbEl.className = 'tf miss'; }
+  fbEl.style.display = 'block';
+  var prefix = pts === 2 ? 'Excellent! Key ideas found. ✅ ' :
+               pts === 1 ? 'Partial credit — include more key terms. ⚠️ Model answer: ' :
+                           'Needs more detail — important terms missing. ❌ Model answer: ';
+  fbEl.textContent = prefix + (pts === 2 ? 'Model answer for comparison: ' + DATA.free[i].model : DATA.free[i].model);
+  if (pts > 0) addPts(pts, 'free_' + i);
+}
+
+(function buildFree() {
+  var c = document.getElementById('freeContainer');
+  DATA.free.forEach(function(item, i) {
+    var wrap = document.createElement('div');
+    wrap.className = 'fr-item'; wrap.id = 'fr' + i;
+    var q = document.createElement('div'); q.className = 'fr-q'; q.textContent = item.q;
+    var row = document.createElement('div'); row.className = 'tir';
+    var ta = document.createElement('textarea');
+    ta.className = 'tinp'; ta.id = 'fi' + i;
+    ta.placeholder = 'Write your answer here in full sentences…';
+    var btn = document.createElement('button');
+    btn.className = 'tcb'; btn.textContent = 'Check Answer';
+    btn.onclick = (function(idx) { return function() { chkFree(idx); }; }(i));
+    var fb = document.createElement('div'); fb.className = 'tf'; fb.id = 'ff' + i;
+    row.appendChild(ta); row.appendChild(btn);
+    wrap.appendChild(q); wrap.appendChild(row); wrap.appendChild(fb);
+    c.appendChild(wrap);
+  });
+}());
+
+// ── Exercise 7: Haploid / Diploid ────────────────────────────────────────────
+function chkRule(btn) {
+  var item = btn.closest('.ait');
+  if (item.dataset.answered) return;
+  item.dataset.answered = '1';
+  item.querySelectorAll('.aob').forEach(function(b) { b.disabled = true; });
+  var isCorr = (btn.dataset.val === item.dataset.correct);
+  btn.classList.add(isCorr ? 'correct' : 'incorrect');
+  if (!isCorr) {
+    item.querySelectorAll('.aob').forEach(function(b) {
+      if (b.dataset.val === item.dataset.correct) b.classList.add('correct');
+    });
+  }
+  if (isCorr) addPts(1, 'r' + item.dataset.idx);
+}
+
+(function buildRules() {
+  var g = document.getElementById('rulesGrid');
+  DATA.rules.forEach(function(rule, i) {
+    var div = document.createElement('div');
+    div.className = 'ait'; div.id = 'r' + i;
+    div.dataset.correct = rule.ans; div.dataset.idx = i;
+    var aw = document.createElement('div'); aw.className = 'aw'; aw.textContent = rule.term;
+    var ao = document.createElement('div'); ao.className = 'ao';
+    ['Haploid', 'Diploid'].forEach(function(val) {
+      var btn = document.createElement('button');
+      btn.className = 'aob'; btn.dataset.val = val; btn.textContent = val;
+      btn.onclick = function() { chkRule(this); };
+      ao.appendChild(btn);
+    });
+    div.appendChild(aw); div.appendChild(ao);
+    g.appendChild(div);
+  });
+}());
+
+// ── Results Screen ────────────────────────────────────────────────────────────
+function finish() {
+  clearInterval(timerInterval);
+  var e = Math.floor((Date.now() - startTime) / 1000);
+  var time = Math.floor(e / 60) + ':' + (e % 60).toString().padStart(2, '0');
+  var pct = Math.round(score / MAX * 100);
+  var configs = [
+    {min:90, emoji:'🏆', title:'Outstanding!', msg:'Superb mastery of the Human Reproductive System — excellent work!'},
+    {min:75, emoji:'🌟', title:'Well Done!', msg:'Great understanding overall. Review any missed questions and try again.'},
+    {min:55, emoji:'👍', title:'Good Effort!', msg:'You have the basics. Revisit key vocabulary and processes and retry.'},
+    {min:0,  emoji:'📚', title:'Keep Practising!', msg:'Focus on core terminology, anatomy, and the menstrual cycle phases. You can do it!'}
+  ];
+  var cfg = configs.find(function(c) { return pct >= c.min; });
+  document.getElementById('re').textContent = cfg.emoji;
+  document.getElementById('rt').textContent = cfg.title;
+  document.getElementById('rsc').textContent = score + ' / ' + MAX;
+  document.getElementById('rm').textContent = cfg.msg;
+  document.getElementById('stP').textContent = score + ' pts';
+  document.getElementById('stPct').textContent = pct + '%';
+  document.getElementById('stT').textContent = time;
+  document.getElementById('rsd').classList.add('show');
+  document.getElementById('subb').disabled = true;
+  document.getElementById('rsd').scrollIntoView({behavior: 'smooth'});
+  if (pct >= 90) confetti();
+  try {
+    localStorage.setItem('bio_repro_exam', JSON.stringify({score: score, pct: pct, time: time, date: new Date().toLocaleDateString()}));
+  } catch(ex) {}
+}
+
+function confetti() {
+  var cols = ['#f59e0b','#0ea5e9','#16a34a','#ef4444','#a855f7','#ec4899'];
+  for (var i = 0; i < 90; i++) {
+    var p = document.createElement('div');
+    p.className = 'cfp';
+    p.style.cssText = 'left:' + Math.random() * 100 + 'vw;background:' + cols[Math.floor(Math.random() * cols.length)] + ';'
+      + 'width:' + (6 + Math.random() * 9) + 'px;height:' + (6 + Math.random() * 9) + 'px;'
+      + 'border-radius:' + (Math.random() > .5 ? '50%' : '2px') + ';'
+      + 'animation-duration:' + (2 + Math.random() * 3) + 's;animation-delay:' + (Math.random() * 1.5) + 's;'
+      + '--drift:' + (Math.random() - .5) * 200 + 'px';
+    document.body.appendChild(p);
+    setTimeout(function() { p.remove(); }, 6000);
+  }
+}
+</script>
+</body>
+</html>
