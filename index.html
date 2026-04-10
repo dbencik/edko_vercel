@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edkove učenie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sea:#0ea5e9; --sun:#f59e0b; --olive:#16a34a;
+  --bg:#f0f9ff; --text:#1e293b; --muted:#64748b; --border:#e2e8f0;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+/* Header */
+.header {
+  background: linear-gradient(135deg,#0369a1 0%,#0284c7 40%,#0ea5e9 70%,#38bdf8 100%);
+  padding: 48px 24px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  color: white;
+}
+.header::before {
+  content: '🎓';
+  position: absolute;
+  font-size: 180px;
+  opacity: .07;
+  bottom: -30px;
+  right: -10px;
+}
+.header h1 {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+}
+.header p {
+  font-size: 16px;
+  opacity: .9;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Cards */
+.cards {
+  max-width: 600px;
+  margin: -24px auto 40px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  text-decoration: none;
+  color: var(--text);
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  border: 2px solid var(--border);
+  transition: all .2s ease;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.card:hover {
+  border-color: var(--sea);
+  box-shadow: 0 4px 20px rgba(14,165,233,.15);
+  transform: translateY(-2px);
+}
+.card-icon {
+  font-size: 40px;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+}
+.card-icon.exam { background: #dbeafe; }
+.card-icon.flash { background: #fef3c7; }
+.card-body h2 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.card-body p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.arrow {
+  margin-left: auto;
+  font-size: 20px;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform .2s;
+}
+.card:hover .arrow {
+  transform: translateX(4px);
+  color: var(--sea);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 12px;
+  color: var(--muted);
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Milý Edko! 👋</h1>
+  <p>Vitaj na svojej učebnej stránke. Vyber si, čo chceš dnes precvičovať, a smelo do toho — zvládneš to!</p>
+</div>
+
+<div class="cards">
+  <a class="card" href="exam_biology_reproductive_system.html">
+    <div class="card-icon exam">📝</div>
+    <div class="card-body">
+      <h2>Biológia — Test</h2>
+      <p>Rozmnožovacia sústava človeka — otestuj si svoje vedomosti</p>
+    </div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a class="card" href="flashcards_reproductive_system.html">
+    <div class="card-icon flash">🃏</div>
+    <div class="card-body">
+      <h2>Biológia — Kartičky</h2>
+      <p>Rozmnožovacia sústava — precvič si pojmy pomocou flashcards</p>
+    </div>
+    <span class="arrow">→</span>
+  </a>
+</div>
+
+<div class="footer">Učenie je superschopnosť 🚀</div>
+
+</body>
+</html>
