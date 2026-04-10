@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>The Scientific Revolution — MCQ Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --sun:#f59e0b;--sea:#0ea5e9;--olive:#16a34a;
+  --bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --correct:#dcfce7;--cb:#16a34a;--wrong:#fee2e2;--wb:#ef4444;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+/* HEADER */
+.ph{background:linear-gradient(135deg,#7c2d12 0%,#9a3412 40%,#c2410c 70%,#ea580c 100%);
+    overflow:hidden;position:relative;padding:36px 28px 32px;color:white;}
+.ph::before{content:'🏛️';position:absolute;font-size:160px;opacity:.08;bottom:-20px;right:-10px;}
+.ub{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
+    border-radius:20px;padding:4px 14px;font-size:11px;font-weight:800;
+    letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.ph h1{font-family:'Lora',serif;font-style:italic;font-size:clamp(22px,5vw,34px);
+        font-weight:600;margin-bottom:6px;line-height:1.2;}
+.ph .sub{font-size:13px;opacity:.8;font-weight:600;margin-bottom:14px;}
+.ops{display:flex;flex-wrap:wrap;gap:7px;}
+.op{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+    border-radius:6px;padding:4px 11px;font-size:12px;font-weight:700;}
+/* SCORE BAR */
+.sb{background:white;border-bottom:2px solid var(--border);padding:10px 20px;
+    display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.sl{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+.sv{font-size:20px;font-weight:900;color:var(--sea);min-width:28px;}
+.pw{flex:1;background:#e2e8f0;border-radius:6px;height:8px;overflow:hidden;}
+.pf{height:100%;background:linear-gradient(90deg,var(--sea),var(--sun));
+    border-radius:6px;transition:width .5s;width:0%;}
+.pt{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap;}
+.tm{font-size:12px;font-weight:700;color:#92400e;background:#fef3c7;
+    padding:3px 8px;border-radius:6px;}
+/* MAIN */
+.main{max-width:760px;margin:0 auto;padding:24px 18px 60px;}
+/* VOCAB PANEL */
+.vr{background:#fffbeb;border:2px solid var(--sun);border-radius:12px;margin-bottom:24px;}
+.vt{width:100%;padding:12px 18px;background:none;border:none;cursor:pointer;
+    font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#92400e;
+    display:flex;align-items:center;justify-content:space-between;}
+.arr{transition:transform .3s;font-size:11px;}
+.vt.open .arr{transform:rotate(180deg);}
+.vb{display:none;padding:0 18px 16px;}
+.vb.open{display:block;}
+.vst{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;
+     color:#92400e;margin-bottom:8px;}
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:5px;}
+.vi{display:flex;justify-content:space-between;align-items:flex-start;font-size:12px;
+    padding:6px 9px;background:white;border-radius:5px;border:1px solid #fde68a;gap:8px;}
+.ves{font-weight:800;color:var(--text);}
+.ven{color:var(--muted);font-style:italic;font-size:11px;text-align:right;}
+/* SECTION */
+.sec{background:white;border-radius:14px;padding:24px;margin-bottom:20px;
+     border:2px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.sh{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;
+    padding-bottom:14px;border-bottom:2px solid var(--border);}
+.si{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;
+    justify-content:center;font-size:20px;flex-shrink:0;}
+.ib{background:#e0f2fe;} .ig{background:#dcfce7;} .ir{background:#fee2e2;}
+.iy{background:#fef9c3;} .ip{background:#f3e8ff;} .io{background:#ffedd5;}
+.sh-txt h2{font-size:15px;font-weight:900;color:var(--text);margin-bottom:2px;}
+.sh-txt p{font-size:12px;color:var(--muted);font-weight:600;}
+/* QUESTION */
+.qb{margin-bottom:20px;padding:14px;background:#f8fafc;border-radius:10px;
+    border-left:4px solid var(--sea);}
+.qb:last-child{margin-bottom:0;}
+.qn{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;
+    color:var(--sea);margin-bottom:5px;}
+.qt{font-size:14px;font-weight:700;line-height:1.5;margin-bottom:10px;color:var(--text);}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.ob{padding:9px 12px;border:2px solid var(--border);border-radius:9px;background:white;
+    font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;
+    transition:all .18s;text-align:left;line-height:1.4;width:100%;}
+.ob:hover:not(:disabled){border-color:var(--sea);background:#e0f2fe;}
+.ob.correct{background:var(--correct);border-color:var(--cb);color:#166534;}
+.ob.incorrect{background:var(--wrong);border-color:var(--wb);color:#991b1b;}
+.fb{margin-top:8px;padding:8px 12px;border-radius:7px;font-size:12px;
+    font-weight:700;display:none;line-height:1.5;}
+.fb.ok{display:block;background:var(--correct);color:#166534;border:1px solid var(--cb);}
+.fb.no{display:block;background:var(--wrong);color:#991b1b;border:1px solid var(--wb);}
+/* SUBMIT */
+.subb-wrap{text-align:center;margin-top:28px;}
+.subb{padding:14px 48px;background:var(--olive);color:white;border:none;
+      border-radius:10px;font-family:'Nunito',sans-serif;font-size:16px;
+      font-weight:800;cursor:pointer;transition:transform .15s,box-shadow .15s;
+      box-shadow:0 4px 12px rgba(22,163,74,.35);}
+.subb:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 18px rgba(22,163,74,.45);}
+.subb:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+/* RESULTS */
+.rsd{background:white;border:2px solid var(--border);border-radius:16px;
+     padding:36px 28px;text-align:center;margin-top:28px;display:none;}
+.rsd.show{display:block;}
+.re{font-size:52px;margin-bottom:10px;}
+.rt{font-family:'Lora',serif;font-style:italic;font-size:26px;font-weight:600;
+    color:var(--text);margin-bottom:6px;}
+.rsc{font-size:42px;font-weight:900;color:var(--sea);margin-bottom:8px;}
+.rm{font-size:14px;color:var(--muted);font-weight:600;margin-bottom:22px;}
+.stats{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.stat{background:#f8fafc;border:2px solid var(--border);border-radius:10px;
+      padding:12px 20px;min-width:90px;}
+.stat-label{font-size:10px;font-weight:800;text-transform:uppercase;
+             letter-spacing:.07em;color:var(--muted);margin-bottom:3px;}
+.stat-val{font-size:20px;font-weight:900;color:var(--text);}
+.rbtn{margin-top:20px;padding:10px 28px;background:var(--sea);color:white;border:none;
+      border-radius:8px;font-family:'Nunito',sans-serif;font-size:14px;
+      font-weight:800;cursor:pointer;}
+/* CONFETTI */
+.cfp{position:fixed;width:9px;height:9px;top:-9px;border-radius:2px;
+     animation:fall linear forwards;z-index:9999;pointer-events:none;}
+@keyframes fall{to{top:110vh;transform:rotate(720deg) translateX(var(--drift,0px));}}
+@media(max-width:560px){
+  .og{grid-template-columns:1fr;}
+  .sec{padding:16px 14px;}
+  .main{padding:16px 14px 60px;}
+}
+@media print{
+  .sb,.subb,.rbtn,.ob,.vt{display:none!important;}
+  body{background:white;}
+  .sec{box-shadow:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="ph">
+  <div class="ub">Chapter 18 · History</div>
+  <h1>The Scientific Revolution</h1>
+  <div class="sub">History of Scientific Thought — Interactive MCQ Quiz</div>
+  <div class="ops">
+    <span class="op">Geocentric Theory</span>
+    <span class="op">Greek Scholars</span>
+    <span class="op">Medieval Science</span>
+    <span class="op">al-Andalus</span>
+  </div>
+</div>
+
+<!-- SCORE BAR -->
+<div class="sb">
+  <div class="sl">Score</div>
+  <div class="sv" id="sv">0</div>
+  <div class="pw"><div class="pf" id="pf"></div></div>
+  <div class="pt" id="pt">0 / 10 answered</div>
+  <div class="tm" id="tm">⏱ 0:00</div>
+</div>
+
+<div class="main">
+
+<!-- VOCAB REFERENCE -->
+<div class="vr">
+  <button class="vt" id="vt" onclick="toggleV()">
+    📖 Key Terms — click to show/hide <span class="arr">▼</span>
+  </button>
+  <div class="vb" id="vb">
+    <div class="vst">Vocabulary from pp. 535–536</div>
+    <div class="vg" id="vocabGrid"></div>
+  </div>
+</div>
+
+<!-- SECTION A: Geocentric Universe -->
+<div class="sec">
+  <div class="sh">
+    <div class="si ib">🌍</div>
+    <div class="sh-txt">
+      <h2>Section A — The Geocentric Universe</h2>
+      <p>Aristotle, Ptolemy &amp; ancient cosmology · pp. 535</p>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="qb" id="q1">
+    <div class="qn">Question 1</div>
+    <div class="qt">According to Aristotle's geocentric theory, which of the following MOST accurately describes how the moon, sun, and planets moved?</div>
+    <div class="og">
+      <button class="ob" onclick="chkMCQ('q1',this,false,'Incorrect. Elliptical orbits were not part of Aristotle or Ptolemy. That came much later with Kepler.')">A) In elliptical orbits around the sun</button>
+      <button class="ob" onclick="chkMCQ('q1',this,true,'Correct! Aristotle held that all celestial bodies moved in perfectly circular orbits around the earth.')">B) In perfectly circular orbits around the earth</button>
+      <button class="ob" onclick="chkMCQ('q1',this,false,'Incorrect. Ptolemy added small personal orbits on top of the main orbit, but circular motion around earth was Aristotle\'s base claim.')">C) In small individual orbits only, with no central orbit</button>
+      <button class="ob" onclick="chkMCQ('q1',this,false,'Incorrect. The heliocentric model places the sun at the center — the opposite of what Aristotle taught.')">D) In circular orbits around the sun</button>
+    </div>
+    <div class="fb" id="q1-fb"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="qb" id="q2">
+    <div class="qn">Question 2</div>
+    <div class="qt">Ptolemy expanded Aristotle's geocentric model by proposing that the moon and planets moved in small orbits of their own WHILE ALSO revolving in a larger orbit around the earth. What is this combination of orbits called?</div>
+    <div class="og">
+      <button class="ob" onclick="chkMCQ('q2',this,false,'Incorrect. Retrograde motion is an apparent backward movement seen from earth, not the name of Ptolemy\'s system.')">A) Retrograde motion</button>
+      <button class="ob" onclick="chkMCQ('q2',this,false,'Incorrect. Heliocentrism places the sun at the center; Ptolemy firmly kept earth at the center.')">B) Heliocentrism</button>
+      <button class="ob" onclick="chkMCQ('q2',this,true,'Correct! Ptolemy described epicycles — small orbits within a larger orbit — to explain the movement of planets around the earth.')">C) Epicycles within a geocentric orbit</button>
+      <button class="ob" onclick="chkMCQ('q2',this,false,'Incorrect. Harmonic resonance is a Pythagorean idea about mathematical harmony, not Ptolemy\'s orbital model.')">D) Harmonic resonance orbits</button>
+    </div>
+    <div class="fb" id="q2-fb"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="qb" id="q3">
+    <div class="qn">Question 3</div>
+    <div class="qt">For approximately how long did European scientists accept the geocentric views of Aristotle and Ptolemy, even though those views proved to be wrong?</div>
+    <div class="og">
+      <button class="ob" onclick="chkMCQ('q3',this,false,'Incorrect. 200 years is far too short. The text states scientists accepted these ideas for 1,400 years.')">A) About 200 years</button>
+      <button class="ob" onclick="chkMCQ('q3',this,false,'Incorrect. 500 years is too short. Ptolemy lived about 500 years after Aristotle, but the acceptance continued well beyond that.')">B) About 500 years</button>
+      <button class="ob" onclick="chkMCQ('q3',this,true,'Correct! The text states that scientists accepted these geocentric ideas for the next 1,400 years, and few European scholars challenged them before 1500.')">C) About 1,400 years</button>
+      <button class="ob" onclick="chkMCQ('q3',this,false,'Incorrect. 2,000 years overstates it. The text specifically gives 1,400 years as the period of unchallenged acceptance.')">D) About 2,000 years</button>
+    </div>
+    <div class="fb" id="q3-fb"></div>
+  </div>
+</div>
+
+<!-- SECTION B: Greek Mathematics & Medicine -->
+<div class="sec">
+  <div class="sh">
+    <div class="si ig">📐</div>
+    <div class="sh-txt">
+      <h2>Section B — Greek Mathematics &amp; Medicine</h2>
+      <p>Pythagoras, Euclid, Hippocrates, Galen · pp. 536</p>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="qb" id="q4">
+    <div class="qn">Question 4</div>
+    <div class="qt">Pythagoras proposed the concept of "harmony" — the idea that all things combine in an agreeable way to form the universe. What was the broader intellectual framework he used to explain the universe?</div>
+    <div class="og">
+      <button class="ob" onclick="chkMCQ('q4',this,false,'Incorrect. Empiricism emphasises observation and experience. Pythagoras used mathematical reasoning, not primarily observation.')">A) Empiricism — knowledge through sensory observation</button>
+      <button class="ob" onclick="chkMCQ('q4',this,true,'Correct! Pythagoras tried to explain the universe in mathematical terms, seeing harmony as the mathematical combination of all things.')">B) Mathematical terms — explaining the universe through numbers and ratios</button>
+      <button class="ob" onclick="chkMCQ('q4',this,false,'Incorrect. Rationalism is Greek logic, but Pythagoras specifically used mathematical terms — the more precise answer given in the text.')">C) Rationalism — pure logical argument without mathematics</button>
+      <button class="ob" onclick="chkMCQ('q4',this,false,'Incorrect. The geocentric theory is an astronomical model, not Pythagoras\'s method for explaining the universe.')">D) Geocentric theory — placing earth at the mathematical center</button>
+    </div>
+    <div class="fb" id="q4-fb"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="qb" id="q5">
+    <div class="qn">Question 5</div>
+    <div class="qt">Euclid built on Pythagoras's theories. Which statement BEST explains his legacy according to the text?</div>
+    <div class="og">
+      <button class="ob" onclick="chkMCQ('q5',this,false,'Incorrect. It was Hippocrates, not Euclid, who focused on diagnosing diseases through careful observation of cases.')">A) He established the practice of diagnosing disease by observing many cases</button>
+      <button class="ob" onclick="chkMCQ('q5',this,false,'Incorrect. Galen, not Euclid, focused on anatomy and used dissection as his primary method of study.')">B) He developed the technique of dissection to study the human body</button>
+      <button class="ob" onclick="chkMCQ('q5',this,true,'Correct! Euclid studied circles, triangles, and shapes, forming the basis of geometry. His work is so foundational that geometry courses today are still based on his studies.')">C) He studied shapes such as circles and triangles, forming the basis of geometry still taught today</button>
+      <button class="ob" onclick="chkMCQ('q5',this,false,'Incorrect. Measuring star distances was the work of Gersonides in the 1300s, not Euclid.')">D) He invented an instrument to measure distances between stars</button>
+    </div>
+    <div class="fb" id="q5-fb"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="qb" id="q6">
+    <div class="qn">Question 6</div>
+    <div class="qt">Galen, who lived in the A.D. 100s, focused on anatomy. How did he gain most of his anatomical knowledge, according to the text?</div>
+    <div class="og">
+      <button class="ob" onclick="chkMCQ('q6',this,false,'Incorrect. Galen gained knowledge through dissection, not by treating large numbers of patients over many years — that method describes Hippocrates.')">A) By observing and treating a large number of human patients over many years</button>
+      <button class="ob" onclick="chkMCQ('q6',this,false,'Incorrect. Galen did not build astronomical instruments. That is attributed to Gersonides centuries later.')">B) By building instruments to measure celestial distances and applying them to biology</button>
+      <button class="ob" onclick="chkMCQ('q6',this,true,'Correct! Galen gained much of his knowledge through dissection — cutting open plants and animals to examine their internal parts.')">C) Through dissection — cutting open plants and animals to look at their parts</button>
+      <button class="ob" onclick="chkMCQ('q6',this,false,'Incorrect. Galen relied on direct dissection, not on translating earlier Greek manuscripts as a primary method.')">D) By translating earlier Greek medical manuscripts from classical sources</button>
+    </div>
+    <div class="fb" id="q6-fb"></div>
+  </div>
+</div>
+
+<!-- SECTION C: Science in the Middle Ages -->
+<div class="sec">
+  <div class="sh">
+    <div class="si iy">🕌</div>
+    <div class="sh-txt">
+      <h2>Section C — Science in the Middle Ages</h2>
+      <p>Muslim scholars, al-Andalus, Gersonides, Thomas Aquinas · pp. 536</p>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="qb" id="q7">
+    <div class="qn">Question 7</div>
+    <div class="qt">Between the mid-700s and mid-1200s, Muslim scholars played a critical role in preserving and advancing classical knowledge. What was the KEY contribution of scholars in al-Andalus specifically?</div>
+    <div class="og">
+      <button class="ob" onclick="chkMCQ('q7',this,false,'Incorrect. While Muslim scholars advanced science broadly, al-Andalus scholars specifically are described as translating Greek and Arabic texts into Latin for Christian scholars.')">A) They built the first observatories in Western Europe to study the night sky</button>
+      <button class="ob" onclick="chkMCQ('q7',this,true,'Correct! Scholars in al-Andalus — Muslim, Jewish, and Christian — translated Greek and Arabic scientific works into Latin, enabling Christian scholars to study and carry this knowledge back to Europe.')">B) They translated Greek and Arabic scientific works into Latin, spreading knowledge to Western Europe</button>
+      <button class="ob" onclick="chkMCQ('q7',this,false,'Incorrect. Writing entirely new scientific theories is not described as the specific role of al-Andalus. Their role was translation and transmission of existing classical knowledge.')">C) They independently developed new scientific theories that replaced Aristotle entirely</button>
+      <button class="ob" onclick="chkMCQ('q7',this,false,'Incorrect. The text says Muslim scholars borrowed and advanced classical Greek learning — they did not reject it.')">D) They rejected classical Greek science and replaced it with original Islamic theories</button>
+    </div>
+    <div class="fb" id="q7-fb"></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="qb" id="q8">
+    <div class="qn">Question 8</div>
+    <div class="qt">The Jewish scholar Gersonides, who lived in the 1300s, made a significant astronomical discovery. What was it, and why was it important?</div>
+    <div class="og">
+      <button class="ob" onclick="chkMCQ('q8',this,false,'Incorrect. Gersonides did not challenge the circular orbit model. His contribution was measuring star distances, not orbital mechanics.')">A) He proved that planets move in elliptical rather than circular orbits around the earth</button>
+      <button class="ob" onclick="chkMCQ('q8',this,false,'Incorrect. Gersonides worked on stellar distance, not on the relationship between the earth and the sun.')">B) He calculated the exact distance between the earth and the sun using geometry</button>
+      <button class="ob" onclick="chkMCQ('q8',this,true,'Correct! Gersonides built an instrument to measure distances between sky objects and accurately estimated that stars were a huge distance from earth — directly contradicting Ptolemy\'s view that stars were just beyond the moon.')">C) He measured star distances and showed they were far beyond the moon, contradicting Ptolemy</button>
+      <button class="ob" onclick="chkMCQ('q8',this,false,'Incorrect. Thomas Aquinas tried to harmonize faith and science. Gersonides focused on astronomical measurement, not theological reconciliation.')">D) He reconciled Christian theology with Greek rationalism in a single philosophical system</button>
+    </div>
+    <div class="fb" id="q8-fb"></div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="qb" id="q9">
+    <div class="qn">Question 9</div>
+    <div class="qt">As scientific knowledge spread through Europe, a conflict arose between Christianity and science. Christianity stressed viewing the world through faith, while scientists emphasized reason. Which scholar tried to show these two views could exist in harmony?</div>
+    <div class="og">
+      <button class="ob" onclick="chkMCQ('q9',this,false,'Incorrect. Gersonides was a Jewish astronomer who measured star distances. He is not linked to reconciling Christian faith and scientific reason.')">A) Gersonides</button>
+      <button class="ob" onclick="chkMCQ('q9',this,false,'Incorrect. Ptolemy was an ancient astronomer who expanded the geocentric model. He lived long before the medieval faith-versus-reason conflict described here.')">B) Ptolemy</button>
+      <button class="ob" onclick="chkMCQ('q9',this,false,'Incorrect. Hippocrates focused on medical diagnosis. He is not described as addressing the conflict between faith and reason.')">C) Hippocrates</button>
+      <button class="ob" onclick="chkMCQ('q9',this,true,'Correct! Thomas Aquinas is specifically mentioned in the text as the Christian scholar who tried to show that faith and scientific reason could exist in harmony.')">D) Thomas Aquinas</button>
+    </div>
+    <div class="fb" id="q9-fb"></div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="qb" id="q10">
+    <div class="qn">Question 10</div>
+    <div class="qt">The text describes how little scientific study took place in Europe for centuries after Galen's death — until Muslim scholars revived classical knowledge. Which combination of dates and roles BEST matches what the text states?</div>
+    <div class="og">
+      <button class="ob" onclick="chkMCQ('q10',this,false,'Incorrect. The text says Muslim scholars borrowed AND ADVANCED Greek learning. The mid-700s to mid-1200s timeframe is correct but describing only Greece as the source misses Arabic contributions.')">A) Mid-500s to mid-900s: Muslim scholars replaced all Greek learning with original Arabic science</button>
+      <button class="ob" onclick="chkMCQ('q10',this,true,'Correct! Between the mid-700s and mid-1200s, Muslim scholars borrowed and advanced the learning of classical Greece and other ancient societies, and over time their knowledge spread to Western Europe.')">B) Mid-700s to mid-1200s: Muslim scholars borrowed and advanced classical Greek and other ancient knowledge, which then spread west</button>
+      <button class="ob" onclick="chkMCQ('q10',this,false,'Incorrect. The 1200s to 1400s timeframe describes the later medieval period. The text places Muslim scholarly activity starting in the mid-700s, not the 1200s.')">C) Mid-1200s to mid-1400s: Muslim scholars first began studying Greek works and translating them</button>
+      <button class="ob" onclick="chkMCQ('q10',this,false,'Incorrect. The text does not say Muslim scholars developed their knowledge independently of ancient sources. They specifically borrowed from classical Greece and other ancient societies.')">D) Mid-700s to mid-1200s: Muslim scholars independently developed new science with no connection to ancient Greek thought</button>
+    </div>
+    <div class="fb" id="q10-fb"></div>
+  </div>
+
+</div>
+
+<!-- SUBMIT -->
+<div class="subb-wrap">
+  <button class="subb" id="subb" onclick="finish()">📊 See My Results</button>
+</div>
+
+<!-- RESULTS -->
+<div class="rsd" id="rsd">
+  <div class="re" id="re"></div>
+  <div class="rt" id="rt"></div>
+  <div class="rsc" id="rsc"></div>
+  <div class="rm" id="rm"></div>
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label">Points</div>
+      <div class="stat-val" id="stP"></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Percent</div>
+      <div class="stat-val" id="stPct"></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Time</div>
+      <div class="stat-val" id="stT"></div>
+    </div>
+  </div>
+  <button class="rbtn" onclick="location.reload()">🔄 Try Again</button>
+</div>
+
+</div><!-- /main -->
+
+<script>
+var DATA = {
+  vocab:[
+    {term:"Rationalism",   def:"Using reason/logic to understand the world"},
+    {term:"Geocentric",    def:"Earth-centered model of the universe"},
+    {term:"Orbit",         def:"Circular path of a celestial body"},
+    {term:"Harmony",       def:"Things combining to form an agreeable whole"},
+    {term:"Geometry",      def:"Study of shapes — founded by Euclid"},
+    {term:"Anatomy",       def:"Study of the structure of living things"},
+    {term:"Dissection",    def:"Cutting open organisms to examine their parts"},
+    {term:"al-Andalus",    def:"Muslim-ruled Iberia; hub of translation"},
+    {term:"Epicycles",     def:"Ptolemy's small orbits within a larger orbit"},
+    {term:"Gersonides",    def:"Jewish scholar who measured star distances"}
+  ]
+};
+
+// Build vocab grid
+var vg = document.getElementById('vocabGrid');
+DATA.vocab.forEach(function(v){
+  var d = document.createElement('div');
+  d.className='vi';
+  d.innerHTML='<span class="ves">'+v.term+'</span><span class="ven">'+v.def+'</span>';
+  vg.appendChild(d);
+});
+
+var score=0, scored={}, answered=0, startTime=Date.now(), timerInterval;
+var MAX=20, TOTAL_Q=10;
+var UNIT_KEY='sci_rev_ch18';
+
+timerInterval=setInterval(function(){
+  var e=Math.floor((Date.now()-startTime)/1000);
+  document.getElementById('tm').textContent='⏱ '+Math.floor(e/60)+':'+(e%60).toString().padStart(2,'0');
+},1000);
+
+function addPts(pts,id){
+  if(scored[id])return;
+  scored[id]=true;
+  score+=pts;
+  document.getElementById('sv').textContent=score;
+  document.getElementById('pf').style.width=Math.min(Math.round(score/MAX*100),100)+'%';
+}
+
+function chkMCQ(qid,btn,correct,fb){
+  var q=document.getElementById(qid);
+  if(q.dataset.answered)return;
+  q.dataset.answered='1';
+  answered++;
+  q.querySelectorAll('.ob').forEach(function(b){b.disabled=true;});
+  var f=document.getElementById(qid+'-fb');
+  if(correct){btn.classList.add('correct');f.className='fb ok';addPts(2,qid);}
+  else{btn.classList.add('incorrect');f.className='fb no';}
+  f.textContent=fb;
+  document.getElementById('pt').textContent=answered+' / '+TOTAL_Q+' answered';
+}
+
+function toggleV(){
+  document.getElementById('vt').classList.toggle('open');
+  document.getElementById('vb').classList.toggle('open');
+}
+
+function finish(){
+  clearInterval(timerInterval);
+  var e=Math.floor((Date.now()-startTime)/1000);
+  var time=Math.floor(e/60)+':'+(e%60).toString().padStart(2,'0');
+  var pct=Math.round(score/MAX*100);
+  var configs=[
+    {min:90,emoji:'🏆',title:'Outstanding!',msg:'Perfect command of the Scientific Revolution content.'},
+    {min:75,emoji:'🌟',title:'Well done!',msg:'Strong grasp of the material — review any missed questions.'},
+    {min:55,emoji:'👍',title:'Good effort!',msg:'Revisit the geocentric model and medieval scholars sections.'},
+    {min:0, emoji:'📚',title:'Keep studying!',msg:'Re-read pp. 535-536 and focus on the key figures and dates.'}
+  ];
+  var cfg=configs.find(function(c){return pct>=c.min;});
+  document.getElementById('re').textContent=cfg.emoji;
+  document.getElementById('rt').textContent=cfg.title;
+  document.getElementById('rsc').textContent=score+' / '+MAX;
+  document.getElementById('rm').textContent=cfg.msg;
+  document.getElementById('stP').textContent=score+' pts';
+  document.getElementById('stPct').textContent=pct+'%';
+  document.getElementById('stT').textContent=time;
+  document.getElementById('rsd').classList.add('show');
+  document.getElementById('subb').disabled=true;
+  document.getElementById('rsd').scrollIntoView({behavior:'smooth'});
+  if(pct>=90)confetti();
+  try{localStorage.setItem('ws_'+UNIT_KEY,JSON.stringify({score:score,pct:pct,time:time,date:new Date().toLocaleDateString()}));}catch(err){}
+}
+
+function confetti(){
+  var cols=['#f59e0b','#0ea5e9','#16a34a','#ef4444','#a855f7','#ec4899'];
+  for(var i=0;i<80;i++){
+    var p=document.createElement('div');
+    p.className='cfp';
+    p.style.cssText='left:'+Math.random()*100+'vw;background:'+cols[Math.floor(Math.random()*cols.length)]+';'
+      +'width:'+(6+Math.random()*9)+'px;height:'+(6+Math.random()*9)+'px;'
+      +'border-radius:'+(Math.random()>.5?'50%':'2px')+';'
+      +'animation-duration:'+(2+Math.random()*3)+'s;animation-delay:'+(Math.random()*1.5)+'s;'
+      +'--drift:'+(Math.random()-.5)*200+'px';
+    document.body.appendChild(p);
+    setTimeout(function(){if(p.parentNode)p.parentNode.removeChild(p);},6000);
+  }
+}
+</script>
+</body>
+</html>
