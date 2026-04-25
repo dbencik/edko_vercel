@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Endocrine System — Interactive Worksheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sun:#f59e0b;--sea:#0ea5e9;--olive:#16a34a;
+  --bg:#f0f9ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --correct:#dcfce7;--cb:#16a34a;
+  --wrong:#fee2e2;--wb:#ef4444;
+  --partial:#fef9c3;--pb:#ca8a04;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);line-height:1.55;min-height:100vh}
+h1{font-family:'Lora',serif;font-style:italic;font-weight:600;font-size:30px;color:white;margin:6px 0}
+.ph{background:linear-gradient(135deg,#0369a1 0%,#0284c7 40%,#0ea5e9 70%,#38bdf8 100%);padding:32px 24px;color:white;position:relative;overflow:hidden}
+.ph::before{content:'\1F9EC';position:absolute;font-size:160px;opacity:.07;bottom:-20px;right:-10px}
+.ph .inner{max-width:900px;margin:0 auto;position:relative;z-index:2}
+.ub{display:inline-block;background:rgba(255,255,255,.2);padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px;backdrop-filter:blur(6px)}
+.sub{font-size:15px;font-weight:700;opacity:.95;margin-top:4px}
+.ops{margin-top:14px;display:flex;flex-wrap:wrap;gap:7px}
+.op{background:rgba(255,255,255,.15);padding:5px 12px;border-radius:14px;font-size:12px;font-weight:700;backdrop-filter:blur(6px)}
+.sb{background:white;border-bottom:2px solid var(--border);padding:10px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.sl{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.sv{font-size:22px;font-weight:900;color:var(--sea)}
+.pw{flex:1;background:#e2e8f0;border-radius:6px;height:8px;overflow:hidden;max-width:280px}
+.pf{height:100%;background:linear-gradient(90deg,var(--sea),var(--sun));border-radius:6px;transition:width .5s;width:0%}
+.pt{font-size:12px;font-weight:800;color:var(--muted)}
+.tm{font-size:12px;font-weight:700;color:#92400e;background:#fef3c7;padding:3px 8px;border-radius:6px}
+.main{max-width:900px;margin:0 auto;padding:24px 20px 60px}
+.vr{background:#fffbeb;border:2px solid var(--sun);border-radius:12px;margin-bottom:24px;overflow:hidden}
+.vt{width:100%;padding:12px 18px;background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#92400e;display:flex;align-items:center;justify-content:space-between}
+.arr{transition:transform .3s;font-size:11px}
+.vt.open .arr{transform:rotate(180deg)}
+.vb{display:none;padding:0 18px 16px}
+.vb.open{display:block}
+.vst{font-size:11px;font-weight:800;color:#92400e;text-transform:uppercase;letter-spacing:.08em;margin:10px 0 6px}
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:5px}
+.vi{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:5px 9px;background:white;border-radius:5px;border:1px solid #fde68a;gap:6px}
+.ves{font-weight:800}
+.ven{color:var(--muted);font-style:italic;text-align:right}
+.sec{background:white;border-radius:14px;padding:24px;margin-bottom:20px;border:2px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.sh{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--border)}
+.si{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ib{background:#e0f2fe}
+.ig{background:#dcfce7}
+.ir{background:#fee2e2}
+.iy{background:#fef9c3}
+.ip{background:#f3e8ff}
+.st{font-size:17px;font-weight:900;margin-bottom:2px}
+.sd{font-size:12px;color:var(--muted);font-weight:600}
+.sm{margin-left:auto;background:#f1f5f9;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:800;color:var(--muted)}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mc{display:flex;flex-direction:column;gap:7px}
+.mct{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;text-align:center}
+.mit{padding:9px 14px;border:2px solid var(--border);border-radius:9px;cursor:pointer;font-size:13px;font-weight:700;transition:all .18s;background:#f8fafc;text-align:center;min-height:40px;display:flex;align-items:center;justify-content:center}
+.mit:hover:not(.matched){border-color:var(--sea);background:#e0f2fe}
+.mit.selected{border-color:var(--sea);background:var(--sea);color:white}
+.mit.matched{border-color:var(--cb);background:var(--correct);color:#166534;cursor:default}
+.mit.wf{border-color:var(--wb);background:var(--wrong);animation:shake .35s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}60%{transform:translateX(6px)}}
+.qg{display:flex;flex-direction:column;gap:16px}
+.q{padding:12px;background:#f8fafc;border-radius:10px;border-left:4px solid var(--sea)}
+.qt{font-size:14px;font-weight:800;margin-bottom:9px;line-height:1.5}
+.qn{color:var(--sea);margin-right:5px}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ob{padding:9px 12px;border:2px solid var(--border);border-radius:9px;background:white;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;text-align:left;line-height:1.4}
+.ob:hover:not(:disabled){border-color:var(--sea);background:#e0f2fe}
+.ob.correct{background:var(--correct);border-color:var(--cb);color:#166534}
+.ob.incorrect{background:var(--wrong);border-color:var(--wb);color:#991b1b}
+.ob:disabled{cursor:default}
+.fb{margin-top:8px;padding:8px 12px;border-radius:7px;font-size:12px;font-weight:700;display:none;line-height:1.5}
+.fb.ok{display:block;background:var(--correct);color:#166534;border:1px solid var(--cb)}
+.fb.no{display:block;background:var(--wrong);color:#991b1b;border:1px solid var(--wb)}
+.bl{display:flex;flex-direction:column;gap:12px}
+.bw{padding:12px 14px;background:#f8fafc;border-radius:10px;border-left:4px solid var(--olive)}
+.bs{font-size:14px;font-weight:600;line-height:1.7;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.binp{border:2px solid var(--border);border-radius:7px;padding:5px 10px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;outline:none;min-width:130px;transition:border-color .2s}
+.binp:focus{border-color:var(--sea)}
+.binp.correct{border-color:var(--cb);background:var(--correct);color:#166534}
+.binp.incorrect{border-color:var(--wb);background:var(--wrong);color:#991b1b}
+.bcb{padding:5px 12px;background:var(--olive);color:white;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;margin-left:6px}
+.bcb:disabled{background:#94a3b8;cursor:default}
+.bar{font-size:12px;font-weight:700;margin-top:4px;color:#991b1b;display:none;padding:3px 8px;background:var(--wrong);border-radius:5px}
+.bar.show{display:inline-block}
+.tp{font-size:14px;font-weight:700;margin-bottom:7px;padding:9px 12px;background:#fdf4ff;border-radius:7px;border-left:4px solid #a855f7}
+.td{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#a855f7;margin-bottom:3px;display:block}
+.tir{display:flex;gap:7px;align-items:flex-start;flex-wrap:wrap}
+.tinp{flex:1;min-width:200px;border:2px solid var(--border);border-radius:7px;padding:7px 12px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;resize:vertical;outline:none;min-height:48px}
+.tinp:focus{border-color:#a855f7}
+.tcb{padding:7px 14px;background:#a855f7;color:white;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer}
+.tcb:disabled{background:#94a3b8;cursor:default}
+.tf{margin-top:7px;padding:7px 11px;border-radius:7px;font-size:12px;font-weight:700;display:none;line-height:1.5}
+.tf.full{display:block;background:var(--correct);color:#166534;border:1px solid var(--cb)}
+.tf.partial{display:block;background:var(--partial);color:#854d0e;border:1px solid var(--pb)}
+.tf.miss{display:block;background:var(--wrong);color:#991b1b;border:1px solid var(--wb)}
+.tm-ans{margin-top:4px;font-size:11px;color:var(--muted);font-style:italic;font-weight:600}
+.ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:9px}
+.ait{background:#f8fafc;border:2px solid var(--border);border-radius:9px;padding:10px;text-align:center}
+.aw{font-size:15px;font-weight:800;color:var(--text);margin-bottom:7px;min-height:22px}
+.ao{display:flex;gap:5px;justify-content:center}
+.aob{padding:4px 9px;border:2px solid var(--border);border-radius:5px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;cursor:pointer;background:white;transition:all .15s}
+.aob:hover:not(:disabled){border-color:var(--sea);background:#e0f2fe}
+.aob.correct{background:var(--correct);border-color:var(--cb);color:#166534}
+.aob.incorrect{background:var(--wrong);border-color:var(--wb);color:#991b1b}
+.aob:disabled{cursor:default}
+.subb{display:block;width:100%;max-width:340px;margin:28px auto 0;padding:14px 24px;background:linear-gradient(135deg,var(--olive) 0%,#15803d 100%);color:white;border:none;border-radius:11px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;cursor:pointer;letter-spacing:.03em;box-shadow:0 4px 14px rgba(22,163,74,.35)}
+.subb:disabled{background:#94a3b8;cursor:default;box-shadow:none}
+.rsd{display:none;background:white;border-radius:18px;padding:32px 24px;margin-top:24px;text-align:center;box-shadow:0 8px 28px rgba(0,0,0,.12);border:2px solid var(--sun)}
+.rsd.show{display:block}
+.re{font-size:64px;margin-bottom:8px}
+.rt{font-family:'Lora',serif;font-style:italic;font-weight:600;font-size:26px;color:var(--text);margin-bottom:6px}
+.rsc{font-size:40px;font-weight:900;color:var(--sea);margin:10px 0}
+.rm{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:18px}
+.rst{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-top:16px}
+.rsi{text-align:center}
+.rsv{font-size:22px;font-weight:900;color:var(--text)}
+.rsl{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.rbtn{margin-top:20px;padding:9px 20px;background:var(--sea);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer}
+.cfp{position:fixed;width:9px;height:9px;top:-9px;border-radius:2px;animation:fall linear forwards;z-index:9999;pointer-events:none}
+@keyframes fall{to{top:110vh;transform:rotate(720deg) translateX(var(--drift,0px))}}
+@media (max-width:560px){
+  .og,.mg{grid-template-columns:1fr}
+  .sec{padding:16px 14px}
+  .main{padding:16px 14px 60px}
+  h1{font-size:24px}
+}
+@media print{
+  .sb,.subb,.rbtn,.bcb,.tcb,.ob,.mit,.aob,.vt{display:none !important}
+  body{background:white}
+  .sec{box-shadow:none;page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header class="ph">
+  <div class="inner">
+    <div class="ub">Biology · Teen Level</div>
+    <h1>The Endocrine System</h1>
+    <div class="sub">Interactive Worksheet — glands, hormones &amp; disorders</div>
+    <div class="ops">
+      <span class="op">Glands &amp; Hormones</span>
+      <span class="op">Antagonist Pairs</span>
+      <span class="op">Endocrine Disorders</span>
+    </div>
+  </div>
+</header>
+
+<div class="sb">
+  <div class="sl">Score</div>
+  <div class="sv" id="sv">0</div>
+  <div class="pw"><div class="pf" id="pf"></div></div>
+  <div class="pt" id="pt">0 / 44</div>
+  <div class="tm" id="tm">⏱ 0:00</div>
+</div>
+
+<div class="main">
+
+  <div class="vr">
+    <button class="vt" id="vt" onclick="toggleV()">
+      📖 Reference — click to show/hide <span class="arr">▼</span>
+    </button>
+    <div class="vb" id="vb">
+      <div class="vst">Glands</div>
+      <div class="vg" id="glandGrid"></div>
+      <div class="vst">Hormones</div>
+      <div class="vg" id="hormoneGrid"></div>
+      <div class="vst">Disorders</div>
+      <div class="vg" id="disorderGrid"></div>
+    </div>
+  </div>
+
+  <!-- Ex 1 -->
+  <div class="sec" id="ex1">
+    <div class="sh">
+      <div class="si ib">🔗</div>
+      <div>
+        <div class="st">Exercise 1 — Match the hormone to its job</div>
+        <div class="sd">Click a hormone, then click its matching function.</div>
+      </div>
+      <div class="sm" id="matchScore">Matches: 0 / 8</div>
+    </div>
+    <div class="mg">
+      <div class="mc">
+        <div class="mct">Hormones</div>
+        <div class="mit" data-lang="l" data-id="m1" onclick="selM(this)">Insulin</div>
+        <div class="mit" data-lang="l" data-id="m2" onclick="selM(this)">Glucagon</div>
+        <div class="mit" data-lang="l" data-id="m3" onclick="selM(this)">Melatonin</div>
+        <div class="mit" data-lang="l" data-id="m4" onclick="selM(this)">Cortisol</div>
+        <div class="mit" data-lang="l" data-id="m5" onclick="selM(this)">Adrenaline</div>
+        <div class="mit" data-lang="l" data-id="m6" onclick="selM(this)">Calcitonin</div>
+        <div class="mit" data-lang="l" data-id="m7" onclick="selM(this)">Thyroxine</div>
+        <div class="mit" data-lang="l" data-id="m8" onclick="selM(this)">ADH</div>
+      </div>
+      <div class="mc">
+        <div class="mct">Functions</div>
+        <div class="mit" data-lang="r" data-id="m6" onclick="selM(this)">Moves calcium from blood INTO bones</div>
+        <div class="mit" data-lang="r" data-id="m1" onclick="selM(this)">Lowers blood sugar (stores it away)</div>
+        <div class="mit" data-lang="r" data-id="m8" onclick="selM(this)">Tells kidneys to reabsorb water</div>
+        <div class="mit" data-lang="r" data-id="m3" onclick="selM(this)">Controls the sleep-wake cycle</div>
+        <div class="mit" data-lang="r" data-id="m2" onclick="selM(this)">Raises blood sugar (releases it)</div>
+        <div class="mit" data-lang="r" data-id="m7" onclick="selM(this)">Controls how fast the body uses energy</div>
+        <div class="mit" data-lang="r" data-id="m4" onclick="selM(this)">Long-term stress hormone (high in morning)</div>
+        <div class="mit" data-lang="r" data-id="m5" onclick="selM(this)">Fight-or-flight — heart rate up fast</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 2 -->
+  <div class="sec" id="ex2">
+    <div class="sh">
+      <div class="si ig">🏭</div>
+      <div>
+        <div class="st">Exercise 2 — Which gland makes which hormone?</div>
+        <div class="sd">Pick the correct gland for each hormone.</div>
+      </div>
+      <div class="sm">12 pts max</div>
+    </div>
+    <div class="qg" id="mcq1"></div>
+  </div>
+
+  <!-- Ex 3 -->
+  <div class="sec" id="ex3">
+    <div class="sh">
+      <div class="si ir">⚠️</div>
+      <div>
+        <div class="st">Exercise 3 — Endocrine disorders</div>
+        <div class="sd">Each disorder has one clear cause — pick it.</div>
+      </div>
+      <div class="sm">10 pts max</div>
+    </div>
+    <div class="qg" id="mcq2"></div>
+  </div>
+
+  <!-- Ex 4 -->
+  <div class="sec" id="ex4">
+    <div class="sh">
+      <div class="si ig">✏️</div>
+      <div>
+        <div class="st">Exercise 4 — Fill in the blank</div>
+        <div class="sd">Type the missing word. Small spelling mistakes are allowed.</div>
+      </div>
+      <div class="sm">12 pts max</div>
+    </div>
+    <div class="bl" id="blanks"></div>
+  </div>
+
+  <!-- Ex 5 -->
+  <div class="sec" id="ex5">
+    <div class="sh">
+      <div class="si iy">🩺</div>
+      <div>
+        <div class="st">Exercise 5 — Match the disorder to its clue</div>
+        <div class="sd">Match each disorder to the symptom or cause that best identifies it.</div>
+      </div>
+      <div class="sm" id="specialScore">Matches: 0 / 6</div>
+    </div>
+    <div class="mg">
+      <div class="mc">
+        <div class="mct">Disorders</div>
+        <div class="mit" data-lang="l" data-id="s1" onclick="selM(this)">Turner Syndrome</div>
+        <div class="mit" data-lang="l" data-id="s2" onclick="selM(this)">Cushing Syndrome</div>
+        <div class="mit" data-lang="l" data-id="s3" onclick="selM(this)">Graves' Disease</div>
+        <div class="mit" data-lang="l" data-id="s4" onclick="selM(this)">Hypothyroidism</div>
+        <div class="mit" data-lang="l" data-id="s5" onclick="selM(this)">Dwarfism</div>
+        <div class="mit" data-lang="l" data-id="s6" onclick="selM(this)">Acromegaly</div>
+      </div>
+      <div class="mc">
+        <div class="mct">Clues</div>
+        <div class="mit" data-lang="r" data-id="s3" onclick="selM(this)">Bulging eyes &amp; heat sensitivity</div>
+        <div class="mit" data-lang="r" data-id="s5" onclick="selM(this)">Not enough GH while still growing</div>
+        <div class="mit" data-lang="r" data-id="s1" onclick="selM(this)">Missing or changed X chromosome</div>
+        <div class="mit" data-lang="r" data-id="s6" onclick="selM(this)">Pituitary tumour — too much GH in adults</div>
+        <div class="mit" data-lang="r" data-id="s2" onclick="selM(this)">Moon face &amp; long-term high cortisol</div>
+        <div class="mit" data-lang="r" data-id="s4" onclick="selM(this)">Cold intolerance, tiredness, dry skin</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ex 6 -->
+  <div class="sec" id="ex6">
+    <div class="sh">
+      <div class="si ip">💬</div>
+      <div>
+        <div class="st">Exercise 6 — Short answers</div>
+        <div class="sd">Answer in your own words. Keywords are checked — not exact wording.</div>
+      </div>
+      <div class="sm">10 pts max</div>
+    </div>
+    <div id="translations"></div>
+  </div>
+
+  <!-- Ex 7 -->
+  <div class="sec" id="ex7">
+    <div class="sh">
+      <div class="si ib">🏷️</div>
+      <div>
+        <div class="st">Exercise 7 — Hormone or Gland?</div>
+        <div class="sd">For each term, decide: is it a hormone or a gland?</div>
+      </div>
+      <div class="sm">8 pts max</div>
+    </div>
+    <div class="ag" id="accent"></div>
+  </div>
+
+  <button class="subb" id="subb" onclick="finish()">✓ See final results</button>
+
+  <div class="rsd" id="rsd">
+    <div class="re" id="re">🏆</div>
+    <div class="rt" id="rt">Outstanding!</div>
+    <div class="rsc" id="rsc">0 / 80</div>
+    <div class="rm" id="rm">Perfect mastery.</div>
+    <div class="rst">
+      <div class="rsi"><div class="rsv" id="stP">0</div><div class="rsl">Points</div></div>
+      <div class="rsi"><div class="rsv" id="stPct">0%</div><div class="rsl">Score</div></div>
+      <div class="rsi"><div class="rsv" id="stT">0:00</div><div class="rsl">Time</div></div>
+    </div>
+    <button class="rbtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Back to top</button>
+  </div>
+
+</div>
+
+<script>
+var DATA = {
+  "glands": [
+    {"n":"Hypothalamus","d":"the boss — makes releasing hormones"},
+    {"n":"Pituitary","d":"the busy secretary — GH, ADH, TSH, FSH, LH, Prolactin"},
+    {"n":"Thyroid","d":"metabolism (thyroxine) + calcitonin"},
+    {"n":"Parathyroid","d":"parathyroid hormone — calcium up"},
+    {"n":"Pancreas","d":"insulin + glucagon — sugar balance"},
+    {"n":"Adrenal","d":"adrenaline + cortisol — stress"},
+    {"n":"Pineal","d":"melatonin — sleep"},
+    {"n":"Thymus","d":"important when young, shrinks later"},
+    {"n":"Ovaries","d":"estrogen + progesterone"},
+    {"n":"Testes","d":"testosterone"}
+  ],
+  "hormones": [
+    {"n":"Growth hormone (GH)","d":"growth of bones and muscles"},
+    {"n":"ADH","d":"kidneys reabsorb water"},
+    {"n":"TSH","d":"tells thyroid to get to work"},
+    {"n":"FSH","d":"egg and sperm production"},
+    {"n":"LH","d":"ovulation / testosterone release"},
+    {"n":"Prolactin","d":"milk production after birth"},
+    {"n":"Thyroxine","d":"controls metabolism speed"},
+    {"n":"Calcitonin","d":"calcium INTO bones"},
+    {"n":"Parathyroid hormone","d":"calcium OUT of bones"},
+    {"n":"Insulin","d":"lowers blood sugar"},
+    {"n":"Glucagon","d":"raises blood sugar"},
+    {"n":"Adrenaline","d":"fight or flight"},
+    {"n":"Cortisol","d":"long-term stress"},
+    {"n":"Melatonin","d":"sleep-wake cycle"},
+    {"n":"Estrogen","d":"female puberty changes"},
+    {"n":"Progesterone","d":"prepares body for pregnancy"},
+    {"n":"Testosterone","d":"male puberty + sperm"}
+  ],
+  "disorders": [
+    {"n":"Turner Syndrome","d":"missing / changed X chromosome (girls)"},
+    {"n":"Cushing Syndrome","d":"too much cortisol, long term"},
+    {"n":"Graves' Disease","d":"too much thyroid hormone"},
+    {"n":"Hypothyroidism","d":"too little thyroid hormone"},
+    {"n":"Dwarfism","d":"too little GH during growth"},
+    {"n":"Acromegaly","d":"too much GH in adults (tumour)"},
+    {"n":"Hirsutism","d":"extra male hormones — hair growth"}
+  ],
+  "mcq1": [
+    {"q":"Which gland produces insulin and glucagon?","opts":["Thyroid","Pancreas","Pineal gland","Adrenal gland"],"ans":1,"fb_ok":"Correct — the pancreas makes both. They are antagonists.","fb_no":"The pancreas makes insulin and glucagon — two antagonist hormones that balance blood sugar."},
+    {"q":"Which gland releases melatonin?","opts":["Thymus","Adrenal","Pineal gland","Thyroid"],"ans":2,"fb_ok":"Correct — the pineal gland is the sleep gland.","fb_no":"Melatonin is made by the pineal gland. Light on your eyes turns melatonin down."},
+    {"q":"Which gland produces growth hormone (GH)?","opts":["Pituitary","Hypothalamus","Thyroid","Thymus"],"ans":0,"fb_ok":"Correct — GH comes from the pituitary, the busy secretary.","fb_no":"The pituitary makes GH. Too little in childhood = dwarfism; too much in adults = acromegaly."},
+    {"q":"Which gland makes thyroxine?","opts":["Parathyroid","Adrenal","Thyroid","Pancreas"],"ans":2,"fb_ok":"Correct — thyroxine from the thyroid controls metabolism.","fb_no":"Thyroxine comes from the thyroid gland — it sets how fast the body uses energy."},
+    {"q":"Where is cortisol produced?","opts":["Ovaries","Adrenal glands","Pituitary","Hypothalamus"],"ans":1,"fb_ok":"Correct — cortisol is made in the adrenal glands, sitting on top of the kidneys.","fb_no":"Cortisol is made by the adrenal glands. It is the long-term stress hormone."},
+    {"q":"What does the hypothalamus mainly do?","opts":["Makes insulin directly","Controls sleep","Tells the pituitary when to release hormones","Stores calcium"],"ans":2,"fb_ok":"Correct — the hypothalamus makes releasing hormones that instruct the pituitary.","fb_no":"The hypothalamus is the boss — it sends releasing hormones to the pituitary, which does the work."}
+  ],
+  "mcq2": [
+    {"q":"Too little growth hormone during childhood causes…","opts":["Acromegaly","Dwarfism","Cushing Syndrome","Graves' Disease"],"ans":1,"fb_ok":"Correct — not enough GH while still growing gives dwarfism (short stature).","fb_no":"Dwarfism — short stature caused by GH deficiency while the person is still growing."},
+    {"q":"Too much growth hormone in adults leads to…","opts":["Hypothyroidism","Acromegaly","Turner Syndrome","Hirsutism"],"ans":1,"fb_ok":"Correct — a pituitary tumour making extra GH causes acromegaly (enlarged hands, feet, face).","fb_no":"Acromegaly — extra GH from a pituitary tumour; hands, feet, nose and lips enlarge."},
+    {"q":"Long-term high cortisol causes…","opts":["Cushing Syndrome","Hypothyroidism","Graves' Disease","Turner Syndrome"],"ans":0,"fb_ok":"Correct — Cushing Syndrome. Moon face, weight gain, thin bones.","fb_no":"Cushing Syndrome — too much cortisol for too long: moon face, weight gain, high blood pressure."},
+    {"q":"A missing or changed X chromosome in a girl causes…","opts":["Graves' Disease","Hirsutism","Turner Syndrome","Hypothyroidism"],"ans":2,"fb_ok":"Correct — Turner Syndrome. Short stature, ovarian loss, short wide neck.","fb_no":"Turner Syndrome — a genetic condition found only in girls with a missing or altered X chromosome."},
+    {"q":"Bulging eyes and heat sensitivity are symptoms of…","opts":["Hypothyroidism","Graves' Disease","Dwarfism","Cushing Syndrome"],"ans":1,"fb_ok":"Correct — Graves' Disease. Too much thyroid hormone speeds everything up.","fb_no":"Graves' Disease — hyperthyroidism. Bulging eyes, sweating, anxiety, heat sensitivity."}
+  ],
+  "blanks": [
+    {"pre":"","post":"glands release their product through a duct onto a surface (like sweat).","ans":["exocrine"],"hint":"e_______"},
+    {"pre":"Endocrine glands release hormones directly into the","post":".","ans":["blood","bloodstream"],"hint":"b_____"},
+    {"pre":"The","post":"is the bridge between the brain and the hormones.","ans":["hypothalamus"],"hint":"h__________"},
+    {"pre":"Insulin lowers blood sugar;","post":"raises it back up.","ans":["glucagon"],"hint":"g_______"},
+    {"pre":"Calcitonin moves calcium INTO bones; parathyroid hormone moves it","post":"of bones.","ans":["out","out of","away"],"hint":"o__"},
+    {"pre":"The sleep hormone, made by the pineal gland, is","post":".","ans":["melatonin"],"hint":"m________"}
+  ],
+  "translations": [
+    {
+      "q":"What is the difference between exocrine and endocrine glands?",
+      "label":"Short answer",
+      "keywords":[["exocrine","exo","duct","out","outside","surface","skin","exit"],["endocrine","endo","hormone","blood","inside","bloodstream","into"]],
+      "model":"Exocrine glands send product OUT through a duct onto a surface (e.g. sweat). Endocrine glands have no ducts — they release hormones directly INTO the blood."
+    },
+    {
+      "q":"What are antagonist hormones? Give one pair as an example.",
+      "label":"Short answer",
+      "keywords":[["opposite","antagonist","undo","oppose","reverse","opposing"],["insulin","glucagon","calcitonin","parathyroid"]],
+      "model":"Antagonist hormones do opposite jobs — they undo each other. Example pairs: insulin / glucagon (sugar), or calcitonin / parathyroid hormone (calcium)."
+    },
+    {
+      "q":"Why is cortisol naturally high in the morning?",
+      "label":"Short answer",
+      "keywords":[["wake","waking","morning","start","get up","energy","alert"],["stress","body","day","respond","prepare","active"]],
+      "model":"Cortisol is naturally highest in the morning because it helps wake you up and prepares the body for the day. It should drop by evening."
+    },
+    {
+      "q":"List three symptoms of Graves' Disease.",
+      "label":"Short answer",
+      "keywords":[["bulging","eyes","exophthalmos"],["heat","sweat","sweating","warm","hot"],["anxiety","irritable","irritability","fatigue","tired","menstrual","moist"]],
+      "model":"Any three of: bulging eyes, anxiety/irritability, heat sensitivity, increased sweating, warm moist skin, menstrual changes, fatigue."
+    },
+    {
+      "q":"What causes Acromegaly, and what happens to the body?",
+      "label":"Short answer",
+      "keywords":[["pituitary","tumour","tumor"],["growth hormone","gh","too much","excess","extra"],["hands","feet","nose","lips","ears","enlarge","enlarged","bigger","organs"]],
+      "model":"A tumour in the pituitary gland makes too much growth hormone. The body keeps growing where it should have stopped — hands, feet, nose, lips, ears, and even internal organs enlarge."
+    }
+  ],
+  "accent": [
+    {"w":"Insulin","cat":"H"},
+    {"w":"Pancreas","cat":"G"},
+    {"w":"Thyroxine","cat":"H"},
+    {"w":"Pituitary","cat":"G"},
+    {"w":"Melatonin","cat":"H"},
+    {"w":"Pineal","cat":"G"},
+    {"w":"Cortisol","cat":"H"},
+    {"w":"Adrenal","cat":"G"}
+  ]
+};
+
+/* ---------- helpers ---------- */
+function norm(s){
+  return (s||'').toLowerCase().normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9\s]/g,' ')
+    .replace(/\s+/g,' ').trim();
+}
+/* Levenshtein distance for spelling tolerance */
+function lev(a,b){
+  a=a||'';b=b||'';
+  var m=a.length,n=b.length;
+  if(!m)return n;if(!n)return m;
+  var dp=[];for(var i=0;i<=m;i++){dp[i]=[i];}
+  for(var j=0;j<=n;j++){dp[0][j]=j;}
+  for(i=1;i<=m;i++){
+    for(j=1;j<=n;j++){
+      var c=a.charAt(i-1)===b.charAt(j-1)?0:1;
+      dp[i][j]=Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+c);
+    }
+  }
+  return dp[m][n];
+}
+/* accepts small spelling errors: up to 2 edits for 6+ char words, 1 edit for shorter */
+function fuzzyMatch(input, candidates){
+  var ni = norm(input);
+  if(!ni) return false;
+  for(var k=0;k<candidates.length;k++){
+    var nc = norm(candidates[k]);
+    if(ni === nc) return true;
+    if(ni.indexOf(nc) !== -1 || nc.indexOf(ni) !== -1) return true;
+    var tol = nc.length >= 6 ? 2 : (nc.length >= 4 ? 1 : 0);
+    if(lev(ni,nc) <= tol) return true;
+  }
+  return false;
+}
+/* permissive keyword match — for each required group, accept if ANY keyword appears
+   (substring match OR fuzzy). Returns fraction of groups satisfied. */
+function keywordScore(input, groups){
+  var ni = norm(input);
+  if(!ni) return 0;
+  var tokens = ni.split(' ');
+  var hit = 0;
+  for(var g=0; g<groups.length; g++){
+    var group = groups[g];
+    var found = false;
+    for(var k=0; k<group.length; k++){
+      var kw = norm(group[k]);
+      if(!kw) continue;
+      if(ni.indexOf(kw) !== -1){ found = true; break; }
+      /* fuzzy against any token */
+      for(var t=0; t<tokens.length; t++){
+        var tol = kw.length >= 6 ? 2 : (kw.length >= 4 ? 1 : 0);
+        if(lev(tokens[t], kw) <= tol && tokens[t].length > 2){ found = true; break; }
+      }
+      if(found) break;
+    }
+    if(found) hit++;
+  }
+  return hit / groups.length;
+}
+
+/* ---------- scoring ---------- */
+var score = 0, scored = {}, startTime = Date.now(), timerInterval;
+var MAX = 80;
+var TOTAL_ITEMS = 44; /* 8+6+5+6+6+5+8 */
+
+timerInterval = setInterval(function(){
+  var e = Math.floor((Date.now()-startTime)/1000);
+  document.getElementById('tm').textContent = '⏱ ' + Math.floor(e/60) + ':' + (e%60).toString().padStart(2,'0');
+}, 1000);
+
+function addPts(pts, id){
+  if(scored[id]) return;
+  scored[id] = true;
+  score += pts;
+  document.getElementById('sv').textContent = score;
+  document.getElementById('pf').style.width = Math.min(Math.round(score/MAX*100),100) + '%';
+  document.getElementById('pt').textContent = Object.keys(scored).length + ' / ' + TOTAL_ITEMS;
+}
+
+/* ---------- build reference panel ---------- */
+function renderRef(){
+  var gg = document.getElementById('glandGrid');
+  var hg = document.getElementById('hormoneGrid');
+  var dg = document.getElementById('disorderGrid');
+  DATA.glands.forEach(function(o){
+    gg.insertAdjacentHTML('beforeend','<div class="vi"><span class="ves">'+o.n+'</span><span class="ven">'+o.d+'</span></div>');
+  });
+  DATA.hormones.forEach(function(o){
+    hg.insertAdjacentHTML('beforeend','<div class="vi"><span class="ves">'+o.n+'</span><span class="ven">'+o.d+'</span></div>');
+  });
+  DATA.disorders.forEach(function(o){
+    dg.insertAdjacentHTML('beforeend','<div class="vi"><span class="ves">'+o.n+'</span><span class="ven">'+o.d+'</span></div>');
+  });
+}
+function toggleV(){
+  document.getElementById('vt').classList.toggle('open');
+  document.getElementById('vb').classList.toggle('open');
+}
+
+/* ---------- matching ---------- */
+var selMatch = null, matchCounts = {};
+function selM(el){
+  if(el.classList.contains('matched')) return;
+  var lang = el.dataset.lang, id = el.dataset.id;
+  var prefix = id.replace(/[0-9]/g,'');
+  var scoreId = prefix === 'm' ? 'matchScore' : 'specialScore';
+  var maxP = prefix === 'm' ? 8 : 6;
+  if(!selMatch){ el.classList.add('selected'); selMatch = {el:el,id:id,lang:lang,prefix:prefix}; return; }
+  if(selMatch.lang === lang){ selMatch.el.classList.remove('selected'); el.classList.add('selected'); selMatch = {el:el,id:id,lang:lang,prefix:prefix}; return; }
+  if(selMatch.id === id){
+    [selMatch.el, el].forEach(function(e){ e.classList.remove('selected'); e.classList.add('matched'); });
+    addPts(2, 'match_' + id);
+    matchCounts[prefix] = (matchCounts[prefix] || 0) + 1;
+    document.getElementById(scoreId).textContent = 'Matches: ' + matchCounts[prefix] + ' / ' + maxP;
+  } else {
+    [selMatch.el, el].forEach(function(e){ e.classList.remove('selected'); e.classList.add('wf'); setTimeout(function(){e.classList.remove('wf');}, 400); });
+  }
+  selMatch = null;
+}
+
+/* ---------- MCQ build ---------- */
+function buildMCQ(containerId, items, key){
+  var c = document.getElementById(containerId);
+  items.forEach(function(it, i){
+    var qid = key + '_' + i;
+    var html = '<div class="q" id="' + qid + '">';
+    html += '<div class="qt"><span class="qn">' + (i+1) + '.</span>' + it.q + '</div>';
+    html += '<div class="og">';
+    for(var j=0; j<it.opts.length; j++){
+      var isCorrect = (j === it.ans) ? 'true' : 'false';
+      var fb = (j === it.ans) ? it.fb_ok : it.fb_no;
+      /* escape quotes by swapping to safe chars */
+      var safeFb = fb.replace(/'/g,'\u2019').replace(/"/g,'\u201D');
+      var safeOpt = it.opts[j].replace(/'/g,'\u2019').replace(/"/g,'\u201D');
+      html += '<button class="ob" onclick="chkMCQ(\'' + qid + '\', this, ' + isCorrect + ', \'' + safeFb + '\')">' + safeOpt + '</button>';
+    }
+    html += '</div><div class="fb" id="' + qid + '-fb"></div></div>';
+    c.insertAdjacentHTML('beforeend', html);
+  });
+}
+function chkMCQ(qid, btn, correct, fb){
+  var q = document.getElementById(qid);
+  if(q.dataset.answered) return;
+  q.dataset.answered = '1';
+  q.querySelectorAll('.ob').forEach(function(b){ b.disabled = true; });
+  var f = document.getElementById(qid + '-fb');
+  if(correct){ btn.classList.add('correct'); f.className = 'fb ok'; addPts(2, qid); }
+  else       { btn.classList.add('incorrect'); f.className = 'fb no';
+    /* also highlight the correct option */
+    var ops = q.querySelectorAll('.ob');
+    ops.forEach(function(b){ if(b.getAttribute('onclick').indexOf(', true,') !== -1) b.classList.add('correct'); });
+  }
+  f.textContent = fb;
+}
+
+/* ---------- blanks ---------- */
+function buildBlanks(){
+  var c = document.getElementById('blanks');
+  DATA.blanks.forEach(function(b, i){
+    var html = '<div class="bw" id="bl' + i + '">';
+    html += '<div class="bs">';
+    html += '<span>' + (i+1) + '. ' + b.pre + '</span>';
+    html += '<input class="binp" id="bi' + i + '" placeholder="' + (b.hint || '...') + '" autocomplete="off">';
+    html += '<span>' + b.post + '</span>';
+    html += '<button class="bcb" onclick="chkBlank(' + i + ')">Check</button>';
+    html += '</div><div class="bar" id="br' + i + '"></div></div>';
+    c.insertAdjacentHTML('beforeend', html);
+  });
+  /* Enter key checks */
+  c.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' && e.target.classList.contains('binp')){
+      var id = e.target.id.replace('bi','');
+      chkBlank(parseInt(id,10));
+    }
+  });
+}
+function chkBlank(i){
+  var inp = document.getElementById('bi' + i);
+  var rev = document.getElementById('br' + i);
+  if(inp.disabled) return;
+  inp.disabled = true;
+  document.querySelector('#bl' + i + ' .bcb').disabled = true;
+  var ok = fuzzyMatch(inp.value, DATA.blanks[i].ans);
+  inp.classList.add(ok ? 'correct' : 'incorrect');
+  if(ok){ addPts(2, 'blank_' + i); }
+  else  { rev.textContent = '→ ' + DATA.blanks[i].ans[0]; rev.classList.add('show'); }
+}
+
+/* ---------- translations / short answers (keyword-based) ---------- */
+function buildTranslations(){
+  var c = document.getElementById('translations');
+  DATA.translations.forEach(function(t, i){
+    var html = '<div class="tp"><span class="td">' + t.label + '</span>' + (i+1) + '. ' + t.q + '</div>';
+    html += '<div class="tir">';
+    html += '<textarea class="tinp" id="tin' + i + '" placeholder="Write a short answer..."></textarea>';
+    html += '<button class="tcb" onclick="chkT(' + i + ')">Check</button>';
+    html += '</div>';
+    html += '<div class="tf" id="tf' + i + '"></div>';
+    html += '<div class="tm-ans" id="tm' + i + '" style="display:none"></div>';
+    c.insertAdjacentHTML('beforeend', html);
+  });
+}
+function chkT(i){
+  var inp = document.getElementById('tin' + i);
+  var fb = document.getElementById('tf' + i);
+  var mo = document.getElementById('tm' + i);
+  if(inp.disabled) return;
+  inp.disabled = true;
+  var t = DATA.translations[i];
+  var s = keywordScore(inp.value, t.keywords);
+  if(s >= 0.85){
+    fb.className = 'tf full';
+    fb.textContent = '✅ Full credit — key ideas covered.';
+    addPts(2, 'tr_' + i);
+  } else if (s >= 0.5){
+    fb.className = 'tf partial';
+    fb.textContent = '⚡ Partial credit — you mentioned some key ideas, but not all.';
+    addPts(1, 'tr_' + i);
+    mo.style.display = 'block';
+    mo.textContent = 'Model answer: ' + t.model;
+  } else {
+    fb.className = 'tf miss';
+    fb.textContent = '❌ The main keywords are missing — have another look.';
+    mo.style.display = 'block';
+    mo.textContent = 'Model answer: ' + t.model;
+  }
+}
+
+/* ---------- Ex 7 — classify hormone vs gland ---------- */
+function buildAccent(){
+  var c = document.getElementById('accent');
+  DATA.accent.forEach(function(a, i){
+    var safeW = a.w.replace(/'/g,'\u2019').replace(/"/g,'\u201D');
+    var html = '<div class="ait" id="a' + i + '">';
+    html += '<div class="aw">' + safeW + '</div>';
+    html += '<div class="ao">';
+    html += '<button class="aob" onclick="chkA(' + i + ', this, \'H\')">Hormone</button>';
+    html += '<button class="aob" onclick="chkA(' + i + ', this, \'G\')">Gland</button>';
+    html += '</div></div>';
+    c.insertAdjacentHTML('beforeend', html);
+  });
+}
+function chkA(i, btn, pick){
+  var row = document.getElementById('a' + i);
+  if(row.dataset.answered) return;
+  row.dataset.answered = '1';
+  row.querySelectorAll('.aob').forEach(function(b){ b.disabled = true; });
+  var correct = DATA.accent[i].cat;
+  if(pick === correct){
+    btn.classList.add('correct');
+    addPts(1, 'acc_' + i);
+  } else {
+    btn.classList.add('incorrect');
+    /* highlight correct */
+    row.querySelectorAll('.aob').forEach(function(b){
+      if(b.textContent.charAt(0) === (correct === 'H' ? 'H' : 'G')) b.classList.add('correct');
+    });
+  }
+}
+
+/* ---------- results ---------- */
+function finish(){
+  clearInterval(timerInterval);
+  var e = Math.floor((Date.now()-startTime)/1000);
+  var time = Math.floor(e/60) + ':' + (e%60).toString().padStart(2,'0');
+  var pct = Math.round(score/MAX*100);
+  var configs = [
+    {min:90, emoji:'🏆', title:'Outstanding!',   msg:'You really know the endocrine system.'},
+    {min:75, emoji:'🌟', title:'Well done!',      msg:'Strong grasp — review the trickier disorders.'},
+    {min:55, emoji:'👍', title:'Good effort!',    msg:'Review antagonist pairs and disorders, then retry.'},
+    {min:0,  emoji:'📚', title:'Keep studying!',  msg:'Re-read the notes and try again — you will improve fast.'}
+  ];
+  var cfg = configs.find(function(c){ return pct >= c.min; });
+  document.getElementById('re').textContent  = cfg.emoji;
+  document.getElementById('rt').textContent  = cfg.title;
+  document.getElementById('rsc').textContent = score + ' / ' + MAX;
+  document.getElementById('rm').textContent  = cfg.msg;
+  document.getElementById('stP').textContent   = score + ' pts';
+  document.getElementById('stPct').textContent = pct + '%';
+  document.getElementById('stT').textContent   = time;
+  document.getElementById('rsd').classList.add('show');
+  document.getElementById('subb').disabled = true;
+  document.getElementById('rsd').scrollIntoView({behavior:'smooth'});
+  if(pct >= 90) confetti();
+}
+function confetti(){
+  var cols = ['#f59e0b','#0ea5e9','#16a34a','#ef4444','#a855f7','#ec4899'];
+  for(var i=0;i<80;i++){
+    var p = document.createElement('div');
+    p.className = 'cfp';
+    p.style.cssText = 'left:' + Math.random()*100 + 'vw;background:' + cols[Math.floor(Math.random()*cols.length)] + ';'
+      + 'width:'+(6+Math.random()*9)+'px;height:'+(6+Math.random()*9)+'px;'
+      + 'border-radius:'+(Math.random()>.5?'50%':'2px')+';'
+      + 'animation-duration:'+(2+Math.random()*3)+'s;animation-delay:'+(Math.random()*1.5)+'s;'
+      + '--drift:'+(Math.random()-.5)*200+'px';
+    document.body.appendChild(p);
+    setTimeout(function(){p.remove();}, 6000);
+  }
+}
+
+/* ---------- boot ---------- */
+renderRef();
+buildMCQ('mcq1', DATA.mcq1, 'q1');
+buildMCQ('mcq2', DATA.mcq2, 'q2');
+buildBlanks();
+buildTranslations();
+buildAccent();
+</script>
+</body>
+</html>
