@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slovak Elections — Interactive Quiz</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,400&display=swap');
+
+:root{
+  --sea:#3b82f6;--sun:#6366f1;--bg:#f8fafc;
+  --olive:#16a34a;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --correct:#dcfce7;--cb:#16a34a;
+  --wrong:#fee2e2;--wb:#ef4444;
+  --partial:#fef9c3;--pb:#ca8a04;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+h1{font-family:'Lora',serif;font-style:italic;margin:6px 0}
+
+.ph{background:linear-gradient(135deg,#1e3a8a 0%,#1e40af 40%,#2563eb 70%,#3b82f6 100%);
+    color:white;padding:28px 22px 24px;overflow:hidden;position:relative}
+.ph::before{content:'🏛️';position:absolute;font-size:160px;opacity:.08;bottom:-20px;right:-10px;line-height:1}
+.ub{display:inline-block;background:rgba(255,255,255,.18);padding:4px 12px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.ph h1{font-size:28px;color:white}
+.sub{font-size:14px;font-weight:700;opacity:.92}
+.ops{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.op{background:rgba(255,255,255,.16);font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px}
+
+.sb{background:white;border-bottom:2px solid var(--border);padding:10px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;flex-wrap:wrap}
+.sl{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.sv{font-size:22px;font-weight:900;color:var(--sea);min-width:40px}
+.pw{flex:1;background:#e2e8f0;border-radius:6px;height:8px;overflow:hidden;min-width:120px}
+.pf{height:100%;background:linear-gradient(90deg,var(--sea),var(--sun));border-radius:6px;transition:width .5s;width:0%}
+.pt{font-size:12px;font-weight:800;color:var(--muted)}
+.tm{font-size:12px;font-weight:700;color:#92400e;background:#fef3c7;padding:3px 8px;border-radius:6px}
+
+.main{max-width:900px;margin:0 auto;padding:22px 20px 80px}
+
+.vr{background:#fffbeb;border:2px solid #f59e0b;border-radius:12px;margin-bottom:24px}
+.vt{width:100%;padding:12px 18px;background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#92400e;display:flex;align-items:center;justify-content:space-between}
+.arr{transition:transform .3s;font-size:11px}
+.vt.open .arr{transform:rotate(180deg)}
+.vb{display:none;padding:0 18px 16px}
+.vb.open{display:block}
+.vst{font-size:12px;font-weight:800;color:#92400e;text-transform:uppercase;letter-spacing:.08em;margin:6px 0}
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px}
+.vi{display:flex;justify-content:space-between;gap:8px;font-size:12px;padding:6px 10px;background:white;border-radius:6px;border:1px solid #fde68a}
+.ves{font-weight:800;flex-shrink:0}
+.ven{color:var(--muted);font-style:italic;text-align:right}
+
+.sec{background:white;border-radius:14px;padding:22px;margin-bottom:20px;border:2px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.sh{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--border)}
+.si{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ib{background:#e0f2fe}.ig{background:#dcfce7}.ir{background:#fee2e2}.iy{background:#fef9c3}.ip{background:#f3e8ff}
+.sn{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.st{font-size:17px;font-weight:800;margin:2px 0}
+.sd{font-size:12px;color:var(--muted);font-weight:600}
+.scpill{margin-left:auto;font-size:11px;font-weight:800;color:var(--sea);background:#e0f2fe;padding:4px 10px;border-radius:999px;white-space:nowrap}
+
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mc{display:flex;flex-direction:column;gap:7px}
+.mct{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;text-align:center;padding:4px;background:#f1f5f9;border-radius:6px}
+.mit{padding:9px 14px;border:2px solid var(--border);border-radius:9px;cursor:pointer;font-size:13px;font-weight:700;transition:all .18s;background:#f8fafc;text-align:center;min-height:40px;display:flex;align-items:center;justify-content:center}
+.mit:hover:not(.matched){border-color:var(--sea);background:#e0f2fe}
+.mit.selected{border-color:var(--sea);background:var(--sea);color:white}
+.mit.matched{border-color:var(--cb);background:var(--correct);color:#166534;cursor:default}
+.mit.wf{border-color:var(--wb);background:var(--wrong);animation:shake .35s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}60%{transform:translateX(6px)}}
+
+.q{margin-bottom:14px;padding:12px;background:#fafbfd;border-radius:9px;border:1px solid #eef2f7}
+.qt{font-size:13px;font-weight:800;margin-bottom:8px;line-height:1.45}
+.qn{color:var(--sea);font-weight:900;margin-right:6px}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ob{padding:9px 12px;border:2px solid var(--border);border-radius:9px;background:white;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;text-align:left;line-height:1.4}
+.ob:hover:not(:disabled){border-color:var(--sea);background:#e0f2fe}
+.ob:disabled{cursor:default}
+.ob.correct{background:var(--correct);border-color:var(--cb);color:#166534}
+.ob.incorrect{background:var(--wrong);border-color:var(--wb);color:#991b1b}
+.fb{margin-top:8px;padding:8px 12px;border-radius:7px;font-size:12px;font-weight:700;display:none;line-height:1.5}
+.fb.ok{display:block;background:var(--correct);color:#166534;border:1px solid var(--cb)}
+.fb.no{display:block;background:var(--wrong);color:#991b1b;border:1px solid var(--wb)}
+
+.bi{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.bs{font-size:14px;font-weight:600;line-height:1.7;display:flex;flex-wrap:wrap;align-items:center;gap:5px;background:#f8fafc;padding:10px 14px;border-radius:9px;border-left:4px solid var(--olive)}
+.bn{color:var(--sea);font-weight:900;margin-right:4px}
+.binp{border:2px solid var(--border);border-radius:7px;padding:5px 10px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;outline:none;min-width:130px;transition:border-color .2s}
+.binp:focus{border-color:var(--sea)}
+.binp.correct{border-color:var(--cb);background:var(--correct);color:#166534}
+.binp.fuzzy{border-color:var(--pb);background:var(--partial);color:#854d0e}
+.binp.incorrect{border-color:var(--wb);background:var(--wrong);color:#991b1b}
+.bcb{padding:5px 12px;background:var(--sea);color:white;border:none;border-radius:6px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer}
+.bcb:disabled{opacity:.5;cursor:default}
+.bar{font-size:12px;font-weight:700;margin-top:2px;display:none;padding:4px 10px;border-radius:5px}
+.bar.show{display:inline-block}
+.bar.ok{background:var(--correct);color:#166534}
+.bar.fuzzy{background:var(--partial);color:#854d0e}
+.bar.no{background:var(--wrong);color:#991b1b}
+
+/* Sequence exercise */
+.seq-status{background:#fdf4ff;border-left:4px solid #a855f7;padding:10px 14px;border-radius:7px;font-size:13px;font-weight:700;margin-bottom:12px;color:#6b21a8}
+.seq-grid{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:680px){.seq-grid{grid-template-columns:1fr 1fr}}
+.seq-card{position:relative;padding:12px 14px 12px 48px;border:2px solid var(--border);border-radius:9px;background:#f8fafc;cursor:pointer;font-size:13px;font-weight:700;line-height:1.4;transition:all .18s;text-align:left;min-height:58px;display:flex;align-items:center}
+.seq-card:hover:not(.done){border-color:#a855f7;background:#faf5ff}
+.seq-card.done{border-color:var(--cb);background:var(--correct);color:#166534;cursor:default}
+.seq-card.done-partial{border-color:var(--pb);background:var(--partial);color:#854d0e;cursor:default}
+.seq-card.wrong{border-color:var(--wb);background:var(--wrong);animation:shake .4s}
+.seq-num{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;background:#e9d5ff;color:#6b21a8;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900}
+.seq-card.done .seq-num{background:var(--cb);color:white}
+.seq-card.done-partial .seq-num{background:var(--pb);color:white}
+
+.tp{font-size:14px;font-weight:700;margin-bottom:7px;padding:10px 13px;background:#fdf4ff;border-radius:7px;border-left:4px solid #a855f7}
+.td{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#a855f7;margin-bottom:3px;display:block}
+.tir{display:flex;gap:7px;align-items:flex-start;margin-top:6px}
+.tinp{flex:1;border:2px solid var(--border);border-radius:7px;padding:8px 12px;font-family:'Nunito',sans-serif;font-size:13px;resize:vertical;outline:none;min-height:54px}
+.tinp:focus{border-color:#a855f7}
+.tcb{padding:7px 14px;background:#a855f7;color:white;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;flex-shrink:0;height:54px}
+.tcb:disabled{opacity:.5;cursor:default}
+.tf{margin-top:7px;padding:8px 11px;border-radius:7px;font-size:12px;font-weight:700;display:none;line-height:1.5}
+.tf.full{display:block;background:var(--correct);color:#166534;border:1px solid var(--cb)}
+.tf.partial{display:block;background:var(--partial);color:#854d0e;border:1px solid var(--pb)}
+.tf.miss{display:block;background:var(--wrong);color:#991b1b;border:1px solid var(--wb)}
+.tm-ans{margin-top:6px;font-size:11px;color:#475569;font-weight:700;padding:6px 10px;background:#f1f5f9;border-radius:6px;border-left:3px solid #94a3b8}
+
+.ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:9px}
+.ait{background:#f8fafc;border:2px solid var(--border);border-radius:9px;padding:12px}
+.aw{font-size:13px;font-weight:700;color:var(--text);margin-bottom:9px;line-height:1.4;min-height:54px}
+.ao{display:flex;gap:6px;justify-content:center}
+.aob{padding:5px 12px;border:2px solid var(--border);border-radius:6px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;cursor:pointer;background:white;transition:all .15s;flex:1}
+.aob:hover:not(:disabled){border-color:var(--sea);background:#e0f2fe}
+.aob:disabled{cursor:default}
+.aob.correct{background:var(--correct);border-color:var(--cb);color:#166534}
+.aob.incorrect{background:var(--wrong);border-color:var(--wb);color:#991b1b}
+
+.subb{width:100%;padding:18px;background:linear-gradient(135deg,var(--olive),#15803d);color:white;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;cursor:pointer;box-shadow:0 4px 14px rgba(22,163,74,.3);transition:transform .15s}
+.subb:hover:not(:disabled){transform:translateY(-2px)}
+.subb:disabled{opacity:.6;cursor:default;background:#94a3b8;box-shadow:none}
+
+.rsd{display:none;background:white;border-radius:14px;padding:30px 24px;margin-top:20px;border:3px solid var(--olive);text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.rsd.show{display:block}
+.re{font-size:64px;margin-bottom:8px}
+.rt{font-size:24px;font-weight:900;margin-bottom:6px;font-family:'Lora',serif;font-style:italic}
+.rsc{font-size:34px;font-weight:900;color:var(--sea);margin:6px 0}
+.rm{font-size:14px;color:var(--muted);margin-bottom:14px;font-weight:700}
+.rs{display:flex;justify-content:center;gap:20px;margin:14px 0;flex-wrap:wrap}
+.rsi{background:#f1f5f9;padding:10px 16px;border-radius:9px;min-width:100px}
+.rsil{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.rsiv{font-size:18px;font-weight:900;color:var(--text);margin-top:2px}
+.rbtn{padding:10px 22px;background:var(--sea);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-top:6px}
+
+.cfp{position:fixed;width:9px;height:9px;top:-9px;border-radius:2px;animation:fall linear forwards;z-index:9999;pointer-events:none}
+@keyframes fall{to{top:110vh;transform:rotate(720deg) translateX(var(--drift,0px))}}
+
+@media (max-width:560px){
+  .og,.mg{grid-template-columns:1fr}
+  .sec{padding:16px 14px}
+  .main{padding:16px 14px 60px}
+  .ph h1{font-size:22px}
+  .binp{min-width:100%}
+}
+@media print{
+  .sb,.subb,.rbtn,.bcb,.tcb,.vt{display:none !important}
+  body{background:white}
+  .sec{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="ph">
+  <div class="ub">Civics · KS3 Social Studies</div>
+  <h1>Slovak Parliamentary Elections</h1>
+  <div class="sub">Interactive Quiz — concepts, rules &amp; processes</div>
+  <div class="ops">
+    <span class="op">Key terms</span>
+    <span class="op">Rules &amp; thresholds</span>
+    <span class="op">Process sequence</span>
+  </div>
+</header>
+
+<div class="sb">
+  <div class="sl">Score</div>
+  <div class="sv" id="sv">0</div>
+  <div class="pw"><div class="pf" id="pf"></div></div>
+  <div class="pt" id="pt">0 / 44</div>
+  <div class="tm" id="tm">⏱ 0:00</div>
+</div>
+
+<main class="main">
+
+  <div class="vr">
+    <button class="vt" id="vt" onclick="toggleV()">
+      📖 Reference — click to show/hide <span class="arr">▼</span>
+    </button>
+    <div class="vb" id="vb">
+      <div class="vst">Key Terms</div>
+      <div class="vg" id="vocabGrid"></div>
+    </div>
+  </div>
+
+  <!-- EX 1 — MATCH -->
+  <section class="sec">
+    <div class="sh">
+      <div class="si ib">🔗</div>
+      <div>
+        <div class="sn">Exercise 1</div>
+        <div class="st">Match the term to its definition</div>
+        <div class="sd">Click a term on the left, then its meaning on the right.</div>
+      </div>
+      <div class="scpill" id="matchScore">Matches: 0 / 8</div>
+    </div>
+    <div class="mg">
+      <div class="mc">
+        <div class="mct">Term</div>
+        <div class="mit" data-lang="l" data-id="m1" onclick="selM(this)">NRSR</div>
+        <div class="mit" data-lang="l" data-id="m2" onclick="selM(this)">MP</div>
+        <div class="mit" data-lang="l" data-id="m3" onclick="selM(this)">Mandate</div>
+        <div class="mit" data-lang="l" data-id="m4" onclick="selM(this)">Coalition</div>
+        <div class="mit" data-lang="l" data-id="m5" onclick="selM(this)">Government</div>
+        <div class="mit" data-lang="l" data-id="m6" onclick="selM(this)">Vote of confidence</div>
+        <div class="mit" data-lang="l" data-id="m7" onclick="selM(this)">Electoral threshold</div>
+        <div class="mit" data-lang="l" data-id="m8" onclick="selM(this)">Majority</div>
+      </div>
+      <div class="mc" id="matchRight">
+        <div class="mct">Definition</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EX 2 — MCQ: concepts & rules -->
+  <section class="sec">
+    <div class="sh">
+      <div class="si ig">📏</div>
+      <div>
+        <div class="sn">Exercise 2</div>
+        <div class="st">Core rules of Slovak elections</div>
+        <div class="sd">Pick the correct answer. Feedback appears immediately.</div>
+      </div>
+      <div class="scpill">6 questions · 2 pts each</div>
+    </div>
+    <div id="mcq1Host"></div>
+  </section>
+
+  <!-- EX 3 — MCQ: government formation -->
+  <section class="sec">
+    <div class="sh">
+      <div class="si ir">⚖️</div>
+      <div>
+        <div class="sn">Exercise 3</div>
+        <div class="st">Forming the government — rules of the process</div>
+        <div class="sd">Mandate, coalitions and the confidence vote.</div>
+      </div>
+      <div class="scpill">5 questions · 2 pts each</div>
+    </div>
+    <div id="mcq2Host"></div>
+  </section>
+
+  <!-- EX 4 — FILL IN BLANK -->
+  <section class="sec">
+    <div class="sh">
+      <div class="si ig">✏️</div>
+      <div>
+        <div class="sn">Exercise 4</div>
+        <div class="st">Complete the rule</div>
+        <div class="sd">Small spelling mistakes are accepted — the correct spelling is always shown.</div>
+      </div>
+      <div class="scpill">6 items · 2 pts each</div>
+    </div>
+    <div id="blanksHost"></div>
+  </section>
+
+  <!-- EX 5 — SEQUENCE -->
+  <section class="sec">
+    <div class="sh">
+      <div class="si iy">🔢</div>
+      <div>
+        <div class="sn">Exercise 5</div>
+        <div class="st">Put the process in order</div>
+        <div class="sd">Click each step in the order it happens — from election day to the first day of a new government.</div>
+      </div>
+      <div class="scpill" id="seqScore">Step 1 of 6</div>
+    </div>
+    <div class="seq-status" id="seqStatus">Click the step that happens <strong>first</strong>.</div>
+    <div class="seq-grid" id="seqGrid"></div>
+  </section>
+
+  <!-- EX 6 — SHORT ANSWER -->
+  <section class="sec">
+    <div class="sh">
+      <div class="si ip">💬</div>
+      <div>
+        <div class="sn">Exercise 6</div>
+        <div class="st">Explain the process in your own words</div>
+        <div class="sd">Your keywords are what count — not the exact wording.</div>
+      </div>
+      <div class="scpill">5 items · up to 2 pts each</div>
+    </div>
+    <div id="shortHost"></div>
+  </section>
+
+  <!-- EX 7 — TRUE / FALSE -->
+  <section class="sec">
+    <div class="sh">
+      <div class="si ib">✓</div>
+      <div>
+        <div class="sn">Exercise 7</div>
+        <div class="st">True or False?</div>
+        <div class="sd">Quick final review — one click per statement.</div>
+      </div>
+      <div class="scpill">8 items · 1 pt each</div>
+    </div>
+    <div class="ag" id="ruleHost"></div>
+  </section>
+
+  <button class="subb" id="subb" onclick="finish()">See final results 🎓</button>
+
+  <div class="rsd" id="rsd">
+    <div class="re" id="re">🏆</div>
+    <div class="rt" id="rt">Outstanding!</div>
+    <div class="rsc" id="rsc">0 / 80</div>
+    <div class="rm" id="rm"></div>
+    <div class="rs">
+      <div class="rsi"><div class="rsil">Points</div><div class="rsiv" id="stP">0</div></div>
+      <div class="rsi"><div class="rsil">Percentage</div><div class="rsiv" id="stPct">0%</div></div>
+      <div class="rsi"><div class="rsil">Time</div><div class="rsiv" id="stT">0:00</div></div>
+    </div>
+    <button class="rbtn" onclick="location.reload()">↻ Try again</button>
+  </div>
+
+</main>
+
+<script>
+var DATA = {
+  "vocab":[
+    {"t":"NRSR","d":"National Council of the Slovak Republic — the Slovak parliament"},
+    {"t":"MP","d":"Member of Parliament — an elected representative"},
+    {"t":"Seat","d":"A place in parliament held by one MP (NRSR has 150)"},
+    {"t":"Electoral threshold","d":"Minimum share of votes (5%) a party must win to enter parliament"},
+    {"t":"Proportional","d":"Seats divided according to the percentage of votes each party got"},
+    {"t":"Majority","d":"More than half of MPs — at least 76 of 150"},
+    {"t":"Coalition","d":"Two or more parties governing together"},
+    {"t":"Mandate","d":"Right to try to form a government — given first to the largest party"},
+    {"t":"Vote of confidence","d":"Parliament's vote that it trusts the new government"},
+    {"t":"No confidence","d":"Parliament withdraws trust — the government falls"},
+    {"t":"Government","d":"Prime Minister plus 14 ministers"},
+    {"t":"General elections","d":"National vote for parties, held every 4 years"}
+  ],
+  "matches":[
+    {"id":"m1","left":"NRSR","right":"National Council of the Slovak Republic"},
+    {"id":"m2","left":"MP","right":"Member of Parliament"},
+    {"id":"m3","left":"Mandate","right":"The right to try to form a government"},
+    {"id":"m4","left":"Coalition","right":"Multiple parties governing together"},
+    {"id":"m5","left":"Government","right":"Prime Minister and the ministers"},
+    {"id":"m6","left":"Vote of confidence","right":"Parliament's approval of a new government"},
+    {"id":"m7","left":"Electoral threshold","right":"Minimum vote share needed to enter parliament"},
+    {"id":"m8","left":"Majority","right":"More than half of all the MPs"}
+  ],
+  "mcq1":[
+    {"id":"q1","q":"How often are general elections held in Slovakia?","opts":[
+       {"t":"Every 2 years","c":false,"fb":"Too often — the Slovak term is longer."},
+       {"t":"Every 4 years","c":true,"fb":"Correct — general elections happen every 4 years."},
+       {"t":"Every 5 years","c":false,"fb":"Close — but the Slovak cycle is shorter."},
+       {"t":"Every 6 years","c":false,"fb":"Too long between elections."}
+     ]},
+    {"id":"q2","q":"What is Slovakia's electoral threshold?","opts":[
+       {"t":"3% of votes","c":false,"fb":"Too low — the real minimum is higher."},
+       {"t":"5% of votes","c":true,"fb":"Yes — parties need more than 5% to enter parliament."},
+       {"t":"7% of votes","c":false,"fb":"Too high — check again."},
+       {"t":"10% of votes","c":false,"fb":"Much too high — the threshold is lower than this."}
+     ]},
+    {"id":"q3","q":"How are the seats divided among parties that pass the threshold?","opts":[
+       {"t":"Equally among all parties","c":false,"fb":"No — bigger parties get more seats."},
+       {"t":"Proportionally to the percentage of votes","c":true,"fb":"Correct — more votes = more seats."},
+       {"t":"First-past-the-post (winner takes all)","c":false,"fb":"No — Slovakia does not use winner-takes-all."},
+       {"t":"Randomly by lottery","c":false,"fb":"Definitely not — that would be unfair."}
+     ]},
+    {"id":"q4","q":"A new party receives 4.2% of the votes in the election. What happens?","opts":[
+       {"t":"It gets a few seats anyway","c":false,"fb":"No — there is a hard minimum below which parties get nothing."},
+       {"t":"It does not enter parliament at all","c":true,"fb":"Correct — 4.2% is below the 5% threshold, so zero seats."},
+       {"t":"It automatically joins the winner's coalition","c":false,"fb":"No — parties below the threshold are outside parliament."},
+       {"t":"It gets one seat for every 1% of votes","c":false,"fb":"No — parties below the threshold get nothing."}
+     ]},
+    {"id":"q5","q":"What do Slovak voters directly choose in the general elections?","opts":[
+       {"t":"Individual candidates by name","c":false,"fb":"No — you do not tick individual names for the main vote."},
+       {"t":"Political parties","c":true,"fb":"Correct — you vote for a party, and the party fills its seats."},
+       {"t":"The Prime Minister","c":false,"fb":"No — the PM is not chosen directly by citizens."},
+       {"t":"The President","c":false,"fb":"No — the President is elected in a separate election."}
+     ]},
+    {"id":"q6","q":"What is the name of the system where parliament seats are shared out by vote percentage?","opts":[
+       {"t":"Winner-takes-all","c":false,"fb":"No — that's a different system used in some other countries."},
+       {"t":"Proportional representation","c":true,"fb":"Correct — that's the principle behind Slovak elections."},
+       {"t":"Electoral college","c":false,"fb":"No — that is used in a different country (USA)."},
+       {"t":"Direct majority rule","c":false,"fb":"No — majority rule would give all power to the biggest group."}
+     ]}
+  ],
+  "mcq2":[
+    {"id":"q7","q":"Which party receives the mandate to try to form a government FIRST?","opts":[
+       {"t":"The smallest party, for balance","c":false,"fb":"No — smallest-first is not the rule."},
+       {"t":"The party with the largest share of votes","c":true,"fb":"Correct — the biggest winner gets the first chance."},
+       {"t":"The party chosen by the President's personal preference","c":false,"fb":"No — the rule is based on votes, not preference."},
+       {"t":"Whichever party asks first","c":false,"fb":"No — it follows a set order based on vote share."}
+     ]},
+    {"id":"q8","q":"What is the minimum number of MPs a single party needs to rule on its own?","opts":[
+       {"t":"50","c":false,"fb":"Too few — that's only one third of parliament."},
+       {"t":"75","c":false,"fb":"Very close, but you need more than half."},
+       {"t":"76","c":true,"fb":"Correct — 76 is the smallest number that is more than half of 150."},
+       {"t":"100","c":false,"fb":"More than needed — a two-thirds majority isn't required."}
+     ]},
+    {"id":"q9","q":"If the first-place party cannot find coalition partners, what happens NEXT?","opts":[
+       {"t":"New elections are called immediately","c":false,"fb":"No — there is one more step before that."},
+       {"t":"The mandate passes to the party in second place","c":true,"fb":"Correct — the second-place party then tries to form the government."},
+       {"t":"The President rules personally for a year","c":false,"fb":"No — that is not part of the system."},
+       {"t":"Parliament is dissolved for one year","c":false,"fb":"No — the system tries another party first."}
+     ]},
+    {"id":"q10","q":"Before it can start ruling, a newly formed government must receive...?","opts":[
+       {"t":"A signed referendum result","c":false,"fb":"No — referendums are for a different purpose."},
+       {"t":"A vote of confidence from parliament","c":true,"fb":"Correct — parliament must vote that it trusts the new government."},
+       {"t":"A majority in the Constitutional Court","c":false,"fb":"No — the court does not vote on governments."},
+       {"t":"Approval from the EU Commission","c":false,"fb":"No — this is a purely Slovak matter."}
+     ]},
+    {"id":"q11","q":"If parliament passes a vote of NO CONFIDENCE, what happens to the government?","opts":[
+       {"t":"Nothing — it keeps ruling normally","c":false,"fb":"No — the government cannot rule without parliament's trust."},
+       {"t":"The government must step down (falls)","c":true,"fb":"Correct — losing confidence means the government falls."},
+       {"t":"The President personally replaces the Prime Minister","c":false,"fb":"No — the President does not simply swap one PM for another."},
+       {"t":"Parliament becomes the government","c":false,"fb":"No — parliament and government are different branches."}
+     ]}
+  ],
+  "blanks":[
+    {"id":0,"pre":"Seats in parliament are shared out in","post":"to each party's vote share.","ans":["proportion","proportionally","proportion to","direct proportion"],"display":"proportion (proportionally)"},
+    {"id":1,"pre":"When no single party has a majority, several parties must form a","post":".","ans":["coalition","coalitions","koalicia","koalíciu"],"display":"coalition"},
+    {"id":2,"pre":"A newly formed government needs a vote of","post":"from parliament before it can start ruling.","ans":["confidence","trust","support"],"display":"confidence"},
+    {"id":3,"pre":"The mandate to try to form a government is given first to the party with the","post":"share of votes.","ans":["largest","biggest","most","highest","greatest"],"display":"largest (biggest)"},
+    {"id":4,"pre":"If parliament loses trust in the government, the government","post":".","ans":["falls","resigns","must resign","steps down","must step down","fall","resign"],"display":"falls (resigns / must step down)"},
+    {"id":5,"pre":"A party that fails to pass the electoral threshold receives","post":"seats in parliament.","ans":["0","zero","no","none"],"display":"0 (zero / no seats)"}
+  ],
+  "sequence":[
+    {"id":1,"text":"Citizens vote for political parties in the general elections."},
+    {"id":2,"text":"Votes are counted and the 5% electoral threshold is applied."},
+    {"id":3,"text":"The 150 seats are divided proportionally among the parties that passed the threshold."},
+    {"id":4,"text":"The party with the largest vote share receives the mandate to try to form a government."},
+    {"id":5,"text":"That party forms a coalition (if needed) to reach a majority of at least 76 MPs."},
+    {"id":6,"text":"Parliament votes confidence in the new government, and it begins to rule."}
+  ],
+  "short":[
+    {"id":0,"q":"Describe, step by step, what happens from election day until a new government actually begins to rule.",
+      "keywords":[["votes","voters","counted","ballots"],["threshold","5","five"],["seats"],["proportional","proportionally","proportion","percentage","share"],["mandate"],["largest","biggest","most","winning","first"],["coalition","partners","majority","76"],["confidence","approve","approval","trust"],["parliament","nrsr","mps"]],
+      "model":"1) Citizens vote for parties. 2) Votes are counted and the 5% threshold is applied. 3) Seats are divided proportionally among parties above the threshold. 4) The largest party receives the mandate. 5) It forms a coalition (if needed) to reach 76 MPs. 6) Parliament votes confidence; only then does the government start to rule."},
+    {"id":1,"q":"Explain what the 5% electoral threshold is and why it matters.",
+      "keywords":[["5","five","minimum"],["percent","percentage","share"],["votes"],["enter","into","get into"],["parliament","nrsr"],["below","less","under","fewer","don t pass","not pass","fail"],["seats","nothing","zero","0"]],
+      "model":"The electoral threshold is the minimum vote share (5%) a party needs to enter parliament. Parties that fall below 5% receive zero seats — so their votes do not turn into representation. It filters out the smallest parties and keeps parliament workable."},
+    {"id":2,"q":"What is a coalition, and when is it needed?",
+      "keywords":[["two","more","several","multiple"],["parties"],["together","combine","join","agree"],["majority","76","more than half"],["alone","own","single","one party","by itself"]],
+      "model":"A coalition is when two or more parties agree to govern together. It is needed when no single party has a majority (76+ MPs) on its own, so parties combine their MPs to reach that majority."},
+    {"id":3,"q":"Explain the difference between a MAJORITY and a COALITION.",
+      "keywords":[["majority"],["half","76","more than 75","seventy six"],["coalition"],["parties"],["together","combine","join"],["one party","single","alone","own"]],
+      "model":"A majority is more than half of all MPs (at least 76 of 150). A coalition is an arrangement where several parties work together — they pool their MPs to reach the majority when no single party has it alone."},
+    {"id":4,"q":"If parliament passes a vote of NO CONFIDENCE, what is the sequence of events that follows?",
+      "keywords":[["government","cabinet"],["falls","fall","resign","resigns","step down","must resign"],["new","next","another"],["form","build","create"],["parliament","mandate","mps","coalition"]],
+      "model":"The government loses parliament's trust and must resign (it falls). After that, a new government has to be formed — the mandate is given again, a new coalition is built, and parliament must once more vote confidence before the new government can rule."}
+  ],
+  "rule":[
+    {"id":"r1","stmt":"In Slovakia, general elections are held every 4 years.","ans":true,"fb":"True — every 4 years, just like the notes say."},
+    {"id":"r2","stmt":"A party needs at least 10% of the votes to enter the Slovak parliament.","ans":false,"fb":"False — the real threshold is lower (5%)."},
+    {"id":"r3","stmt":"The NRSR has exactly 150 members.","ans":true,"fb":"True — 150 MPs."},
+    {"id":"r4","stmt":"A single party with 60 MPs can rule Slovakia alone.","ans":false,"fb":"False — you need more than half of 150, which means at least 76 MPs."},
+    {"id":"r5","stmt":"The mandate to try to form a government always goes to the second-place party first.","ans":false,"fb":"False — the first-place (largest) party is tried first."},
+    {"id":"r6","stmt":"A coalition is only needed when no single party has a majority on its own.","ans":true,"fb":"True — that is exactly when parties must team up."},
+    {"id":"r7","stmt":"A newly formed government must still win a vote of confidence before it can rule.","ans":true,"fb":"True — without that approval, the government cannot start ruling."},
+    {"id":"r8","stmt":"If parliament votes no confidence, the government carries on as normal.","ans":false,"fb":"False — the government falls and must step down."}
+  ]
+};
+
+// ---------- utilities ----------
+function norm(s){
+  return (s||'').toString().toLowerCase().normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9\s]/g,' ')
+    .replace(/\s+/g,' ').trim();
+}
+function levenshtein(a,b){
+  if(a===b) return 0;
+  if(!a.length) return b.length;
+  if(!b.length) return a.length;
+  var m=[],i,j;
+  for(i=0;i<=b.length;i++) m[i]=[i];
+  for(j=0;j<=a.length;j++) m[0][j]=j;
+  for(i=1;i<=b.length;i++){
+    for(j=1;j<=a.length;j++){
+      if(b.charAt(i-1)===a.charAt(j-1)) m[i][j]=m[i-1][j-1];
+      else m[i][j]=Math.min(m[i-1][j-1]+1,m[i][j-1]+1,m[i-1][j]+1);
+    }
+  }
+  return m[b.length][a.length];
+}
+function fuzzyEqual(userAns, acceptedAns){
+  var nu=norm(userAns), nc=norm(acceptedAns);
+  if(!nu) return {ok:false,exact:false};
+  if(nu===nc) return {ok:true,exact:true};
+  // if answer is purely numeric, require exact
+  if(/^[0-9]+([.,][0-9]+)?$/.test(nc)) return {ok:false,exact:false};
+  // threshold by length
+  var th = nc.length<=4?1:(nc.length<=8?1:2);
+  var d = levenshtein(nu,nc);
+  if(d<=th) return {ok:true,exact:false};
+  return {ok:false,exact:false};
+}
+function keywordScore(userAns, keywordGroups){
+  var na = ' ' + norm(userAns) + ' ';
+  var found = 0;
+  keywordGroups.forEach(function(group){
+    var alts = (typeof group === 'string') ? [group] : group;
+    var matched = false;
+    for(var i=0;i<alts.length;i++){
+      var nk = norm(alts[i]);
+      if(!nk) continue;
+      if(na.indexOf(nk) >= 0){ matched = true; break; }
+    }
+    if(matched) found++;
+  });
+  return found / keywordGroups.length;
+}
+function shuffle(arr){
+  var a=arr.slice(),i,j,t;
+  for(i=a.length-1;i>0;i--){
+    j=Math.floor(Math.random()*(i+1));
+    t=a[i];a[i]=a[j];a[j]=t;
+  }
+  return a;
+}
+
+// ---------- scoring ----------
+var score=0, scored={}, answered=0, startTime=Date.now(), timerInterval;
+var MAX=80, ITEMS=44;
+
+timerInterval=setInterval(function(){
+  var e=Math.floor((Date.now()-startTime)/1000);
+  document.getElementById('tm').textContent='⏱ '+Math.floor(e/60)+':'+(e%60).toString().padStart(2,'0');
+},1000);
+
+function addPts(pts,id){
+  if(scored[id]) return;
+  scored[id]=true;
+  score += pts;
+  answered++;
+  document.getElementById('sv').textContent=score;
+  document.getElementById('pf').style.width=Math.min(Math.round(score/MAX*100),100)+'%';
+  document.getElementById('pt').textContent=answered+' / '+ITEMS;
+}
+function addAnswered(id){
+  if(scored[id]) return;
+  scored[id]=true;
+  answered++;
+  document.getElementById('pt').textContent=answered+' / '+ITEMS;
+}
+
+// ---------- vocab panel ----------
+function buildVocab(){
+  var g=document.getElementById('vocabGrid'), html='';
+  DATA.vocab.forEach(function(v){
+    html += '<div class="vi"><span class="ves">'+v.t+'</span><span class="ven">'+v.d+'</span></div>';
+  });
+  g.innerHTML=html;
+}
+function toggleV(){
+  document.getElementById('vt').classList.toggle('open');
+  document.getElementById('vb').classList.toggle('open');
+}
+
+// ---------- match logic ----------
+var selMatch=null, matchCounts={};
+function selM(el){
+  if(el.classList.contains('matched')) return;
+  var lang=el.dataset.lang, id=el.dataset.id;
+  var prefix=id.replace(/[0-9]/g,'');
+  if(!selMatch){ el.classList.add('selected'); selMatch={el:el,id:id,lang:lang,prefix:prefix}; return; }
+  if(selMatch.lang===lang){ selMatch.el.classList.remove('selected'); el.classList.add('selected'); selMatch={el:el,id:id,lang:lang,prefix:prefix}; return; }
+  if(selMatch.id===id){
+    [selMatch.el,el].forEach(function(e){ e.classList.remove('selected'); e.classList.add('matched'); });
+    addPts(2,'match_'+id);
+    matchCounts[prefix]=(matchCounts[prefix]||0)+1;
+    document.getElementById('matchScore').textContent='Matches: '+matchCounts[prefix]+' / 8';
+  } else {
+    [selMatch.el,el].forEach(function(e){ e.classList.remove('selected'); e.classList.add('wf'); setTimeout(function(){e.classList.remove('wf');},400); });
+  }
+  selMatch=null;
+}
+function buildMatch(){
+  var host=document.getElementById('matchRight');
+  var shuffled=shuffle(DATA.matches);
+  var html='<div class="mct">Definition</div>';
+  shuffled.forEach(function(m){
+    html += '<div class="mit" data-lang="r" data-id="'+m.id+'" onclick="selM(this)">'+m.right+'</div>';
+  });
+  host.innerHTML=html;
+}
+
+// ---------- MCQ logic ----------
+function chkMCQ(qid,btn,correct,fb){
+  var q=document.getElementById(qid);
+  if(q.dataset.answered) return;
+  q.dataset.answered='1';
+  q.querySelectorAll('.ob').forEach(function(b){ b.disabled=true; });
+  var f=document.getElementById(qid+'-fb');
+  if(correct){ btn.classList.add('correct'); f.className='fb ok'; addPts(2,qid); }
+  else { btn.classList.add('incorrect'); f.className='fb no'; addAnswered(qid); }
+  f.textContent=fb;
+}
+function buildMCQ(hostId, questions){
+  var host=document.getElementById(hostId), html='';
+  questions.forEach(function(q, qi){
+    html += '<div class="q" id="'+q.id+'">';
+    html += '<div class="qt"><span class="qn">Q'+(qi+1)+'.</span>'+q.q+'</div>';
+    html += '<div class="og">';
+    q.opts.forEach(function(opt, oi){
+      html += '<button class="ob" data-oi="'+oi+'" onclick="chkMCQBtn(this,\''+q.id+'\','+oi+')">'+opt.t+'</button>';
+    });
+    html += '</div>';
+    html += '<div class="fb" id="'+q.id+'-fb"></div>';
+    html += '</div>';
+  });
+  host.innerHTML=html;
+}
+function chkMCQBtn(btn, qid, oi){
+  var all = DATA.mcq1.concat(DATA.mcq2);
+  var q = all.find(function(x){ return x.id===qid; });
+  if(!q) return;
+  var opt = q.opts[oi];
+  chkMCQ(qid, btn, opt.c, opt.fb);
+}
+
+// ---------- blanks ----------
+function buildBlanks(){
+  var host=document.getElementById('blanksHost'), html='';
+  DATA.blanks.forEach(function(b, i){
+    html += '<div class="bi" id="bl'+i+'">';
+    html += '<div class="bs">';
+    html += '<span class="bn">Q'+(i+1)+'.</span>';
+    html += '<span>'+b.pre+'</span>';
+    html += '<input type="text" id="bi'+i+'" class="binp" placeholder="your answer">';
+    html += '<span>'+b.post+'</span>';
+    html += '<button class="bcb" onclick="chkBlank('+i+')">Check</button>';
+    html += '</div>';
+    html += '<span class="bar" id="br'+i+'"></span>';
+    html += '</div>';
+  });
+  host.innerHTML=html;
+  DATA.blanks.forEach(function(b,i){
+    document.getElementById('bi'+i).addEventListener('keydown', function(e){
+      if(e.key==='Enter'){ chkBlank(i); }
+    });
+  });
+}
+function chkBlank(i){
+  var inp=document.getElementById('bi'+i), rev=document.getElementById('br'+i);
+  if(inp.disabled) return;
+  var btn=document.querySelector('#bl'+i+' .bcb');
+  inp.disabled=true; btn.disabled=true;
+  var val=inp.value.trim();
+  var b=DATA.blanks[i];
+  var result={ok:false,exact:false};
+  for(var k=0;k<b.ans.length;k++){
+    var r=fuzzyEqual(val,b.ans[k]);
+    if(r.ok){ result=r; break; }
+  }
+  if(result.ok && result.exact){
+    inp.classList.add('correct');
+    rev.textContent='✓ Correct — '+b.display;
+    rev.className='bar show ok';
+    addPts(2,'blank_'+i);
+  } else if(result.ok){
+    inp.classList.add('fuzzy');
+    rev.textContent='≈ Accepted (small spelling slip) — correct spelling: '+b.display;
+    rev.className='bar show fuzzy';
+    addPts(2,'blank_'+i);
+  } else {
+    inp.classList.add('incorrect');
+    rev.textContent='✗ Correct answer: '+b.display;
+    rev.className='bar show no';
+    addAnswered('blank_'+i);
+  }
+}
+
+// ---------- sequence ----------
+var seqNext=1, seqMistakes={};
+function buildSeq(){
+  var host=document.getElementById('seqGrid');
+  var shuffled=shuffle(DATA.sequence);
+  var html='';
+  shuffled.forEach(function(s){
+    html += '<div class="seq-card" data-id="'+s.id+'" onclick="clickSeq(this,'+s.id+')">';
+    html += '<div class="seq-num">?</div>';
+    html += '<div>'+s.text+'</div>';
+    html += '</div>';
+  });
+  host.innerHTML=html;
+}
+function clickSeq(cardEl, stepId){
+  if(cardEl.classList.contains('done') || cardEl.classList.contains('done-partial')) return;
+  if(seqNext>DATA.sequence.length) return;
+  if(stepId===seqNext){
+    var mistakesHere = !!seqMistakes[seqNext];
+    if(mistakesHere){
+      cardEl.classList.add('done-partial');
+      cardEl.querySelector('.seq-num').textContent=seqNext;
+      addPts(1,'seq_'+stepId);
+    } else {
+      cardEl.classList.add('done');
+      cardEl.querySelector('.seq-num').textContent=seqNext;
+      addPts(2,'seq_'+stepId);
+    }
+    seqNext++;
+    var score=document.getElementById('seqScore');
+    var status=document.getElementById('seqStatus');
+    if(seqNext>DATA.sequence.length){
+      score.textContent='Sequence complete ✓';
+      status.innerHTML='<strong>All steps placed.</strong> Green = first try · yellow = solved after a mistake.';
+    } else {
+      score.textContent='Step '+seqNext+' of '+DATA.sequence.length;
+      var ordinal = ['','first','second','third','fourth','fifth','sixth'][seqNext] || ('step '+seqNext);
+      status.innerHTML='Click the step that happens <strong>'+ordinal+'</strong>.';
+    }
+  } else {
+    cardEl.classList.add('wrong');
+    seqMistakes[seqNext]=true;
+    setTimeout(function(){ cardEl.classList.remove('wrong'); },450);
+  }
+}
+
+// ---------- short answer ----------
+function buildShort(){
+  var host=document.getElementById('shortHost'), html='';
+  DATA.short.forEach(function(s, i){
+    html += '<div class="q" id="sh'+i+'">';
+    html += '<div class="tp"><span class="td">Question '+(i+1)+'</span>'+s.q+'</div>';
+    html += '<div class="tir">';
+    html += '<textarea class="tinp" id="si'+i+'" placeholder="Write your answer — a few sentences are enough"></textarea>';
+    html += '<button class="tcb" onclick="chkShort('+i+')">Check</button>';
+    html += '</div>';
+    html += '<div class="tf" id="sf'+i+'"></div>';
+    html += '<div class="tm-ans" id="sm'+i+'" style="display:none"></div>';
+    html += '</div>';
+  });
+  host.innerHTML=html;
+}
+function chkShort(i){
+  var ta=document.getElementById('si'+i), btn=document.querySelector('#sh'+i+' .tcb');
+  if(ta.disabled) return;
+  ta.disabled=true; btn.disabled=true;
+  var val=ta.value.trim();
+  var s=DATA.short[i];
+  var frac = keywordScore(val, s.keywords);
+  var fb=document.getElementById('sf'+i), model=document.getElementById('sm'+i);
+  if(val.length<4){
+    fb.className='tf miss';
+    fb.textContent='✗ Empty or too short.';
+    model.style.display='block';
+    model.textContent='Model answer: '+s.model;
+    addAnswered('short_'+i);
+    return;
+  }
+  if(frac>=0.6){
+    fb.className='tf full';
+    var pct=Math.round(frac*100);
+    fb.textContent='✓ Full credit ('+pct+'% of key ideas found) — 2 points.';
+    addPts(2,'short_'+i);
+    model.style.display='block';
+    model.textContent='Model answer: '+s.model;
+  } else if(frac>=0.3){
+    fb.className='tf partial';
+    var pct2=Math.round(frac*100);
+    fb.textContent='⚡ Partial credit ('+pct2+'% of key ideas found) — 1 point. Compare with the model answer below.';
+    addPts(1,'short_'+i);
+    model.style.display='block';
+    model.textContent='Model answer: '+s.model;
+  } else {
+    fb.className='tf miss';
+    fb.textContent='✗ Too few of the key ideas. 0 points.';
+    addAnswered('short_'+i);
+    model.style.display='block';
+    model.textContent='Model answer: '+s.model;
+  }
+}
+
+// ---------- rule / T-F ----------
+function buildRule(){
+  var host=document.getElementById('ruleHost'), html='';
+  DATA.rule.forEach(function(r, i){
+    html += '<div class="ait" id="'+r.id+'">';
+    html += '<div class="aw">'+(i+1)+'. '+r.stmt+'</div>';
+    html += '<div class="ao">';
+    html += '<button class="aob" onclick="chkRule(this,\''+r.id+'\',true)">True</button>';
+    html += '<button class="aob" onclick="chkRule(this,\''+r.id+'\',false)">False</button>';
+    html += '</div>';
+    html += '<div class="fb" id="'+r.id+'-fb" style="margin-top:7px;font-size:11px"></div>';
+    html += '</div>';
+  });
+  host.innerHTML=html;
+}
+function chkRule(btn, rid, userSaid){
+  var host=document.getElementById(rid);
+  if(host.dataset.answered) return;
+  host.dataset.answered='1';
+  host.querySelectorAll('.aob').forEach(function(b){ b.disabled=true; });
+  var r=DATA.rule.find(function(x){ return x.id===rid; });
+  var ok=(userSaid===r.ans);
+  var fb=document.getElementById(rid+'-fb');
+  if(ok){ btn.classList.add('correct'); fb.className='fb ok'; addPts(1,'rule_'+rid); }
+  else { btn.classList.add('incorrect'); fb.className='fb no'; addAnswered('rule_'+rid); }
+  fb.textContent=r.fb;
+}
+
+// ---------- results ----------
+function finish(){
+  clearInterval(timerInterval);
+  var e=Math.floor((Date.now()-startTime)/1000);
+  var time=Math.floor(e/60)+':'+(e%60).toString().padStart(2,'0');
+  var pct=Math.round(score/MAX*100);
+  var configs=[
+    {min:90,emoji:'🏆',title:'Outstanding!',msg:'Excellent grasp of the rules and the whole process.'},
+    {min:75,emoji:'🌟',title:'Well done!',msg:'Strong understanding overall — review the weak spots and you will master it.'},
+    {min:55,emoji:'👍',title:'Good effort!',msg:'You know the basics. Re-read the sections on mandate, coalition and vote of confidence.'},
+    {min:0,emoji:'📚',title:'Keep practising!',msg:'Go back to the notes and focus on the order of events from election day to the government ruling.'}
+  ];
+  var cfg;
+  for(var i=0;i<configs.length;i++){ if(pct>=configs[i].min){ cfg=configs[i]; break; } }
+  document.getElementById('re').textContent=cfg.emoji;
+  document.getElementById('rt').textContent=cfg.title;
+  document.getElementById('rsc').textContent=score+' / '+MAX;
+  document.getElementById('rm').textContent=cfg.msg;
+  document.getElementById('stP').textContent=score+' pts';
+  document.getElementById('stPct').textContent=pct+'%';
+  document.getElementById('stT').textContent=time;
+  document.getElementById('rsd').classList.add('show');
+  document.getElementById('subb').disabled=true;
+  document.getElementById('rsd').scrollIntoView({behavior:'smooth'});
+  if(pct>=90) confetti();
+}
+function confetti(){
+  var cols=['#f59e0b','#0ea5e9','#16a34a','#ef4444','#a855f7','#ec4899'];
+  for(var i=0;i<80;i++){
+    var p=document.createElement('div');
+    p.className='cfp';
+    p.style.cssText='left:'+Math.random()*100+'vw;background:'+cols[Math.floor(Math.random()*cols.length)]+';'
+      +'width:'+(6+Math.random()*9)+'px;height:'+(6+Math.random()*9)+'px;'
+      +'border-radius:'+(Math.random()>.5?'50%':'2px')+';'
+      +'animation-duration:'+(2+Math.random()*3)+'s;animation-delay:'+(Math.random()*1.5)+'s;'
+      +'--drift:'+(Math.random()-.5)*200+'px';
+    document.body.appendChild(p);
+    setTimeout(function(){p.remove();},6000);
+  }
+}
+
+// ---------- init ----------
+buildVocab();
+buildMatch();
+buildMCQ('mcq1Host', DATA.mcq1);
+buildMCQ('mcq2Host', DATA.mcq2);
+buildBlanks();
+buildSeq();
+buildShort();
+buildRule();
+</script>
+</body>
+</html>
