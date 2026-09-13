@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edko — Prehľad výsledkov</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sea:#0ea5e9; --sun:#f59e0b; --olive:#16a34a; --red:#ef4444;
+  --bg:#f0f9ff; --text:#1e293b; --muted:#64748b; --border:#e2e8f0;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+/* Login */
+#login-gate {
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 40%,#a78bfa 70%,#c4b5fd 100%);
+}
+.login-box {
+  background:white; border-radius:20px; padding:40px 32px; text-align:center;
+  max-width:360px; width:90%; box-shadow:0 8px 30px rgba(0,0,0,.15);
+}
+.login-box .lock { font-size:48px; margin-bottom:12px; }
+.login-box h1 { font-family:'Lora',serif; font-style:italic; font-size:1.6rem; margin-bottom:6px; }
+.login-box p { font-size:14px; color:var(--muted); margin-bottom:20px; }
+.login-box input {
+  width:100%; padding:12px 16px; border:2px solid var(--border); border-radius:12px;
+  font-family:'Nunito',sans-serif; font-size:16px; text-align:center; outline:none;
+}
+.login-box input:focus { border-color:#8b5cf6; }
+.login-box .btn {
+  display:block; width:100%; margin-top:12px; padding:12px; background:#8b5cf6; color:white;
+  border:none; border-radius:12px; font-family:'Nunito',sans-serif; font-size:16px;
+  font-weight:800; cursor:pointer;
+}
+.login-box .btn:hover { background:#7c3aed; }
+.login-box .error { color:var(--red); font-size:13px; font-weight:700; margin-top:10px; display:none; }
+#content { display:none; }
+
+/* Header */
+.header {
+  background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 40%,#a78bfa 70%,#c4b5fd 100%);
+  padding:36px 24px 32px; text-align:center; color:white;
+}
+.header h1 { font-family:'Lora',serif; font-style:italic; font-size:2rem; margin-bottom:8px; }
+.header p { font-size:15px; opacity:.9; max-width:500px; margin:0 auto; }
+
+/* Dashboard */
+.dash { max-width:700px; margin:-20px auto 40px; padding:0 16px; position:relative; z-index:1; }
+
+.empty-state {
+  background:white; border-radius:16px; padding:48px 24px; text-align:center;
+  box-shadow:0 2px 12px rgba(0,0,0,.06); border:2px solid var(--border); margin-top:16px;
+}
+.empty-state .icon { font-size:48px; margin-bottom:12px; }
+.empty-state p { color:var(--muted); }
+
+/* Quiz group */
+.quiz-group {
+  background:white; border-radius:16px; margin-bottom:16px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06); border:2px solid var(--border); overflow:hidden;
+}
+.quiz-header {
+  padding:20px 24px; cursor:pointer; display:flex; align-items:center; gap:14px;
+  transition:background .15s;
+}
+.quiz-header:hover { background:#f8fafc; }
+.quiz-emoji { font-size:32px; flex-shrink:0; }
+.quiz-info { flex:1; }
+.quiz-info h2 { font-size:16px; font-weight:800; margin-bottom:2px; }
+.quiz-meta { font-size:12px; color:var(--muted); }
+.quiz-score {
+  font-size:20px; font-weight:900; padding:6px 14px; border-radius:10px; flex-shrink:0;
+}
+.quiz-score.good { background:#dcfce7; color:#16a34a; }
+.quiz-score.ok { background:#fef3c7; color:#d97706; }
+.quiz-score.bad { background:#fee2e2; color:#dc2626; }
+.quiz-toggle { font-size:18px; color:var(--muted); flex-shrink:0; transition:transform .2s; }
+.quiz-group.open .quiz-toggle { transform:rotate(180deg); }
+
+/* Attempt */
+.attempts { display:none; border-top:2px solid var(--border); }
+.quiz-group.open .attempts { display:block; }
+.attempt { border-top:1px solid var(--border); }
+.attempt:first-child { border-top:none; }
+.attempt-header {
+  padding:12px 24px; display:flex; align-items:center; gap:12px; cursor:pointer;
+  font-size:13px; color:var(--muted); transition:background .15s;
+}
+.attempt-header:hover { background:#f8fafc; }
+.attempt-header .date { flex:1; }
+.attempt-header .score { font-weight:800; }
+.attempt-header .score.good { color:#16a34a; }
+.attempt-header .score.ok { color:#d97706; }
+.attempt-header .score.bad { color:#dc2626; }
+.attempt-detail { display:none; padding:0 24px 16px; }
+.attempt.open .attempt-detail { display:block; }
+
+/* Question rows */
+.qrow {
+  display:flex; gap:10px; padding:8px 0; border-bottom:1px solid #f1f5f9;
+  font-size:13px; align-items:flex-start;
+}
+.qrow:last-child { border-bottom:none; }
+.qrow .status { font-size:16px; flex-shrink:0; width:24px; text-align:center; margin-top:1px; }
+.qrow .qtext { flex:1; line-height:1.4; }
+.qrow .qtext .label { color:var(--muted); font-size:11px; display:block; margin-top:2px; }
+.qrow .qtext .user-ans { font-weight:700; }
+.qrow .qtext .correct-ans { color:var(--olive); font-size:12px; }
+.qrow .qtext .wrong-ans { color:var(--red); font-size:12px; }
+
+.back-link {
+  display:inline-block; margin:20px 0 0; padding:10px 20px; background:white;
+  border-radius:12px; text-decoration:none; color:var(--text); font-weight:700;
+  border:2px solid var(--border); font-size:14px;
+}
+.back-link:hover { border-color:#8b5cf6; }
+
+.clear-btn {
+  display:inline-block; margin:8px 0 0 12px; padding:10px 20px; background:white;
+  border-radius:12px; border:2px solid var(--border); font-size:14px; cursor:pointer;
+  font-family:'Nunito',sans-serif; font-weight:700; color:var(--red);
+}
+.clear-btn:hover { border-color:var(--red); }
+
+.footer { text-align:center; padding:20px; font-size:12px; color:var(--muted); }
+</style>
+</head>
+<body>
+
+<div id="login-gate">
+  <div class="login-box">
+    <div class="lock">👨‍👩‍👦</div>
+    <h1>Rodičovský prehľad</h1>
+    <p>Zadaj rodičovské heslo</p>
+    <input type="password" id="pwd" placeholder="Heslo..." autofocus>
+    <button class="btn" onclick="tryLogin()">Vstúpiť</button>
+    <div class="error" id="err">Zlé heslo!</div>
+  </div>
+</div>
+
+<div id="content">
+<div class="header">
+  <h1>Edkove výsledky</h1>
+  <p>Prehľad všetkých kvízov a worksheetov</p>
+</div>
+
+<div class="dash" id="dash"></div>
+
+<div style="max-width:700px;margin:0 auto;padding:0 16px 40px;">
+  <a class="back-link" href="index.html">← Späť na učenie</a>
+  <button class="clear-btn" onclick="clearResults()">Vymazať históriu</button>
+</div>
+
+<div class="footer">Rodičovský dashboard</div>
+</div>
+
+<script>
+var PARENT_PASS = 'rodic123';
+
+function tryLogin() {
+  if (document.getElementById('pwd').value === PARENT_PASS) {
+    sessionStorage.setItem('rodic_ok', '1');
+    show();
+  } else {
+    document.getElementById('err').style.display = 'block';
+    document.getElementById('pwd').value = '';
+    document.getElementById('pwd').focus();
+  }
+}
+function show() {
+  document.getElementById('login-gate').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+  renderDashboard();
+}
+document.getElementById('pwd').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') tryLogin();
+});
+if (sessionStorage.getItem('rodic_ok') === '1') show();
+
+function pctClass(pct) {
+  if (pct >= 80) return 'good';
+  if (pct >= 50) return 'ok';
+  return 'bad';
+}
+
+function fmtDate(iso) {
+  var d = new Date(iso);
+  return d.toLocaleDateString('sk-SK') + ' ' + d.toLocaleTimeString('sk-SK', {hour:'2-digit', minute:'2-digit'});
+}
+
+function renderDashboard() {
+  var all = [];
+  try { all = JSON.parse(localStorage.getItem('edko_results') || '[]'); } catch(e) {}
+
+  var dash = document.getElementById('dash');
+
+  if (!all.length) {
+    dash.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>Zatiaľ žiadne výsledky.<br>Objavia sa tu, keď Edko dokončí kvíz alebo worksheet.</p></div>';
+    return;
+  }
+
+  // Group by quiz ID
+  var groups = {};
+  all.forEach(function(r) {
+    var key = r.id || r.title;
+    if (!groups[key]) groups[key] = { title: r.title, attempts: [] };
+    groups[key].attempts.push(r);
+  });
+
+  var html = '';
+  Object.keys(groups).forEach(function(key, gi) {
+    var g = groups[key];
+    var latest = g.attempts[g.attempts.length - 1];
+    var bestPct = Math.max.apply(null, g.attempts.map(function(a) { return a.pct || 0; }));
+    var emoji = bestPct >= 80 ? '🌟' : bestPct >= 50 ? '📝' : '📕';
+
+    html += '<div class="quiz-group" id="qg' + gi + '">';
+    html += '<div class="quiz-header" onclick="toggleGroup(\'qg' + gi + '\')">';
+    html += '<div class="quiz-emoji">' + emoji + '</div>';
+    html += '<div class="quiz-info"><h2>' + esc(g.title) + '</h2>';
+    html += '<div class="quiz-meta">' + g.attempts.length + ' pokus' + (g.attempts.length > 1 ? 'y' : '') + ' &middot; naposledy ' + fmtDate(latest.date) + '</div></div>';
+    html += '<div class="quiz-score ' + pctClass(bestPct) + '">' + bestPct + '%</div>';
+    html += '<div class="quiz-toggle">▼</div>';
+    html += '</div>';
+
+    html += '<div class="attempts">';
+    g.attempts.slice().reverse().forEach(function(a, ai) {
+      var aid = 'qg' + gi + 'a' + ai;
+      html += '<div class="attempt" id="' + aid + '">';
+      html += '<div class="attempt-header" onclick="toggleAttempt(\'' + aid + '\')">';
+      html += '<span class="date">' + fmtDate(a.date) + '</span>';
+      html += '<span class="score ' + pctClass(a.pct) + '">' + (a.score || 0) + ' b &middot; ' + (a.pct || 0) + '%</span>';
+      html += '</div>';
+
+      html += '<div class="attempt-detail">';
+      if (a.questions && a.questions.length) {
+        a.questions.forEach(function(q) {
+          var icon = q.isCorrect ? '✅' : '❌';
+          html += '<div class="qrow">';
+          html += '<div class="status">' + icon + '</div>';
+          html += '<div class="qtext">' + esc(q.q);
+          if (q.isCorrect) {
+            html += '<span class="label"><span class="user-ans">' + esc(q.userAnswer) + '</span></span>';
+          } else {
+            html += '<span class="label">';
+            if (q.userAnswer) html += '<span class="wrong-ans">Odpoveď: ' + esc(q.userAnswer) + '</span> ';
+            if (q.correctAnswer) html += '<span class="correct-ans">Správne: ' + esc(q.correctAnswer) + '</span>';
+            html += '</span>';
+          }
+          html += '</div></div>';
+        });
+      } else {
+        html += '<div style="color:var(--muted);font-size:13px;padding:8px 0;">Detaily otázok nie sú dostupné pre tento pokus.</div>';
+      }
+      html += '</div></div>';
+    });
+    html += '</div></div>';
+  });
+
+  dash.innerHTML = html;
+}
+
+function toggleGroup(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleAttempt(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function esc(s) {
+  if (!s) return '';
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function clearResults() {
+  if (confirm('Naozaj vymazať všetky výsledky?')) {
+    localStorage.removeItem('edko_results');
+    renderDashboard();
+  }
+}
+</script>
+</body>
+</html>
