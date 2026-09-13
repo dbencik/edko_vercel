@@ -202,14 +202,7 @@ function loadExisting() {
       item.className = 'file-item';
       item.innerHTML = '<span style="font-size:16px">📄</span>' +
         '<span class="name">' + esc(name) + ' <span style="color:var(--muted);font-weight:400;font-size:11px">(' + formatSize(b.size || 0) + ')</span></span>' +
-        '<button class="del-btn" title="Vymazať">✕</button>';
-      item.querySelector('.del-btn').addEventListener('click', function() {
-        if (!confirm('Vymazať ' + name + '?')) return;
-        this.textContent = '...';
-        fetch('/api/upload?url=' + encodeURIComponent(b.url), { method: 'DELETE' })
-          .then(function(r) { if (r.ok) loadExisting(); })
-          .catch(function() { alert('Chyba pri mazaní'); });
-      });
+        '';
       el.appendChild(item);
     });
   }).catch(function() {
