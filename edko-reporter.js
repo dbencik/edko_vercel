@@ -121,14 +121,29 @@
   /* ---- persist ---- */
   function saveResult(result) {
     if (!result) return;
+
+    /* Save to localStorage as backup */
     try {
       var all = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
       all.push(result);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
-      console.log('[edko-reporter] Saved result:', result.title, result.pct + '%');
-    } catch (e) {
-      console.warn('[edko-reporter] Save failed:', e);
-    }
+    } catch (e) {}
+
+    /* Send to server (Vercel Blob) so parents can see from any device */
+    try {
+      fetch('/api/results', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(result)
+      }).then(function (r) {
+        if (r.ok) console.log('[edko-reporter] Result saved to server.');
+        else console.warn('[edko-reporter] Server save failed:', r.status);
+      }).catch(function (e) {
+        console.warn('[edko-reporter] Server save error:', e);
+      });
+    } catch (e) {}
+
+    console.log('[edko-reporter] Saved result:', result.title, result.pct + '%');
   }
 
   /* ---- watch for results panel ---- */

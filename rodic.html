@@ -193,9 +193,21 @@ function fmtDate(iso) {
 }
 
 function renderDashboard() {
-  var all = [];
-  try { all = JSON.parse(localStorage.getItem('edko_results') || '[]'); } catch(e) {}
+  var dash = document.getElementById('dash');
+  dash.innerHTML = '<div class="empty-state"><div class="icon">⏳</div><p>Načítavam výsledky...</p></div>';
 
+  fetch('/api/results')
+    .then(function(r) { return r.json(); })
+    .then(function(all) { renderResults(all); })
+    .catch(function(err) {
+      /* Fallback to localStorage */
+      var all = [];
+      try { all = JSON.parse(localStorage.getItem('edko_results') || '[]'); } catch(e) {}
+      renderResults(all);
+    });
+}
+
+function renderResults(all) {
   var dash = document.getElementById('dash');
 
   if (!all.length) {
@@ -281,7 +293,9 @@ function esc(s) {
 function clearResults() {
   if (confirm('Naozaj vymazať všetky výsledky?')) {
     localStorage.removeItem('edko_results');
-    renderDashboard();
+    fetch('/api/results', { method: 'DELETE' })
+      .then(function() { renderDashboard(); })
+      .catch(function() { renderDashboard(); });
   }
 }
 </script>
