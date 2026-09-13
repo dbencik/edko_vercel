@@ -63,6 +63,15 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
 .file-item .status.ok { color:var(--olive); }
 .file-item .status.err { color:var(--red); }
 .file-item .status.uploading { color:var(--sun); }
+.del-btn {
+  background:none; border:none; color:var(--muted); cursor:pointer;
+  font-size:16px; padding:4px 8px; border-radius:6px; transition:all .15s;
+}
+.del-btn:hover { color:var(--red); background:#fee2e2; }
+.section-title {
+  font-size:13px; font-weight:800; color:var(--muted); text-transform:uppercase;
+  letter-spacing:.5px; margin:20px 0 8px;
+}
 
 .note {
   background:#fef3c7; border-radius:12px; padding:14px 18px; margin-top:16px;
@@ -98,6 +107,9 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
   </div>
 
   <div class="file-list" id="fileList"></div>
+
+  <div class="section-title">Nahraté súbory</div>
+  <div class="file-list" id="existingFiles"><div style="color:var(--muted);font-size:13px;">Načítavam...</div></div>
 
   <div class="note">
     Nahraté súbory sa automaticky objavia v zdieľanom priečinku na iCloude.
@@ -157,6 +169,7 @@ function uploadFile(file) {
   .then(function(data) {
     statusEl.textContent = 'Nahraté!';
     statusEl.className = 'status ok';
+    loadExisting();
   })
   .catch(function(err) {
     statusEl.textContent = 'Chyba';
@@ -176,6 +189,34 @@ function esc(s) {
   d.textContent = s;
   return d.innerHTML;
 }
+
+/* Load and display existing uploads */
+function loadExisting() {
+  fetch('/api/upload').then(function(r){ return r.json(); }).then(function(blobs) {
+    var el = document.getElementById('existingFiles');
+    if (!blobs.length) { el.innerHTML = '<div style="color:var(--muted);font-size:13px;">Žiadne súbory.</div>'; return; }
+    el.innerHTML = '';
+    blobs.forEach(function(b) {
+      var name = (b.pathname || '').replace('uploads/', '');
+      var item = document.createElement('div');
+      item.className = 'file-item';
+      item.innerHTML = '<span style="font-size:16px">📄</span>' +
+        '<span class="name">' + esc(name) + ' <span style="color:var(--muted);font-weight:400;font-size:11px">(' + formatSize(b.size || 0) + ')</span></span>' +
+        '<button class="del-btn" title="Vymazať">✕</button>';
+      item.querySelector('.del-btn').addEventListener('click', function() {
+        if (!confirm('Vymazať ' + name + '?')) return;
+        this.textContent = '...';
+        fetch('/api/upload?url=' + encodeURIComponent(b.url), { method: 'DELETE' })
+          .then(function(r) { if (r.ok) loadExisting(); })
+          .catch(function() { alert('Chyba pri mazaní'); });
+      });
+      el.appendChild(item);
+    });
+  }).catch(function() {
+    document.getElementById('existingFiles').innerHTML = '<div style="color:var(--muted);font-size:13px;">Nepodarilo sa načítať.</div>';
+  });
+}
+loadExisting();
 </script>
 </body>
 </html>
