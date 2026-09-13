@@ -169,25 +169,22 @@ PYEOF
   fi
 fi
 
-# --- Step 4: Download uploads from Vercel Blob to iCloud ---
-BLOB_TOKEN_FILE="$REPO_DIR/.blob-token"
-if [ -f "$BLOB_TOKEN_FILE" ]; then
-  BLOB_TOKEN="$(cat "$BLOB_TOKEN_FILE")"
-  mkdir -p "$ICLOUD_UPLOADS"
+# --- Step 4: Download uploads from Vercel to iCloud ---
+mkdir -p "$ICLOUD_UPLOADS"
 
-  # List blobs via Vercel Blob API
-  BLOBS_JSON="$(curl -s "https://blob.vercel-storage.com?prefix=uploads/" \
-    -H "Authorization: Bearer $BLOB_TOKEN" 2>/dev/null || echo '{}')"
+# List uploads via our API (no token needed)
+UPLOADS_JSON="$(curl -s "https://edko.vercel.app/api/upload" 2>/dev/null || echo '[]')"
 
-  # Download new files
-  echo "$BLOBS_JSON" | python3 -c "
+echo "$UPLOADS_JSON" | python3 -c "
 import sys, json, os, urllib.request
 
 data = json.load(sys.stdin)
 uploads_dir = '$ICLOUD_UPLOADS'
 downloaded = 0
 
-for blob in data.get('blobs', []):
+# data is an array of blob objects
+blobs = data if isinstance(data, list) else []
+for blob in blobs:
     url = blob.get('url', '')
     name = blob.get('pathname', '').replace('uploads/', '', 1)
     if not name:
@@ -205,7 +202,4 @@ if downloaded == 0:
     print('No new uploads to download.')
 else:
     print(f'Downloaded {downloaded} new file(s) to iCloud.')
-" 2>&1 || echo "Upload download skipped (API error)."
-else
-  echo "No .blob-token found — skipping upload download."
-fi
+" 2>&1 || echo "Upload download skipped."
