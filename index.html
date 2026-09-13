@@ -47,27 +47,30 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
 
 /* Cards */
 .cards {
-  max-width: 600px;
+  max-width: 800px;
   margin: -24px auto 40px;
   padding: 0 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   position: relative;
   z-index: 1;
 }
+@media (max-width: 600px) {
+  .cards { grid-template-columns: 1fr; }
+}
 .card {
   background: white;
-  border-radius: 16px;
-  padding: 24px;
+  border-radius: 14px;
+  padding: 16px;
   text-decoration: none;
   color: var(--text);
   box-shadow: 0 2px 12px rgba(0,0,0,.06);
   border: 2px solid var(--border);
   transition: all .2s ease;
   display: flex;
-  align-items: center;
-  gap: 18px;
+  flex-direction: column;
+  gap: 10px;
 }
 .card:hover {
   border-color: var(--sea);
@@ -75,14 +78,14 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
   transform: translateY(-2px);
 }
 .card-icon {
-  font-size: 40px;
+  font-size: 28px;
   flex-shrink: 0;
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 14px;
+  border-radius: 12px;
 }
 .card-icon.video { background: #fee2e2; }
 .card-icon.exam { background: #dbeafe; }
@@ -91,19 +94,24 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
 .card-icon.worksheet { background: #d1fae5; }
 .card-icon.upload { background: #e0e7ff; }
 .card-icon.parent { background: #fce7f3; }
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .card-body h2 {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 800;
-  margin-bottom: 4px;
+  line-height: 1.3;
 }
 .card-body p {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--muted);
-  line-height: 1.4;
+  line-height: 1.3;
 }
 .arrow {
   margin-left: auto;
-  font-size: 20px;
+  font-size: 16px;
   color: var(--muted);
   flex-shrink: 0;
   transition: transform .2s;
@@ -247,93 +255,83 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
 <div class="cards">
 
   <a class="card" href="worksheet_history_enlightenment_565-567.html">
-    <div class="card-icon worksheet">✍️</div>
+    <div class="card-top"><div class="card-icon worksheet">✍️</div><span class="arrow">→</span></div>
     <div class="card-body">
       <h2>The Enlightenment in Europe — Interactive Worksheet (pp. 565–567)</h2>
       <p>Interaktivny pracovny list</p>
     </div>
-    <span class="arrow">→</span>
   </a>
 
   <a class="card" href="women-salons-and-the-enlightened-despots-interactive-worksheet-pp.-568-571.html">
-    <div class="card-icon worksheet">✍️</div>
+    <div class="card-top"><div class="card-icon worksheet">✍️</div><span class="arrow">→</span></div>
     <div class="card-body">
       <h2>Women, Salons and the Enlightened Despots — Interactive Worksheet (pp. 568–571)</h2>
       <p>Interaktivny pracovny list</p>
     </div>
-    <span class="arrow">→</span>
   </a>
 
   <a class="card" href="understanding-test-the-enlightenment-section-1-pp.-564-571.html">
-    <div class="card-icon exam">📝</div>
+    <div class="card-top"><div class="card-icon exam">📝</div><span class="arrow">→</span></div>
     <div class="card-body">
       <h2>Understanding Test — The Enlightenment, Section 1 (pp. 564–571)</h2>
       <p>Otestuj si svoje vedomosti</p>
     </div>
-    <span class="arrow">→</span>
   </a>
 
   <a class="card" href="kviz_tato-kniha-zabija_kapitola-2.html">
-    <div class="card-icon exam">📝</div>
+    <div class="card-top"><div class="card-icon exam">📝</div><span class="arrow">→</span></div>
     <div class="card-body">
       <h2>Táto kniha zabíja — 2. kapitola · čítanie s porozumením</h2>
       <p>Otestuj si svoje vedomosti</p>
     </div>
-    <span class="arrow">→</span>
   </a>
 
   <a class="card" href="drill_enlightenment_terms_section1.html">
-    <div class="card-icon worksheet">✍️</div>
+    <div class="card-top"><div class="card-icon worksheet">✍️</div><span class="arrow">→</span></div>
     <div class="card-body">
       <h2>Term Drill — The Enlightenment, Section 1 (pp. 564–571)</h2>
       <p>Interaktivny pracovny list</p>
     </div>
-    <span class="arrow">→</span>
   </a>
 
   <a class="card" href="slovak_elections_quiz.html">
-    <div class="card-icon exam">📝</div>
+    <div class="card-top"><div class="card-icon exam">📝</div><span class="arrow">→</span></div>
     <div class="card-body">
       <h2>Slovak Elections — Interactive Quiz</h2>
       <p>Otestuj si svoje vedomosti</p>
     </div>
-    <span class="arrow">→</span>
   </a>
 
   <a class="card" href="endocrine_system_worksheet.html">
-    <div class="card-icon worksheet">✍️</div>
+    <div class="card-top"><div class="card-icon worksheet">✍️</div><span class="arrow">→</span></div>
     <div class="card-body">
       <h2>Endocrine System — Interactive Worksheet</h2>
       <p>Interaktivny pracovny list</p>
     </div>
-    <span class="arrow">→</span>
   </a>
 
   <a class="card" href="history_scientific-revolution.html">
-    <div class="card-icon exam">📝</div>
+    <div class="card-top"><div class="card-icon exam">📝</div><span class="arrow">→</span></div>
     <div class="card-body">
       <h2>The Scientific Revolution — MCQ Quiz</h2>
       <p>Otestuj si svoje vedomosti</p>
     </div>
-    <span class="arrow">→</span>
   </a>
 
   <a class="card" href="exam_biology_reproductive_system.html">
-    <div class="card-icon exam">📝</div>
+    <div class="card-top"><div class="card-icon exam">📝</div><span class="arrow">→</span></div>
     <div class="card-body">
       <h2>Biology Exam — Human Reproductive System</h2>
       <p>Otestuj si svoje vedomosti</p>
     </div>
-    <span class="arrow">→</span>
   </a>
 
   <a class="card" href="flashcards_reproductive_system.html">
-    <div class="card-icon flash">🃏</div>
+    <div class="card-top"><div class="card-icon flash">🃏</div><span class="arrow">→</span></div>
     <div class="card-body">
       <h2>Reproductive System Flashcards</h2>
       <p>Precvic si pojmy pomocou karticiek</p>
     </div>
-    <span class="arrow">→</span>
   </a>
 
 </div>

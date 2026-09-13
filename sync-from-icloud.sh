@@ -99,12 +99,11 @@ else
     cat >> "$CARDS_TMP" <<CARD_END
 
   <a class="card" href="$file">
-    <div class="card-icon $icon_class">$icon</div>
+    <div class="card-top"><div class="card-icon $icon_class">$icon</div><span class="arrow">→</span></div>
     <div class="card-body">
       <h2>$title</h2>
       <p>$desc</p>
     </div>
-    <span class="arrow">→</span>
   </a>
 CARD_END
   done
