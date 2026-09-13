@@ -54,8 +54,10 @@ for f in "$REPO_DIR"/*.html; do
 done
 
 if [ "$CHANGED" -eq 0 ]; then
-  echo "No changes detected."
-else
+  echo "No HTML changes detected."
+fi
+
+if [ "$CHANGED" -eq 1 ]; then
   # --- Step 3: Rebuild index.html card section ---
   # Collect worksheet HTML files (exclude utility pages), sorted newest first
   CARD_FILES=()
