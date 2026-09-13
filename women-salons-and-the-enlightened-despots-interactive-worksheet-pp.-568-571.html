@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Women, Salons and the Enlightened Despots — Interactive Worksheet (pp. 568–571)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sun:#f59e0b; --sea:#0ea5e9; --olive:#16a34a;
+  --bg:#f0f9ff; --text:#1e293b; --muted:#64748b; --border:#e2e8f0;
+  --correct:#dcfce7; --cb:#16a34a;
+  --wrong:#fee2e2;  --wb:#ef4444;
+  --partial:#fef9c3;--pb:#ca8a04;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);
+     font-family:'Nunito',-apple-system,BlinkMacSystemFont,sans-serif;}
+h1{font-family:'Lora',Georgia,serif;font-style:italic;margin:6px 0;font-size:32px;}
+
+/* header */
+.ph{background:linear-gradient(135deg,#0369a1 0%,#0284c7 40%,#0ea5e9 70%,#38bdf8 100%);
+    overflow:hidden;position:relative;color:white;padding:26px 24px 22px;}
+.ph::before{content:'🏛️';position:absolute;font-size:160px;opacity:.07;bottom:-20px;right:-10px;}
+.ub{display:inline-block;background:rgba(255,255,255,.22);padding:4px 12px;border-radius:20px;
+    font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;}
+.sub{font-size:13px;font-weight:700;opacity:.9;}
+.ops{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;}
+.op{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);
+    padding:4px 10px;border-radius:7px;font-size:11px;font-weight:800;}
+
+/* score bar */
+.sb{background:white;border-bottom:2px solid var(--border);padding:10px 20px;
+    display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;}
+.sl{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.sv{font-size:20px;font-weight:900;color:var(--sea);}
+.pw{flex:1;background:#e2e8f0;border-radius:6px;height:8px;overflow:hidden;}
+.pf{height:100%;background:linear-gradient(90deg,var(--sea),var(--sun));border-radius:6px;transition:width .5s;width:0%;}
+.pt{font-size:12px;font-weight:800;color:var(--muted);}
+.tm{font-size:12px;font-weight:700;color:#92400e;background:#fef3c7;padding:3px 8px;border-radius:6px;}
+
+.main{max-width:940px;margin:0 auto;padding:22px 20px 70px;}
+
+/* reference panel */
+.vr{background:#fffbeb;border:2px solid var(--sun);border-radius:12px;margin-bottom:24px;}
+.vt{width:100%;padding:12px 18px;background:none;border:none;cursor:pointer;
+    font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#92400e;
+    display:flex;align-items:center;justify-content:space-between;}
+.arr{transition:transform .3s;font-size:11px;}
+.vt.open .arr{transform:rotate(180deg);}
+.vb{display:none;padding:0 18px 16px;}
+.vb.open{display:block;}
+.vst{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#92400e;margin:8px 0 6px;}
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:5px;}
+.vi{display:flex;flex-direction:column;font-size:12px;padding:6px 9px;background:white;
+    border-radius:5px;border:1px solid #fde68a;}
+.ves{font-weight:800;}
+.ven{color:var(--muted);font-style:italic;}
+
+/* sections */
+.sec{background:white;border-radius:14px;padding:24px;margin-bottom:20px;
+     border:2px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.sh{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding-bottom:14px;
+    border-bottom:2px solid var(--border);}
+.si{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;
+    justify-content:center;font-size:20px;flex-shrink:0;}
+.ib{background:#e0f2fe;} .ig{background:#dcfce7;} .ir{background:#fee2e2;}
+.iy{background:#fef9c3;} .ip{background:#f3e8ff;}
+.st{font-size:16px;font-weight:900;margin:0;}
+.sd{font-size:12px;color:var(--muted);font-weight:700;margin-top:2px;}
+.pts{margin-left:auto;font-size:11px;font-weight:900;color:var(--muted);
+     background:#f1f5f9;padding:4px 9px;border-radius:6px;white-space:nowrap;}
+.cnt{font-size:12px;font-weight:800;color:var(--sea);margin-bottom:10px;}
+
+/* match */
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mc{display:flex;flex-direction:column;gap:7px;}
+.mit{padding:9px 14px;border:2px solid var(--border);border-radius:9px;cursor:pointer;
+     font-size:13px;font-weight:700;transition:all .18s;background:#f8fafc;text-align:center;
+     min-height:44px;display:flex;align-items:center;justify-content:center;line-height:1.35;}
+.mit:hover:not(.matched){border-color:var(--sea);background:#e0f2fe;}
+.mit.selected{border-color:var(--sea);background:var(--sea);color:white;}
+.mit.matched{border-color:var(--cb);background:var(--correct);color:#166534;cursor:default;}
+.mit.wf{border-color:var(--wb);background:var(--wrong);animation:shake .35s;}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}60%{transform:translateX(6px)}}
+
+/* mcq */
+.q{margin-bottom:16px;}
+.qt{font-size:14px;font-weight:800;margin-bottom:8px;line-height:1.5;}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.ob{padding:9px 12px;border:2px solid var(--border);border-radius:9px;background:white;
+    font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;
+    transition:all .18s;text-align:left;line-height:1.4;color:var(--text);}
+.ob:hover:not(:disabled){border-color:var(--sea);background:#e0f2fe;}
+.ob.correct{background:var(--correct);border-color:var(--cb);color:#166534;}
+.ob.incorrect{background:var(--wrong);border-color:var(--wb);color:#991b1b;}
+.fb{margin-top:8px;padding:8px 12px;border-radius:7px;font-size:12px;font-weight:700;
+    display:none;line-height:1.5;}
+.fb.ok{display:block;background:var(--correct);color:#166534;border:1px solid var(--cb);}
+.fb.no{display:block;background:var(--wrong);color:#991b1b;border:1px solid var(--wb);}
+
+/* blanks */
+.bl{margin-bottom:12px;}
+.bs{font-size:14px;font-weight:600;line-height:1.7;display:flex;flex-wrap:wrap;align-items:center;
+    gap:5px;background:#f8fafc;padding:10px 14px;border-radius:9px;border-left:4px solid var(--olive);}
+.binp{border:2px solid var(--border);border-radius:7px;padding:5px 10px;
+      font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;outline:none;
+      min-width:130px;transition:border-color .2s;}
+.binp:focus{border-color:var(--sea);}
+.binp.correct{border-color:var(--cb);background:var(--correct);color:#166534;}
+.binp.incorrect{border-color:var(--wb);background:var(--wrong);color:#991b1b;}
+.bcb{padding:5px 12px;background:var(--olive);color:white;border:none;border-radius:7px;
+     font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;}
+.bcb:disabled{opacity:.45;cursor:default;}
+.bar{font-size:12px;font-weight:700;margin-top:4px;color:#991b1b;display:none;
+     padding:3px 8px;background:var(--wrong);border-radius:5px;}
+.bar.show{display:inline-block;}
+
+/* application */
+.ti{margin-bottom:14px;}
+.tp{font-size:14px;font-weight:700;margin-bottom:7px;padding:9px 12px;background:#fdf4ff;
+    border-radius:7px;border-left:4px solid #a855f7;line-height:1.5;}
+.td{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;
+    color:#a855f7;margin-bottom:3px;display:block;}
+.tir{display:flex;gap:7px;align-items:flex-start;}
+.tinp{flex:1;border:2px solid var(--border);border-radius:7px;padding:7px 12px;
+      font-family:'Nunito',sans-serif;font-size:13px;font-weight:600;resize:vertical;outline:none;}
+.tinp:focus{border-color:#a855f7;}
+.tcb{padding:7px 14px;background:#a855f7;color:white;border:none;border-radius:7px;
+     font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;}
+.tcb:disabled{opacity:.45;cursor:default;}
+.tf{margin-top:7px;padding:7px 11px;border-radius:7px;font-size:12px;font-weight:700;
+    display:none;line-height:1.5;}
+.tf.full{display:block;background:var(--correct);color:#166534;border:1px solid var(--cb);}
+.tf.partial{display:block;background:var(--partial);color:#854d0e;border:1px solid var(--pb);}
+.tf.miss{display:block;background:var(--wrong);color:#991b1b;border:1px solid var(--wb);}
+
+/* classify */
+.ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:9px;}
+.ait{background:#f8fafc;border:2px solid var(--border);border-radius:9px;padding:10px;text-align:center;}
+.aw{font-size:13px;font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.35;}
+.ao{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;}
+.aob{padding:4px 9px;border:2px solid var(--border);border-radius:5px;
+     font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;cursor:pointer;
+     background:white;transition:all .15s;color:var(--text);}
+.aob:hover:not(:disabled){border-color:var(--sea);background:#e0f2fe;}
+.aob.correct{background:var(--correct);border-color:var(--cb);color:#166534;}
+.aob.incorrect{background:var(--wrong);border-color:var(--wb);color:#991b1b;}
+
+/* submit + results */
+.subb{width:100%;padding:15px;background:var(--olive);color:white;border:none;border-radius:12px;
+      font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;cursor:pointer;
+      box-shadow:0 4px 14px rgba(22,163,74,.28);}
+.subb:disabled{opacity:.5;cursor:default;}
+.rsd{display:none;background:white;border-radius:14px;padding:30px 24px;margin-top:20px;
+     border:2px solid var(--border);text-align:center;}
+.rsd.show{display:block;}
+#re{font-size:56px;}
+#rt{font-size:24px;font-weight:900;margin:6px 0;}
+#rsc{font-size:34px;font-weight:900;color:var(--sea);}
+#rm{font-size:13px;color:var(--muted);font-weight:700;margin-top:6px;}
+.sts{display:flex;justify-content:center;gap:12px;margin-top:18px;flex-wrap:wrap;}
+.stb{background:#f8fafc;border:2px solid var(--border);border-radius:10px;padding:10px 18px;min-width:96px;}
+.stv{font-size:19px;font-weight:900;color:var(--text);}
+.stl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+.rbtn{margin-top:18px;padding:10px 22px;background:var(--sea);color:white;border:none;
+      border-radius:9px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;}
+.cfp{position:fixed;width:9px;height:9px;top:-9px;border-radius:2px;
+     animation:fall linear forwards;z-index:9999;pointer-events:none;}
+@keyframes fall{to{top:110vh;transform:rotate(720deg) translateX(var(--drift,0px));}}
+
+@media (max-width:560px){
+  .og,.mg{grid-template-columns:1fr;}
+  .sec{padding:16px 14px;}
+  .main{padding:16px 14px 60px;}
+  h1{font-size:24px;}
+}
+@media print{
+  .sb,.subb,.rbtn,.bcb,.tcb,.vt{display:none !important;}
+  body{background:white;}
+  .sec{box-shadow:none;page-break-inside:avoid;}
+  .vb{display:block !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="ub">Chapter 19 · Section 1 · World History</div>
+  <h1>Women and the Enlightened Monarchs</h1>
+  <div class="sub">Interactive Worksheet · pages 568–571</div>
+  <div class="ops">
+    <span class="op">Women and Salons</span>
+    <span class="op">Education for Women</span>
+    <span class="op">Enlightened Despots</span>
+  </div>
+</div>
+
+<div class="sb">
+  <div class="sl">Score</div>
+  <div class="sv" id="sv">0</div>
+  <div class="pw"><div class="pf" id="pf"></div></div>
+  <div class="pt" id="pt">0 / 44</div>
+  <div class="tm" id="tm">⏱ 0:00</div>
+</div>
+
+<div class="main">
+
+  <div class="vr">
+    <button class="vt" id="vt">📖 Reference — key terms (click to show / hide) <span class="arr">▼</span></button>
+    <div class="vb" id="vb">
+      <div class="vst">Terms &amp; Names</div>
+      <div class="vg" id="vocabGrid"></div>
+    </div>
+  </div>
+
+  <!-- Ex 1 -->
+  <div class="sec">
+    <div class="sh">
+      <div class="si ib">🔗</div>
+      <div><div class="st">Exercise 1 — Term Matching</div>
+           <div class="sd">Click a term on the left, then its definition on the right.</div></div>
+      <div class="pts">16 pts</div>
+    </div>
+    <div class="cnt" id="matchScore">Matches: 0 / 8</div>
+    <div class="mg"><div class="mc" id="m-left"></div><div class="mc" id="m-right"></div></div>
+  </div>
+
+  <!-- Ex 2 -->
+  <div class="sec">
+    <div class="sh">
+      <div class="si ig">🌱</div>
+      <div><div class="st">Exercise 2 — Women and the Enlightenment</div>
+           <div class="sd">Salons, education, and what the philosophes really thought.</div></div>
+      <div class="pts">12 pts</div>
+    </div>
+    <div id="mcq1"></div>
+  </div>
+
+  <!-- Ex 3 -->
+  <div class="sec">
+    <div class="sh">
+      <div class="si ir">⚖️</div>
+      <div><div class="st">Exercise 3 — The Enlightened Despots</div>
+           <div class="sd">Reforms, limits, and the British king.</div></div>
+      <div class="pts">10 pts</div>
+    </div>
+    <div id="mcq2"></div>
+  </div>
+
+  <!-- Ex 4 -->
+  <div class="sec">
+    <div class="sh">
+      <div class="si ig">✏️</div>
+      <div><div class="st">Exercise 4 — Fill in the Blank</div>
+           <div class="sd">Type the missing word, then press Check.</div></div>
+      <div class="pts">12 pts</div>
+    </div>
+    <div id="blanks"></div>
+  </div>
+
+  <!-- Ex 5 -->
+  <div class="sec">
+    <div class="sh">
+      <div class="si iy">👤</div>
+      <div><div class="st">Exercise 5 — Person ↔ Achievement</div>
+           <div class="sd">Match each reformer or ruler to what they actually did.</div></div>
+      <div class="pts">12 pts</div>
+    </div>
+    <div class="cnt" id="specialScore">Matches: 0 / 6</div>
+    <div class="mg"><div class="mc" id="s-left"></div><div class="mc" id="s-right"></div></div>
+  </div>
+
+  <!-- Ex 6 -->
+  <div class="sec">
+    <div class="sh">
+      <div class="si ip">🧠</div>
+      <div><div class="st">Exercise 6 — Explain in Your Own Words</div>
+           <div class="sd">Short answers. Partial credit for a partly correct answer.</div></div>
+      <div class="pts">10 pts</div>
+    </div>
+    <div id="apps"></div>
+  </div>
+
+  <!-- Ex 7 -->
+  <div class="sec">
+    <div class="sh">
+      <div class="si ib">🎯</div>
+      <div><div class="st">Exercise 7 — Which Monarch?</div>
+           <div class="sd">Frederick II, Joseph II or Catherine the Great?</div></div>
+      <div class="pts">8 pts</div>
+    </div>
+    <div class="ag" id="classify"></div>
+  </div>
+
+  <button class="subb" id="subb">See my final result</button>
+
+  <div class="rsd" id="rsd">
+    <div id="re">🏆</div>
+    <div id="rt">Outstanding!</div>
+    <div id="rsc">0 / 80</div>
+    <div id="rm"></div>
+    <div class="sts">
+      <div class="stb"><div class="stv" id="stP">0</div><div class="stl">Points</div></div>
+      <div class="stb"><div class="stv" id="stPct">0%</div><div class="stl">Score</div></div>
+      <div class="stb"><div class="stv" id="stT">0:00</div><div class="stl">Time</div></div>
+    </div>
+    <button class="rbtn" id="rbtn">Try again</button>
+  </div>
+
+</div>
+
+<script>
+var DATA = {
+"vocab": [
+{
+"t": "Salons",
+"d": "Gatherings in Europe of thinkers and artists to discuss the important issues of the day"
+},
+{
+"t": "Enlightened despots",
+"d": "Absolute rulers who tried to use their power in a just and enlightened way"
+},
+{
+"t": "Despot",
+"d": "A ruler who has complete power, like an absolute monarch"
+},
+{
+"t": "Serfs",
+"d": "Peasants who were forced to work the land of wealthy landowners"
+},
+{
+"t": "Madame Geoffrin",
+"d": "Marie Therese Rodet Geoffrin, one of the most admired Paris salon hostesses"
+},
+{
+"t": "Mary Astell",
+"d": "English writer who criticized the lack of educational opportunities for women in 1694"
+},
+{
+"t": "Judith Sargent Murray",
+"d": "American writer who argued in 1784 that women denied education thought poorly of themselves"
+},
+{
+"t": "Mary Wollstonecraft",
+"d": "Englishwoman who published A Vindication of the Rights of Woman in 1792"
+},
+{
+"t": "Frederick II of Prussia",
+"d": "Also called Frederick the Great; ruled Prussia with absolute power from 1740 to 1786"
+},
+{
+"t": "Joseph II of Austria",
+"d": "Reigned 1780 to 1790; made the most sweeping reforms of any enlightened despot"
+},
+{
+"t": "Catherine the Great",
+"d": "Catherine II, ruler of Russia from 1762 to 1796, who studied the ideas of the philosophes"
+},
+{
+"t": "George III",
+"d": "Became king of Great Britain in 1760 and taxed the American colonists"
+}
+],
+"match": [
+{
+"a": "Salons",
+"b": "Gatherings of thinkers and artists to discuss the important issues of the day"
+},
+{
+"a": "Enlightened despots",
+"b": "Absolute rulers who tried to use their power in a just and fair way"
+},
+{
+"a": "Despot",
+"b": "A ruler who has complete power"
+},
+{
+"a": "Serfs",
+"b": "Peasants who were forced to work the land"
+},
+{
+"a": "A Vindication of the Rights of Woman",
+"b": "The 1792 essay arguing that women should be well educated"
+},
+{
+"a": "Madame Geoffrin",
+"b": "Salon hostess who knew how to draw out the best ideas of her guests"
+},
+{
+"a": "Frederick the Great",
+"b": "The other name of Frederick II, ruler of Prussia"
+},
+{
+"a": "George III",
+"b": "The king who took the British throne in 1760"
+}
+],
+"mcq1": [
+{
+"q": "What was a salon?",
+"o": [
+"A social gathering where thinkers, artists, writers and scientists discussed ideas",
+"A school in Paris that trained young noblewomen",
+"A newspaper that printed Enlightenment essays",
+"A meeting of the French king with his advisers"
+],
+"c": 0,
+"f": "Correct — wealthy, educated French women hosted them, and men and women discussed ideas on an equal basis."
+},
+{
+"q": "Why were the salons especially important for the women who hosted and attended them?",
+"o": [
+"They gave women an education they could not get anywhere else",
+"They gave women the right to vote in France",
+"They paid women a salary for their work",
+"They allowed women to join the French government"
+],
+"c": 0,
+"f": "Correct — the salons were the one place many women could get an education."
+},
+{
+"q": "Which two philosophes from Section 1 attended Madame Geoffrin salons?",
+"o": [
+"Voltaire and Montesquieu",
+"Locke and Rousseau",
+"Rousseau and Jefferson",
+"Locke and Voltaire"
+],
+"c": 0,
+"f": "Correct — along with leading painters, musicians, playwrights and scientists of the day."
+},
+{
+"q": "How did Enlightenment ideas spread beyond the walls of the salons?",
+"o": [
+"Writers recorded the discussions and published them in newspapers",
+"The king ordered the ideas taught in every school",
+"The Catholic Church preached them in its churches",
+"Merchants carried them along trade routes to Asia"
+],
+"c": 0,
+"f": "Correct — publishing the discussions let the general public read them."
+},
+{
+"q": "What did most philosophes actually think about women?",
+"o": [
+"They supported equality among men but held traditional views about women",
+"They demanded full equality for women in work and politics",
+"They believed women should rule instead of kings",
+"They never wrote about women at all"
+],
+"c": 0,
+"f": "Correct — Rousseau even wrote that woman was made to please man. Only some women pushed back."
+},
+{
+"q": "Who published A Vindication of the Rights of Woman, and in what year?",
+"o": [
+"Mary Wollstonecraft, in 1792",
+"Mary Astell, in 1694",
+"Judith Sargent Murray, in 1784",
+"Madame Geoffrin, in 1750"
+],
+"c": 0,
+"f": "Correct — though few people at the time took her views seriously."
+}
+],
+"mcq2": [
+{
+"q": "What is an enlightened despot?",
+"o": [
+"An absolute ruler who tried to use complete power in a just and fair way",
+"A ruler elected by the people of a nation",
+"A monarch who gave up the throne to a parliament",
+"A philosopher who advised kings and queens"
+],
+"c": 0,
+"f": "Correct — they kept complete power but paid attention to Enlightenment political ideas."
+},
+{
+"q": "Which reform did Frederick II of Prussia NOT make?",
+"o": [
+"Improving conditions for the serfs",
+"Granting religious freedom",
+"Expanding education for the Prussian people",
+"Outlawing the use of torture"
+],
+"c": 0,
+"f": "Correct — he depended on wealthy landowners and did not want to anger them, so the social order stayed."
+},
+{
+"q": "Which enlightened despot made the most sweeping changes of all?",
+"o": [
+"Joseph II of Austria, who abolished serfdom and the death penalty",
+"Frederick II of Prussia, who freed the Prussian serfs",
+"Catherine the Great, who ended serfdom in Russia",
+"George III of Great Britain, who freed the colonies"
+],
+"c": 0,
+"f": "Correct — but Austrian nobles opposed his reforms and overturned many of them after his death."
+},
+{
+"q": "Why did Catherine the Great change her mind about ending serfdom?",
+"o": [
+"A serf revolt threatened her rule, so she needed the support of the nobles",
+"The philosophes told her serfdom was necessary",
+"Russia had too few serfs for it to matter",
+"The Orthodox Church ordered her to keep serfdom"
+],
+"c": 0,
+"f": "Correct — she crushed the uprising and then gave the nobles absolute power over the serfs."
+},
+{
+"q": "Why did many American colonists refuse to see George III as an enlightened ruler?",
+"o": [
+"He imposed new taxes although the colonists had no say in approving them",
+"He abolished the colonial assemblies and crowned himself emperor",
+"He forced the colonists to convert to the Catholic Church",
+"He sold the American colonies to France"
+],
+"c": 0,
+"f": "Correct — they felt Britain was not protecting their rights, and began to call the rule tyrannical."
+}
+],
+"blanks": [
+{
+"pre": "Frederick II pleased Enlightenment thinkers by calling himself the first servant of the",
+"post": ".",
+"ans": [
+"state"
+],
+"hint": "one word"
+},
+{
+"pre": "Joseph II of Austria abolished",
+"post": ", so peasants were no longer forced to work the land.",
+"ans": [
+"serfdom"
+],
+"hint": "the system itself"
+},
+{
+"pre": "Catherine the Great ruled Russia from 1762 until",
+"post": ".",
+"ans": [
+"1796"
+],
+"hint": "a year"
+},
+{
+"pre": "In 1792 Mary Wollstonecraft published A Vindication of the Rights of",
+"post": ".",
+"ans": [
+"Woman",
+"Women"
+],
+"hint": "one word"
+},
+{
+"pre": "George III became king of Great Britain in",
+"post": ".",
+"ans": [
+"1760"
+],
+"hint": "a year"
+},
+{
+"pre": "Wealthy and educated French women hosted social gatherings called",
+"post": ".",
+"ans": [
+"salons",
+"salon"
+],
+"hint": "one word"
+}
+],
+"special": [
+{
+"a": "Mary Astell",
+"b": "Criticized the lack of educational opportunities for women, back in 1694"
+},
+{
+"a": "Judith Sargent Murray",
+"b": "Wrote in 1784 that women denied an education thought poorly of themselves"
+},
+{
+"a": "Mary Wollstonecraft",
+"b": "Argued educated women would build enlightened families and strengthen public life"
+},
+{
+"a": "Frederick II of Prussia",
+"b": "Granted religious freedom and outlawed torture, but left the serfs as they were"
+},
+{
+"a": "Joseph II of Austria",
+"b": "Abolished serfdom and the death penalty, and extended freedoms to Jews"
+},
+{
+"a": "Catherine the Great",
+"b": "Opened hospitals and schools including a school for girls, and supported the arts"
+}
+],
+"apps": [
+{
+"q": "Explain why the salons mattered so much to the women who took part in them.",
+"ans": [
+"At the salons men and women discussed ideas on an equal basis, and the salons gave women an education they could not get anywhere else"
+]
+},
+{
+"q": "What was Mary Wollstonecraft main argument about educating women?",
+"ans": [
+"She argued that well educated women would help create enlightened families and strengthen public life, and she urged women to enter medicine and politics"
+]
+},
+{
+"q": "Name two reforms Frederick II made, and one thing he refused to change.",
+"ans": [
+"Frederick granted religious freedom and greater freedom of the press, expanded education and outlawed torture, but he did little to improve conditions for the serfs"
+]
+},
+{
+"q": "What happened to the reforms of Joseph II after he died?",
+"ans": [
+"Austrian nobles had opposed many of his reforms and they overturned them after his death"
+]
+},
+{
+"q": "Why did American colonists begin to accuse Great Britain of tyrannical rule?",
+"ans": [
+"King George and Parliament imposed new taxes although the colonists had no say in approving them, so they felt Britain was not protecting their rights or representing their interests"
+]
+}
+],
+"classify": {
+"cats": [
+"Frederick II",
+"Joseph II",
+"Catherine II"
+],
+"items": [
+{
+"w": "Abolished serfdom in his lands",
+"c": "Joseph II"
+},
+{
+"w": "Ruled Prussia with absolute power from 1740 to 1786",
+"c": "Frederick II"
+},
+{
+"w": "Abolished the death penalty",
+"c": "Joseph II"
+},
+{
+"w": "Crushed a serf revolt, then gave nobles absolute power over the serfs",
+"c": "Catherine II"
+},
+{
+"w": "Called himself the first servant of the state",
+"c": "Frederick II"
+},
+{
+"w": "Opened a school for girls and encouraged scientific farming",
+"c": "Catherine II"
+},
+{
+"w": "Welcomed Catholics into a Protestant kingdom but did not help Jews",
+"c": "Frederick II"
+},
+{
+"w": "Set early guidelines for governing based partly on the ideas of Montesquieu",
+"c": "Catherine II"
+}
+]
+}
+};
+
+var MAX = 80, ITEMS = 44, UNIT_KEY = 'hist_ch19_s1_568_571';
+var score = 0, scored = {}, startTime = Date.now(), timerInterval;
+
+function norm(s){
+  return String(s).toLowerCase().normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9\s]/g,'')
+    .replace(/\s+/g,' ').trim();
+}
+function sim(a,b){
+  var na = norm(a).split(' '), nb = norm(b).split(' '), m = 0;
+  na.forEach(function(w){ if (w.length > 2 && nb.indexOf(w) >= 0) m++; });
+  return m / Math.max(na.filter(function(w){return w.length>2;}).length, 1);
+}
+function shuffle(arr){
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+timerInterval = setInterval(function(){
+  var e = Math.floor((Date.now() - startTime) / 1000);
+  document.getElementById('tm').textContent = '⏱ ' + Math.floor(e/60) + ':' + (e%60).toString().padStart(2,'0');
+}, 1000);
+
+function addPts(pts, id){
+  if (scored[id]) return;
+  scored[id] = true;
+  score += pts;
+  document.getElementById('sv').textContent = score;
+  document.getElementById('pf').style.width = Math.min(Math.round(score / MAX * 100), 100) + '%';
+  document.getElementById('pt').textContent = Object.keys(scored).length + ' / ' + ITEMS;
+}
+
+/* ---------- reference panel ---------- */
+(function(){
+  var g = document.getElementById('vocabGrid'), h = '';
+  DATA.vocab.forEach(function(v){
+    h += '<div class="vi"><span class="ves">' + esc(v.t) + '</span><span class="ven">' + esc(v.d) + '</span></div>';
+  });
+  g.innerHTML = h;
+  document.getElementById('vt').addEventListener('click', function(){
+    this.classList.toggle('open');
+    document.getElementById('vb').classList.toggle('open');
+  });
+})();
+
+/* ---------- Ex1 + Ex5 matching ---------- */
+var selMatch = null, matchCounts = {};
+function buildMatch(pairs, prefix, leftId, rightId){
+  var left = document.getElementById(leftId), right = document.getElementById(rightId);
+  var lh = '', rh = '';
+  pairs.forEach(function(p, i){
+    lh += '<div class="mit" data-lang="a" data-id="' + prefix + i + '">' + esc(p.a) + '</div>';
+  });
+  shuffle(pairs.map(function(p, i){ return {p:p, i:i}; })).forEach(function(o){
+    rh += '<div class="mit" data-lang="b" data-id="' + prefix + o.i + '">' + esc(o.p.b) + '</div>';
+  });
+  left.innerHTML = lh; right.innerHTML = rh;
+}
+function selM(el){
+  if (el.classList.contains('matched')) return;
+  var lang = el.dataset.lang, id = el.dataset.id;
+  var prefix = id.replace(/[0-9]/g, '');
+  var scoreId = prefix === 'm' ? 'matchScore' : 'specialScore';
+  var maxP = prefix === 'm' ? 8 : 6;
+  if (!selMatch){ el.classList.add('selected'); selMatch = {el:el,id:id,lang:lang,prefix:prefix}; return; }
+  if (selMatch.prefix !== prefix){ selMatch.el.classList.remove('selected'); selMatch = null; return; }
+  if (selMatch.lang === lang){
+    selMatch.el.classList.remove('selected'); el.classList.add('selected');
+    selMatch = {el:el,id:id,lang:lang,prefix:prefix}; return;
+  }
+  if (selMatch.id === id){
+    [selMatch.el, el].forEach(function(e){ e.classList.remove('selected'); e.classList.add('matched'); });
+    addPts(2, 'match_' + id);
+    matchCounts[prefix] = (matchCounts[prefix] || 0) + 1;
+    document.getElementById(scoreId).textContent = 'Matches: ' + matchCounts[prefix] + ' / ' + maxP;
+  } else {
+    [selMatch.el, el].forEach(function(e){
+      e.classList.remove('selected'); e.classList.add('wf');
+      setTimeout(function(){ e.classList.remove('wf'); }, 400);
+    });
+  }
+  selMatch = null;
+}
+buildMatch(DATA.match, 'm', 'm-left', 'm-right');
+buildMatch(DATA.special, 's', 's-left', 's-right');
+document.querySelectorAll('.mg').forEach(function(grid){
+  grid.addEventListener('click', function(ev){
+    var t = ev.target.closest('.mit');
+    if (t) selM(t);
+  });
+});
+
+/* ---------- Ex2 + Ex3 MCQ ---------- */
+function buildMCQ(list, containerId, prefix){
+  var c = document.getElementById(containerId), h = '';
+  list.forEach(function(q, i){
+    var qid = prefix + i;
+    h += '<div class="q" id="' + qid + '"><div class="qt">' + (i+1) + '. ' + esc(q.q) + '</div><div class="og">';
+    shuffle(q.o.map(function(o, k){ return {o:o, k:k}; })).forEach(function(o){
+      h += '<button class="ob" data-qid="' + qid + '" data-ok="' + (o.k === q.c ? '1' : '0') + '">' + esc(o.o) + '</button>';
+    });
+    h += '</div><div class="fb" id="' + qid + '-fb"></div></div>';
+  });
+  c.innerHTML = h;
+  c.addEventListener('click', function(ev){
+    var b = ev.target.closest('.ob');
+    if (!b) return;
+    var qid = b.dataset.qid, q = document.getElementById(qid);
+    if (q.dataset.answered) return;
+    q.dataset.answered = '1';
+    q.querySelectorAll('.ob').forEach(function(x){ x.disabled = true; });
+    var idx = parseInt(qid.replace(prefix, ''), 10);
+    var f = document.getElementById(qid + '-fb');
+    if (b.dataset.ok === '1'){
+      b.classList.add('correct'); f.className = 'fb ok'; f.textContent = '✅ ' + list[idx].f;
+      addPts(2, qid);
+    } else {
+      b.classList.add('incorrect'); f.className = 'fb no';
+      f.textContent = '❌ The correct answer is: ' + list[idx].o[list[idx].c];
+      q.querySelectorAll('.ob').forEach(function(x){ if (x.dataset.ok === '1') x.classList.add('correct'); });
+    }
+  });
+}
+buildMCQ(DATA.mcq1, 'mcq1', 'a');
+buildMCQ(DATA.mcq2, 'mcq2', 'b');
+
+/* ---------- Ex4 blanks ---------- */
+(function(){
+  var c = document.getElementById('blanks'), h = '';
+  DATA.blanks.forEach(function(b, i){
+    h += '<div class="bl" id="bl' + i + '"><div class="bs"><span>' + (i+1) + '. ' + esc(b.pre) + '</span>'
+       + '<input class="binp" id="bi' + i + '" placeholder="' + esc(b.hint) + '">'
+       + '<span>' + esc(b.post) + '</span>'
+       + '<button class="bcb" data-i="' + i + '">Check</button></div>'
+       + '<div class="bar" id="br' + i + '"></div></div>';
+  });
+  c.innerHTML = h;
+  c.addEventListener('click', function(ev){
+    var btn = ev.target.closest('.bcb');
+    if (!btn) return;
+    var i = btn.dataset.i;
+    var inp = document.getElementById('bi' + i), rev = document.getElementById('br' + i);
+    if (inp.disabled) return;
+    inp.disabled = true; btn.disabled = true;
+    var val = norm(inp.value.trim());
+    var ok = DATA.blanks[i].ans.some(function(a){ return norm(a) === val; });
+    inp.classList.add(ok ? 'correct' : 'incorrect');
+    if (ok) addPts(2, 'blank_' + i);
+    else { rev.textContent = '→ ' + DATA.blanks[i].ans[0]; rev.classList.add('show'); }
+  });
+  c.addEventListener('keydown', function(ev){
+    if (ev.key === 'Enter' && ev.target.classList.contains('binp')){
+      ev.preventDefault();
+      ev.target.parentElement.querySelector('.bcb').click();
+    }
+  });
+})();
+
+/* ---------- Ex6 application ---------- */
+(function(){
+  var c = document.getElementById('apps'), h = '';
+  DATA.apps.forEach(function(a, i){
+    h += '<div class="ti"><div class="tp"><span class="td">Question ' + (i+1) + '</span>' + esc(a.q) + '</div>'
+       + '<div class="tir"><textarea class="tinp" id="ti' + i + '" rows="2" placeholder="Write your answer in one or two sentences"></textarea>'
+       + '<button class="tcb" data-i="' + i + '">Check</button></div>'
+       + '<div class="tf" id="tf' + i + '"></div></div>';
+  });
+  c.innerHTML = h;
+  c.addEventListener('click', function(ev){
+    var btn = ev.target.closest('.tcb');
+    if (!btn) return;
+    var i = btn.dataset.i;
+    var inp = document.getElementById('ti' + i), f = document.getElementById('tf' + i);
+    if (inp.disabled) return;
+    inp.disabled = true; btn.disabled = true;
+    var model = DATA.apps[i].ans[0];
+    var s = sim(model, inp.value);
+    if (s >= 0.55){ f.className = 'tf full'; f.textContent = '✅ Full marks. Model answer: ' + model; addPts(2, 'app_' + i); }
+    else if (s >= 0.30){ f.className = 'tf partial'; f.textContent = '⚡ Partly right — 1 point. Model answer: ' + model; addPts(1, 'app_' + i); }
+    else { f.className = 'tf miss'; f.textContent = '❌ Model answer: ' + model; scored['app_' + i] = true;
+           document.getElementById('pt').textContent = Object.keys(scored).length + ' / ' + ITEMS; }
+  });
+})();
+
+/* ---------- Ex7 classify ---------- */
+(function(){
+  var c = document.getElementById('classify'), h = '';
+  DATA.classify.items.forEach(function(it, i){
+    h += '<div class="ait" id="ai' + i + '"><div class="aw">' + esc(it.w) + '</div><div class="ao">';
+    DATA.classify.cats.forEach(function(cat){
+      h += '<button class="aob" data-i="' + i + '" data-v="' + esc(cat) + '">' + esc(cat) + '</button>';
+    });
+    h += '</div></div>';
+  });
+  c.innerHTML = h;
+  c.addEventListener('click', function(ev){
+    var b = ev.target.closest('.aob');
+    if (!b) return;
+    var i = b.dataset.i, box = document.getElementById('ai' + i);
+    if (box.dataset.answered) return;
+    box.dataset.answered = '1';
+    box.querySelectorAll('.aob').forEach(function(x){ x.disabled = true; });
+    var right = DATA.classify.items[i].c;
+    if (b.dataset.v === right){ b.classList.add('correct'); addPts(1, 'cls_' + i); }
+    else {
+      b.classList.add('incorrect');
+      box.querySelectorAll('.aob').forEach(function(x){ if (x.dataset.v === right) x.classList.add('correct'); });
+      scored['cls_' + i] = true;
+      document.getElementById('pt').textContent = Object.keys(scored).length + ' / ' + ITEMS;
+    }
+  });
+})();
+
+/* ---------- results ---------- */
+function confetti(){
+  var cols = ['#f59e0b','#0ea5e9','#16a34a','#ef4444','#a855f7','#ec4899'];
+  for (var i = 0; i < 80; i++){
+    var p = document.createElement('div');
+    p.className = 'cfp';
+    p.style.cssText = 'left:' + Math.random()*100 + 'vw;background:' + cols[Math.floor(Math.random()*cols.length)] + ';'
+      + 'width:' + (6+Math.random()*9) + 'px;height:' + (6+Math.random()*9) + 'px;'
+      + 'border-radius:' + (Math.random() > .5 ? '50%' : '2px') + ';'
+      + 'animation-duration:' + (2+Math.random()*3) + 's;animation-delay:' + (Math.random()*1.5) + 's;'
+      + '--drift:' + (Math.random()-.5)*200 + 'px';
+    document.body.appendChild(p);
+    setTimeout(function(){ p.remove(); }, 6000);
+  }
+}
+document.getElementById('subb').addEventListener('click', function(){
+  clearInterval(timerInterval);
+  var e = Math.floor((Date.now() - startTime) / 1000);
+  var time = Math.floor(e/60) + ':' + (e%60).toString().padStart(2,'0');
+  var pct = Math.round(score / MAX * 100);
+  var configs = [
+    {min:90, emoji:'🏆', title:'Outstanding!',    msg:'You know this section cold. Ready for the exam.'},
+    {min:75, emoji:'🌟', title:'Well done!',      msg:'Strong grasp. Review the few you missed and you are set.'},
+    {min:55, emoji:'👍', title:'Good effort!',    msg:'Reread pages 569 and 570, then run the worksheet again.'},
+    {min:0,  emoji:'📚', title:'Keep practising!',msg:'Go back over the three enlightened despots and what each one changed.'}
+  ];
+  var cfg = configs.find(function(c){ return pct >= c.min; });
+  document.getElementById('re').textContent = cfg.emoji;
+  document.getElementById('rt').textContent = cfg.title;
+  document.getElementById('rsc').textContent = score + ' / ' + MAX;
+  document.getElementById('rm').textContent = cfg.msg;
+  document.getElementById('stP').textContent = score + ' pts';
+  document.getElementById('stPct').textContent = pct + '%';
+  document.getElementById('stT').textContent = time;
+  document.getElementById('rsd').classList.add('show');
+  this.disabled = true;
+  document.getElementById('rsd').scrollIntoView({behavior:'smooth'});
+  if (pct >= 90) confetti();
+  try { localStorage.setItem('ws_' + UNIT_KEY, JSON.stringify({score:score, pct:pct, time:time, date:new Date().toLocaleDateString()})); } catch(err){}
+});
+document.getElementById('rbtn').addEventListener('click', function(){ location.reload(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Understanding Test — The Enlightenment, Section 1 (pp. 564–571)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sun:#f59e0b; --sea:#0ea5e9; --olive:#16a34a; --plum:#a855f7;
+  --bg:#f0f9ff; --text:#1e293b; --muted:#64748b; --border:#e2e8f0;
+  --correct:#dcfce7; --cb:#16a34a; --wrong:#fee2e2; --wb:#ef4444;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);
+     font-family:'Nunito',-apple-system,BlinkMacSystemFont,sans-serif;}
+h1{font-family:'Lora',Georgia,serif;font-style:italic;margin:6px 0;font-size:29px;}
+
+.ph{background:linear-gradient(135deg,#4c1d95 0%,#6d28d9 40%,#7c3aed 70%,#a78bfa 100%);
+    overflow:hidden;position:relative;color:white;padding:24px 22px 20px;}
+.ph::before{content:'🏛️';position:absolute;font-size:150px;opacity:.08;bottom:-20px;right:-10px;}
+.ub{display:inline-block;background:rgba(255,255,255,.22);padding:4px 12px;border-radius:20px;
+    font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;}
+.sub{font-size:13px;font-weight:700;opacity:.9;}
+
+.sb{background:white;border-bottom:2px solid var(--border);padding:10px 20px;
+    display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;flex-wrap:wrap;}
+.sl{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.sv{font-size:20px;font-weight:900;color:var(--plum);}
+.pw{flex:1;min-width:90px;background:#e2e8f0;border-radius:6px;height:8px;overflow:hidden;}
+.pf{height:100%;background:linear-gradient(90deg,var(--plum),var(--sun));border-radius:6px;transition:width .4s;width:0%;}
+.pt{font-size:12px;font-weight:800;color:var(--muted);}
+.tm{font-size:12px;font-weight:700;color:var(--muted);background:#f1f5f9;padding:3px 8px;border-radius:6px;}
+
+.main{max-width:800px;margin:0 auto;padding:24px 20px 70px;}
+.card{background:white;border-radius:16px;padding:26px 24px;border:2px solid var(--border);
+      box-shadow:0 3px 16px rgba(0,0,0,.05);}
+.tag{display:inline-block;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.11em;
+     color:#6d28d9;background:#f3e8ff;padding:4px 10px;border-radius:20px;margin-bottom:12px;}
+.qt{font-size:18px;font-weight:800;line-height:1.55;margin-bottom:20px;}
+.og{display:flex;flex-direction:column;gap:9px;}
+.ob{padding:13px 16px;border:2px solid var(--border);border-radius:11px;background:white;
+    font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;
+    transition:all .16s;text-align:left;line-height:1.45;color:var(--text);}
+.ob:hover:not(:disabled){border-color:var(--plum);background:#faf5ff;}
+.ob.correct{background:var(--correct);border-color:var(--cb);color:#166534;}
+.ob.incorrect{background:var(--wrong);border-color:var(--wb);color:#991b1b;}
+.ob:disabled{cursor:default;}
+.fb{margin-top:14px;padding:12px 15px;border-radius:9px;font-size:13px;font-weight:700;
+    display:none;line-height:1.6;}
+.fb.ok{display:block;background:var(--correct);color:#166534;border:1px solid var(--cb);}
+.fb.no{display:block;background:var(--wrong);color:#991b1b;border:1px solid var(--wb);}
+.nx{display:none;margin-top:16px;width:100%;padding:13px;background:var(--plum);color:white;
+    border:none;border-radius:11px;font-family:'Nunito',sans-serif;font-size:15px;
+    font-weight:900;cursor:pointer;}
+.nx.show{display:block;}
+.kb{text-align:center;font-size:11px;color:var(--muted);font-weight:700;margin-top:14px;}
+
+.rsd{display:none;background:white;border-radius:16px;padding:30px 24px;border:2px solid var(--border);text-align:center;}
+.rsd.show{display:block;}
+#re{font-size:54px;}
+#rt{font-size:23px;font-weight:900;margin:6px 0;}
+#rsc{font-size:33px;font-weight:900;color:var(--plum);}
+#rm{font-size:13px;color:var(--muted);font-weight:700;margin-top:6px;}
+.sts{display:flex;justify-content:center;gap:11px;margin-top:18px;flex-wrap:wrap;}
+.stb{background:#f8fafc;border:2px solid var(--border);border-radius:10px;padding:10px 16px;min-width:88px;}
+.stv{font-size:18px;font-weight:900;}
+.stl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+
+.bd{margin-top:24px;text-align:left;}
+.bdh{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;}
+.br{display:flex;align-items:center;gap:10px;margin-bottom:7px;font-size:12px;font-weight:800;}
+.brn{width:180px;flex-shrink:0;}
+.brw{flex:1;background:#e2e8f0;border-radius:5px;height:9px;overflow:hidden;}
+.brf{height:100%;border-radius:5px;transition:width .6s;}
+.brs{width:52px;text-align:right;color:var(--muted);}
+
+.miss{margin-top:24px;text-align:left;}
+.msh{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#991b1b;margin-bottom:8px;}
+.mi{background:#fef2f2;border:1px solid #fecaca;border-radius:9px;padding:11px 13px;margin-bottom:7px;font-size:13px;line-height:1.55;}
+.miq{font-weight:900;display:block;margin-bottom:4px;}
+.mia{color:#166534;font-weight:800;display:block;}
+.mie{color:var(--muted);font-weight:600;}
+.btns{display:flex;gap:10px;justify-content:center;margin-top:22px;flex-wrap:wrap;}
+.rbtn{padding:11px 20px;border:none;border-radius:10px;font-family:'Nunito',sans-serif;
+      font-size:13px;font-weight:900;cursor:pointer;color:white;background:var(--plum);}
+.rbtn.alt{background:var(--olive);}
+.rbtn:disabled{opacity:.4;cursor:default;}
+@media (max-width:560px){ h1{font-size:22px;} .card{padding:20px 16px;} .qt{font-size:16px;} .brn{width:110px;} }
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="ub">Chapter 19 · Section 1 · Understanding Test</div>
+  <h1>From Monarchy to Revolution</h1>
+  <div class="sub">26 questions on causes, comparisons and consequences · pages 564–571</div>
+</div>
+
+<div class="sb">
+  <div class="sl">Score</div><div class="sv" id="sv">0</div>
+  <div class="pw"><div class="pf" id="pf"></div></div>
+  <div class="pt" id="pt">0 / 26</div>
+  <div class="tm" id="tm">⏱ 0:00</div>
+</div>
+
+<div class="main">
+  <div class="card" id="card">
+    <div class="tag" id="tag"></div>
+    <div class="qt" id="qt"></div>
+    <div class="og" id="og"></div>
+    <div class="fb" id="fb"></div>
+    <button class="nx" id="nx">Next →</button>
+    <div class="kb">Press 1–4 to answer · Enter for next</div>
+  </div>
+
+  <div class="rsd" id="rsd">
+    <div id="re">🏆</div>
+    <div id="rt">Outstanding!</div>
+    <div id="rsc">0 / 26</div>
+    <div id="rm"></div>
+    <div class="sts">
+      <div class="stb"><div class="stv" id="stPct">0%</div><div class="stl">Score</div></div>
+      <div class="stb"><div class="stv" id="stT">0:00</div><div class="stl">Time</div></div>
+      <div class="stb"><div class="stv" id="stWeak">—</div><div class="stl">Weakest part</div></div>
+    </div>
+    <div class="bd" id="bd"></div>
+    <div class="miss" id="miss"></div>
+    <div class="btns">
+      <button class="rbtn alt" id="again">Retry the misses</button>
+      <button class="rbtn" id="restart">Full test again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* option index 0 is always the correct one; options are shuffled at runtime */
+var QS = [
+{"g":"Roots of the Enlightenment","q":"Why did philosophers in the 1600s start using reason to question laws made by religion and government?",
+ "o":["Because scientists had just shown that experimenting and reasoning uncovered new truths about nature",
+      "Because the Catholic Church ordered them to examine its own teachings",
+      "Because kings paid them to find new justifications for royal power",
+      "Because ancient Greek texts had only just been translated for the first time"],
+ "e":"The Scientific Revolution proved the method worked on nature, so philosophers turned the same method on society."},
+
+{"g":"Roots of the Enlightenment","q":"What made the Renaissance an important step toward the Enlightenment?",
+ "o":["It brought back Greek and Roman writings, so reason and the individual were valued again",
+      "It gave Europe its first universities and printing presses",
+      "It ended the power of absolute monarchs across Europe",
+      "It made science more important than religion in every European country"],
+ "e":"Rediscovering classical writings revived two ideas the Enlightenment ran on: a person can reason, and the individual matters."},
+
+{"g":"Roots of the Enlightenment","q":"Why does a book about the Enlightenment show a photograph of the Pantheon, a Roman temple?",
+ "o":["Because its dome and classical proportions inspired many Enlightenment architects",
+      "Because Enlightenment philosophers held their meetings inside it",
+      "Because it was built during the Enlightenment as a monument to reason",
+      "Because it was the first building to be designed using the scientific method"],
+ "e":"It is visual evidence of the same pattern as the ideas: the Enlightenment looked back to Greece and Rome."},
+
+{"g":"Roots of the Enlightenment","q":"Which fact best shows that the Enlightenment was more than a passing intellectual fashion?",
+ "o":["By the mid-1700s it had destroyed old beliefs and produced lasting changes in society and government",
+      "It produced more books than any earlier movement in Europe",
+      "Every European monarch eventually adopted its ideas",
+      "It was named after a period rather than after a person"],
+ "e":"The measure of a movement is what it changed, and this one reshaped how governments were judged."},
+
+{"g":"John Locke","q":"Locke did not want to abolish monarchy. Why did rulers still find his ideas dangerous?",
+ "o":["He denied that kings ruled by God, and said their power came from the people instead",
+      "He called for kings to be replaced by elected presidents",
+      "He argued that all property should be taken from the nobles",
+      "He urged the people of England to rise up in armed revolt"],
+ "e":"If power comes from the people, a ruler holds it on condition — and conditions can be withdrawn. That is the threat."},
+
+{"g":"John Locke","q":"A government arrests critics without trial and seizes their houses. Which of Locke's arguments would that government be breaking?",
+ "o":["That government exists to protect life, liberty and property, not to take them away",
+      "That government should be split into three branches",
+      "That titles of nobility should be abolished",
+      "That monarchs rule with the authority of God"],
+ "e":"For Locke, government is not just limited by natural rights — protecting them is its whole purpose."},
+
+{"g":"John Locke","q":"At Oxford, Locke refused to accept the opinions of his teachers. Why does the textbook include this detail?",
+ "o":["It shows him practising the Enlightenment habit of drawing his own conclusions from experience and reasoning",
+      "It shows that he was expelled and became an enemy of the state",
+      "It proves that universities opposed the Enlightenment",
+      "It explains why he later supported the divine right of kings"],
+ "e":"The anecdote is a small version of his whole method: test the claim yourself rather than accept authority."},
+
+{"g":"The Philosophes","q":"What did the Catholic Church and many monarchs have in common where the philosophes were concerned?",
+ "o":["Both felt threatened, because the philosophes challenged old beliefs about power",
+      "Both funded the philosophes to spread their writings",
+      "Both agreed that the philosophes were harmless entertainers",
+      "Both successfully silenced the philosophes by the 1750s"],
+ "e":"Church and crown were the two authorities the philosophes questioned — and neither could silence the new ideas."},
+
+{"g":"The Philosophes","q":"Voltaire was jailed several times and later forced to live outside France, but kept writing. What does this best show?",
+ "o":["That he practised the freedom of speech he demanded, even at personal cost",
+      "That the French government secretly supported his work",
+      "That his writings were mainly about science rather than politics",
+      "That exile was a normal reward for successful French writers"],
+ "e":"His life is the argument: he demanded liberty of speech and paid the price rather than surrender it."},
+
+{"g":"The Philosophes","q":"How were Locke and Montesquieu alike, and how did they differ?",
+ "o":["Both held that liberty was a natural right, but only Montesquieu opposed absolute monarchs",
+      "Both opposed absolute monarchs, but only Locke believed in natural rights",
+      "Both rejected the divine right of kings, but only Montesquieu supported revolution",
+      "Both wanted three branches of government, but only Locke wanted a king"],
+ "e":"This is the classic compare-and-contrast question for this section — agreement on liberty, disagreement about absolute power."},
+
+{"g":"The Philosophes","q":"A supreme court strikes down a law that the parliament has passed. Whose Enlightenment idea is at work?",
+ "o":["Montesquieu's, since one branch is keeping another in check",
+      "Rousseau's, since the nobility is being restrained",
+      "Voltaire's, since free speech is being protected",
+      "Locke's, since the people are consenting to be governed"],
+ "e":"Montesquieu wanted a law-making branch, an enforcing branch and an interpreting branch, each checking the others."},
+
+{"g":"The Philosophes","q":"Rousseau's opposition to titles of nobility followed directly from which of his beliefs?",
+ "o":["That all people were created equal",
+      "That government should have three branches",
+      "That monarchs ruled by the authority of God",
+      "That religious toleration was the highest good"],
+ "e":"If everyone is created equal, inherited rank has no basis — which is exactly why his ideas later stirred France to revolt."},
+
+{"g":"The Philosophes","q":"A country writes into its constitution that no one may be punished for criticizing the government or for their religion. Which philosophe does this echo most closely?",
+ "o":["Voltaire","Montesquieu","Rousseau","Locke"],
+ "e":"Voltaire attacked religious intolerance and superstition and insisted on freedom of speech."},
+
+{"g":"The Philosophes","q":"Why is Rousseau connected to the French Revolution more directly than the other philosophes?",
+ "o":["His attack on absolute monarchs and inherited rank stirred people in France to revolt against their rulers",
+      "He personally led the mob that seized the Bastille",
+      "He wrote the Declaration of the Rights of Man and of the Citizen",
+      "He was executed by the French king, which sparked the uprising"],
+ "e":"The textbook credits his ideas, not his actions — his arguments about equality moved ordinary people."},
+
+{"g":"Women and Salons","q":"Why were the salons so valuable to the women who hosted and attended them?",
+ "o":["They offered women an education they could not obtain anywhere else",
+      "They paid women a wage for organising the discussions",
+      "They gave women seats in the French government",
+      "They were the only places in France where women could read books"],
+ "e":"At the salons men and women discussed ideas on an equal basis — for the women, that was the education."},
+
+{"g":"Women and Salons","q":"What is contradictory about the philosophes' position on equality?",
+ "o":["They strongly supported the equality of men while holding traditional views about women",
+      "They demanded equality for women but not for men",
+      "They wanted equality only for the nobility",
+      "They said all people were equal but refused to define equality"],
+ "e":"Rousseau even wrote that woman was made to please man. The equality they preached had a boundary."},
+
+{"g":"Women and Salons","q":"How did Enlightenment ideas reach people who were never invited to a salon?",
+ "o":["Writers recorded the discussions and published them in newspapers for the general public",
+      "The king had the discussions read aloud in every church",
+      "Salon guests travelled abroad to teach in foreign universities",
+      "The ideas were printed in official government decrees"],
+ "e":"Publication is what turned a private conversation among the nobility into a public movement."},
+
+{"g":"Women and Salons","q":"Wollstonecraft argued that educating women would help everyone, not only women. What exactly did she claim it would produce?",
+ "o":["Enlightened families and a stronger public life",
+      "A larger workforce for French factories",
+      "An end to absolute monarchy across Europe",
+      "More women writers in the Paris salons"],
+ "e":"She also urged women into medicine and politics — though few people at the time took her seriously."},
+
+{"g":"Women and Salons","q":"Astell in 1694, Murray in 1784 and Wollstonecraft in 1792 all focused on the same goal. What was it?",
+ "o":["Education, which they saw as the route to equality for women",
+      "The right to vote in national elections",
+      "Equal pay for women who worked outside the home",
+      "The abolition of serfdom across Europe"],
+ "e":"Most women who worked for women's rights concentrated on social issues, and above all on education."},
+
+{"g":"Enlightened Despots","q":"Frederick II reformed the courts, the press and education, but did almost nothing for the serfs. Why not?",
+ "o":["He depended on the support of wealthy landowners and did not want to anger them",
+      "Prussia had no serfs left by the time he came to the throne",
+      "The philosophes advised him that serfdom was just",
+      "He had already promised the serfs their freedom in a treaty"],
+ "e":"His reforms stopped exactly where they would have cost him the support he needed to rule."},
+
+{"g":"Enlightened Despots","q":"Which evidence best supports the claim that Joseph II went further than any other enlightened despot?",
+ "o":["He abolished serfdom and the death penalty and extended freedom of worship to Jews",
+      "He ruled for longer than Frederick II and Catherine the Great combined",
+      "He gave up his throne and allowed Austria to elect a parliament",
+      "He personally wrote several books with the French philosophes"],
+ "e":"No other enlightened despot made such sweeping changes, and they were built on equality and freedom."},
+
+{"g":"Enlightened Despots","q":"Why did many of Joseph II's reforms not survive him?",
+ "o":["Austrian nobles had opposed them and overturned them after his death",
+      "The Ottoman Empire conquered Austria shortly afterwards",
+      "He cancelled them himself near the end of his reign",
+      "The reforms had been written to expire after ten years"],
+ "e":"Reform imposed from the top by one ruler lasts only as long as that ruler — a pattern worth remembering."},
+
+{"g":"Enlightened Despots","q":"Catherine the Great considered ending serfdom, then gave the nobles absolute power over the serfs instead. What does this reveal about enlightened despotism?",
+ "o":["When Enlightenment reform threatened their own power, these rulers protected the throne first",
+      "That Russian serfs preferred to remain under noble control",
+      "That Catherine had never actually read the philosophes",
+      "That the philosophes themselves supported serfdom in Russia"],
+ "e":"A serf revolt convinced her she needed noble support to keep her throne, and the reform was dropped."},
+
+{"g":"Enlightened Despots","q":"What did Frederick II, Joseph II and Catherine the Great all have in common?",
+ "o":["Each kept complete power while trying to use it in a just and enlightened way",
+      "Each gave up absolute power in favour of an elected assembly",
+      "Each abolished serfdom in the lands they ruled",
+      "Each was overthrown by a revolution inspired by the philosophes"],
+ "e":"That is the definition of an enlightened despot — the power stays absolute, the intentions change."},
+
+{"g":"Britain and the Colonies","q":"Why did Voltaire consider Great Britain's government the most progressive in Europe?",
+ "o":["Because British laws limited the power of the king",
+      "Because Britain had already abolished its monarchy",
+      "Because Britain gave its American colonists seats in Parliament",
+      "Because Britain guaranteed free education to all its subjects"],
+ "e":"A monarch bound by law was, to Voltaire, far better than one who was not."},
+
+{"g":"Britain and the Colonies","q":"Many colonists saw the very same British government very differently from Voltaire. Why?",
+ "o":["New taxes were imposed on them although they had no say in approving them",
+      "Britain had made the Catholic Church the official church of the colonies",
+      "The king had ordered the colonies to be sold to Spain",
+      "Parliament had abolished trial by jury throughout Britain"],
+ "e":"Having no voice in the taxes convinced them their rights were not protected, and they began calling the rule tyrannical."}
+];
+
+var pool = [], idx = 0, score = 0, missed = [], byGroup = {};
+var startTime = Date.now(), timerInterval, answered = false;
+
+function shuffle(a){
+  a = a.slice();
+  for (var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function startTimer(){
+  clearInterval(timerInterval);
+  timerInterval = setInterval(function(){
+    var e = Math.floor((Date.now() - startTime) / 1000);
+    document.getElementById('tm').textContent = '⏱ ' + Math.floor(e/60) + ':' + (e%60).toString().padStart(2,'0');
+  }, 1000);
+}
+
+function start(list){
+  pool = list.map(function(q){
+    return {g:q.g, q:q.q, ans:q.o[0], opts:shuffle(q.o), e:q.e, src:q};
+  });
+  idx = 0; score = 0; missed = []; byGroup = {};
+  pool.forEach(function(q){
+    if (!byGroup[q.g]) byGroup[q.g] = {ok:0, n:0};
+    byGroup[q.g].n++;
+  });
+  startTime = Date.now(); startTimer();
+  document.getElementById('sv').textContent = '0';
+  document.getElementById('rsd').classList.remove('show');
+  document.getElementById('card').style.display = 'block';
+  render();
+}
+
+function render(){
+  answered = false;
+  var q = pool[idx];
+  document.getElementById('tag').textContent = q.g;
+  document.getElementById('qt').textContent = (idx + 1) + '. ' + q.q;
+  var h = '';
+  q.opts.forEach(function(o, i){
+    h += '<button class="ob" data-v="' + esc(o) + '">' + (i+1) + '. ' + esc(o) + '</button>';
+  });
+  document.getElementById('og').innerHTML = h;
+  var fb = document.getElementById('fb');
+  fb.className = 'fb'; fb.textContent = '';
+  document.getElementById('nx').classList.remove('show');
+  document.getElementById('nx').textContent = (idx === pool.length - 1) ? 'See result →' : 'Next →';
+  document.getElementById('pt').textContent = idx + ' / ' + pool.length;
+  document.getElementById('pf').style.width = Math.round(idx / pool.length * 100) + '%';
+}
+
+function answer(btn){
+  if (answered) return;
+  answered = true;
+  var q = pool[idx];
+  document.getElementById('og').querySelectorAll('.ob').forEach(function(b){
+    b.disabled = true;
+    if (b.dataset.v === q.ans) b.classList.add('correct');
+  });
+  var fb = document.getElementById('fb');
+  if (btn.dataset.v === q.ans){
+    score++; byGroup[q.g].ok++;
+    fb.className = 'fb ok'; fb.textContent = '✅ ' + q.e;
+  } else {
+    btn.classList.add('incorrect');
+    missed.push(q);
+    fb.className = 'fb no';
+    fb.textContent = '❌ Correct answer: ' + q.ans + '  —  ' + q.e;
+  }
+  document.getElementById('sv').textContent = score;
+  document.getElementById('pt').textContent = (idx + 1) + ' / ' + pool.length;
+  document.getElementById('pf').style.width = Math.round((idx + 1) / pool.length * 100) + '%';
+  document.getElementById('nx').classList.add('show');
+}
+
+function next(){
+  if (!answered) return;
+  if (idx < pool.length - 1){ idx++; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+  else finish();
+}
+
+function finish(){
+  clearInterval(timerInterval);
+  var e = Math.floor((Date.now() - startTime) / 1000);
+  var time = Math.floor(e/60) + ':' + (e%60).toString().padStart(2,'0');
+  var pct = Math.round(score / pool.length * 100);
+  var cfgs = [
+    {min:90, emoji:'🏆', title:'You understand this section.', msg:'Not just the terms — the causes and comparisons too.'},
+    {min:75, emoji:'🌟', title:'Solid understanding.',         msg:'Read the explanations below for the few you missed.'},
+    {min:55, emoji:'👍', title:'Half way there.',              msg:'Reread the weakest part below, then retry the misses.'},
+    {min:0,  emoji:'📚', title:'Back to the pages.',           msg:'Work through the section again, then take this test cold.'}
+  ];
+  var cfg = cfgs.find(function(c){ return pct >= c.min; });
+  document.getElementById('re').textContent = cfg.emoji;
+  document.getElementById('rt').textContent = cfg.title;
+  document.getElementById('rsc').textContent = score + ' / ' + pool.length;
+  document.getElementById('rm').textContent = cfg.msg;
+  document.getElementById('stPct').textContent = pct + '%';
+  document.getElementById('stT').textContent = time;
+
+  var worst = null, h = '<div class="bdh">How you did, part by part</div>';
+  Object.keys(byGroup).forEach(function(g){
+    var b = byGroup[g], p = Math.round(b.ok / b.n * 100);
+    if (worst === null || p < worst.p) worst = {g:g, p:p};
+    var col = p >= 80 ? '#16a34a' : (p >= 50 ? '#f59e0b' : '#ef4444');
+    h += '<div class="br"><div class="brn">' + esc(g) + '</div>'
+       + '<div class="brw"><div class="brf" style="width:' + p + '%;background:' + col + '"></div></div>'
+       + '<div class="brs">' + b.ok + '/' + b.n + '</div></div>';
+  });
+  document.getElementById('bd').innerHTML = h;
+  document.getElementById('stWeak').textContent = (worst && worst.p < 100) ? worst.g.split(' ')[0] : '—';
+
+  var m = '';
+  if (missed.length){
+    m = '<div class="msh">Review these (' + missed.length + ')</div>';
+    missed.forEach(function(q){
+      m += '<div class="mi"><span class="miq">' + esc(q.q) + '</span>'
+         + '<span class="mia">→ ' + esc(q.ans) + '</span>'
+         + '<span class="mie">' + esc(q.e) + '</span></div>';
+    });
+  }
+  document.getElementById('miss').innerHTML = m;
+  document.getElementById('again').disabled = missed.length === 0;
+  document.getElementById('card').style.display = 'none';
+  document.getElementById('rsd').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+  try {
+    var prev = JSON.parse(localStorage.getItem('test_ch19_s1') || '{}');
+    if (!prev.pct || pct > prev.pct)
+      localStorage.setItem('test_ch19_s1', JSON.stringify({pct:pct, time:time, date:new Date().toLocaleDateString()}));
+  } catch(err){}
+}
+
+document.getElementById('og').addEventListener('click', function(ev){
+  var b = ev.target.closest('.ob');
+  if (b) answer(b);
+});
+document.getElementById('nx').addEventListener('click', next);
+document.getElementById('restart').addEventListener('click', function(){ start(shuffle(QS)); });
+document.getElementById('again').addEventListener('click', function(){
+  start(missed.map(function(q){ return q.src; }));
+});
+document.addEventListener('keydown', function(ev){
+  if (document.getElementById('rsd').classList.contains('show')) return;
+  if (ev.key === 'Enter'){ ev.preventDefault(); next(); return; }
+  var n = parseInt(ev.key, 10);
+  if (n >= 1 && n <= 4){
+    var bs = document.getElementById('og').querySelectorAll('.ob');
+    if (bs[n-1]) answer(bs[n-1]);
+  }
+});
+
+start(QS);
+</script>
+</body>
+</html>

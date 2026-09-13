@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Term Drill — The Enlightenment, Section 1 (pp. 564–571)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sun:#f59e0b; --sea:#0ea5e9; --olive:#16a34a;
+  --bg:#f0f9ff; --text:#1e293b; --muted:#64748b; --border:#e2e8f0;
+  --correct:#dcfce7; --cb:#16a34a; --wrong:#fee2e2; --wb:#ef4444;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);
+     font-family:'Nunito',-apple-system,BlinkMacSystemFont,sans-serif;}
+h1{font-family:'Lora',Georgia,serif;font-style:italic;margin:6px 0;font-size:29px;}
+
+.ph{background:linear-gradient(135deg,#0369a1 0%,#0284c7 40%,#0ea5e9 70%,#38bdf8 100%);
+    overflow:hidden;position:relative;color:white;padding:24px 22px 20px;}
+.ph::before{content:'🏛️';position:absolute;font-size:150px;opacity:.07;bottom:-20px;right:-10px;}
+.ub{display:inline-block;background:rgba(255,255,255,.22);padding:4px 12px;border-radius:20px;
+    font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;}
+.sub{font-size:13px;font-weight:700;opacity:.9;}
+
+.sb{background:white;border-bottom:2px solid var(--border);padding:10px 20px;
+    display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;flex-wrap:wrap;}
+.sl{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.sv{font-size:20px;font-weight:900;color:var(--sea);}
+.pw{flex:1;min-width:90px;background:#e2e8f0;border-radius:6px;height:8px;overflow:hidden;}
+.pf{height:100%;background:linear-gradient(90deg,var(--sea),var(--sun));border-radius:6px;transition:width .4s;width:0%;}
+.pt{font-size:12px;font-weight:800;color:var(--muted);}
+.stk{font-size:12px;font-weight:800;color:#92400e;background:#fef3c7;padding:3px 8px;border-radius:6px;}
+.tm{font-size:12px;font-weight:700;color:var(--muted);background:#f1f5f9;padding:3px 8px;border-radius:6px;}
+
+.main{max-width:760px;margin:0 auto;padding:24px 20px 70px;}
+.card{background:white;border-radius:16px;padding:26px 24px;border:2px solid var(--border);
+      box-shadow:0 3px 16px rgba(0,0,0,.05);}
+.dir{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;
+     color:var(--sea);margin-bottom:10px;}
+.qt{font-size:19px;font-weight:800;line-height:1.5;margin-bottom:20px;}
+.qt em{font-family:'Lora',Georgia,serif;font-style:italic;font-weight:600;}
+.og{display:flex;flex-direction:column;gap:9px;}
+.ob{padding:13px 16px;border:2px solid var(--border);border-radius:11px;background:white;
+    font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;
+    transition:all .16s;text-align:left;line-height:1.45;color:var(--text);}
+.ob:hover:not(:disabled){border-color:var(--sea);background:#e0f2fe;}
+.ob.correct{background:var(--correct);border-color:var(--cb);color:#166534;}
+.ob.incorrect{background:var(--wrong);border-color:var(--wb);color:#991b1b;}
+.ob:disabled{cursor:default;}
+.fb{margin-top:14px;padding:11px 14px;border-radius:9px;font-size:13px;font-weight:700;
+    display:none;line-height:1.55;}
+.fb.ok{display:block;background:var(--correct);color:#166534;border:1px solid var(--cb);}
+.fb.no{display:block;background:var(--wrong);color:#991b1b;border:1px solid var(--wb);}
+.nx{display:none;margin-top:16px;width:100%;padding:13px;background:var(--sea);color:white;
+    border:none;border-radius:11px;font-family:'Nunito',sans-serif;font-size:15px;
+    font-weight:900;cursor:pointer;}
+.nx.show{display:block;}
+.kb{text-align:center;font-size:11px;color:var(--muted);font-weight:700;margin-top:14px;}
+
+.rsd{display:none;background:white;border-radius:16px;padding:30px 24px;border:2px solid var(--border);text-align:center;}
+.rsd.show{display:block;}
+#re{font-size:54px;}
+#rt{font-size:23px;font-weight:900;margin:6px 0;}
+#rsc{font-size:33px;font-weight:900;color:var(--sea);}
+#rm{font-size:13px;color:var(--muted);font-weight:700;margin-top:6px;}
+.sts{display:flex;justify-content:center;gap:11px;margin-top:18px;flex-wrap:wrap;}
+.stb{background:#f8fafc;border:2px solid var(--border);border-radius:10px;padding:10px 16px;min-width:88px;}
+.stv{font-size:18px;font-weight:900;}
+.stl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+.miss{margin-top:22px;text-align:left;}
+.msh{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:#991b1b;margin-bottom:8px;}
+.mi{background:#fef2f2;border:1px solid #fecaca;border-radius:9px;padding:9px 12px;margin-bottom:6px;font-size:13px;}
+.mit2{font-weight:900;display:block;}
+.mid{color:var(--muted);font-weight:600;}
+.btns{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap;}
+.rbtn{padding:11px 20px;border:none;border-radius:10px;font-family:'Nunito',sans-serif;
+      font-size:13px;font-weight:900;cursor:pointer;color:white;background:var(--sea);}
+.rbtn.alt{background:var(--olive);}
+.rbtn:disabled{opacity:.4;cursor:default;}
+@media (max-width:560px){ h1{font-size:23px;} .card{padding:20px 16px;} .qt{font-size:17px;} }
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="ub">Chapter 19 · Section 1 · Term Drill</div>
+  <h1>The Enlightenment — Key Terms</h1>
+  <div class="sub">25 rapid questions · pages 564–571 · both directions</div>
+</div>
+
+<div class="sb">
+  <div class="sl">Score</div><div class="sv" id="sv">0</div>
+  <div class="pw"><div class="pf" id="pf"></div></div>
+  <div class="pt" id="pt">0 / 25</div>
+  <div class="stk" id="stk">🔥 0</div>
+  <div class="tm" id="tm">⏱ 0:00</div>
+</div>
+
+<div class="main">
+  <div class="card" id="card">
+    <div class="dir" id="dir"></div>
+    <div class="qt" id="qt"></div>
+    <div class="og" id="og"></div>
+    <div class="fb" id="fb"></div>
+    <button class="nx" id="nx">Next →</button>
+    <div class="kb">Press 1–4 to answer · Enter for next</div>
+  </div>
+
+  <div class="rsd" id="rsd">
+    <div id="re">🏆</div>
+    <div id="rt">Outstanding!</div>
+    <div id="rsc">0 / 25</div>
+    <div id="rm"></div>
+    <div class="sts">
+      <div class="stb"><div class="stv" id="stPct">0%</div><div class="stl">Score</div></div>
+      <div class="stb"><div class="stv" id="stStk">0</div><div class="stl">Best streak</div></div>
+      <div class="stb"><div class="stv" id="stT">0:00</div><div class="stl">Time</div></div>
+    </div>
+    <div class="miss" id="miss"></div>
+    <div class="btns">
+      <button class="rbtn alt" id="again">Drill the misses</button>
+      <button class="rbtn" id="restart">Full drill again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var TERMS = [
+ {"t":"Enlightenment","d":"the philosophical movement of the 1600s and 1700s that stressed reason and the scientific method, also called the Age of Reason","x":["Scientific Revolution"]},
+ {"t":"Natural rights","d":"the rights to life, liberty and property that many believe people are born with","x":["John Locke","Social contract"]},
+ {"t":"Philosophes","d":"French thinkers who applied the scientific method to social problems","x":["Voltaire","Montesquieu","Rousseau"]},
+ {"t":"Salons","d":"gatherings of thinkers and artists to discuss the important issues of the day","x":["Madame Geoffrin"]},
+ {"t":"Enlightened despots","d":"absolute rulers who tried to use their power in a just and enlightened way","x":["Absolute monarchs","Frederick II of Prussia","Joseph II of Austria","Catherine the Great"]},
+ {"t":"Reformation","d":"the movement in the 1500s to change practices in the Catholic Church","x":["Renaissance"]},
+ {"t":"Absolute monarchs","d":"kings or queens who had unlimited power","x":["Enlightened despots","Divine right of kings"]},
+ {"t":"Divine right of kings","d":"the claim that monarchs ruled by the authority of God","x":["Absolute monarchs","John Locke"]},
+ {"t":"Social contract","d":"the idea that people consent to be governed in return for protection of their rights","x":["John Locke","Natural rights"]},
+ {"t":"Separation of powers","d":"dividing government into three branches that keep each other in check","x":["Montesquieu"]},
+ {"t":"Scientific Revolution","d":"the mid-1500s period when scientists found new truths about nature by experimenting and using reason","x":["Enlightenment","Renaissance"]},
+ {"t":"Renaissance","d":"the period when scholars rediscovered the writings of Greek and Roman philosophers","x":["Reformation","Scientific Revolution"]},
+ {"t":"Serfs","d":"peasants who were forced to work the land of wealthy landowners","x":["Joseph II of Austria"]},
+ {"t":"John Locke","d":"the English philosopher who said government power comes from the people and must protect their natural rights","x":["Natural rights","Social contract","Divine right of kings"]},
+ {"t":"Voltaire","d":"the philosophe who attacked religious intolerance and superstition and demanded freedom of speech","x":["Philosophes"]},
+ {"t":"Montesquieu","d":"the philosophe who wanted government split into three branches so none grew too powerful","x":["Separation of powers","Philosophes"]},
+ {"t":"Rousseau","d":"the philosophe who opposed titles of nobility because he believed all people were created equal","x":["Philosophes"]},
+ {"t":"Madame Geoffrin","d":"the admired Paris hostess who knew how to draw out the best ideas of her guests","x":["Salons"]},
+ {"t":"Mary Wollstonecraft","d":"the Englishwoman who published A Vindication of the Rights of Woman in 1792","x":["Mary Astell","Judith Sargent Murray"]},
+ {"t":"Mary Astell","d":"the English writer who criticized the lack of educational opportunities for women in 1694","x":["Mary Wollstonecraft","Judith Sargent Murray"]},
+ {"t":"Judith Sargent Murray","d":"the American writer who argued in 1784 that women denied an education thought poorly of themselves","x":["Mary Astell","Mary Wollstonecraft"]},
+ {"t":"Frederick II of Prussia","d":"the ruler who granted religious freedom and outlawed torture but did little for the serfs","x":["Joseph II of Austria","Catherine the Great","Enlightened despots"]},
+ {"t":"Joseph II of Austria","d":"the ruler who abolished serfdom and the death penalty and extended freedoms to Jews","x":["Frederick II of Prussia","Catherine the Great","Serfs"]},
+ {"t":"Catherine the Great","d":"the Russian ruler who opened schools and hospitals but gave the nobles absolute power over the serfs","x":["Frederick II of Prussia","Joseph II of Austria"]},
+ {"t":"George III","d":"the king who took the British throne in 1760 and taxed the American colonists"}
+];
+
+var TOTAL = TERMS.length;
+var pool = [], idx = 0, score = 0, streak = 0, bestStreak = 0, missed = [];
+var startTime = Date.now(), timerInterval, answered = false;
+
+function shuffle(a){
+  a = a.slice();
+  for (var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function blocked(a, b){
+  return (a.x && a.x.indexOf(b.t) >= 0) || (b.x && b.x.indexOf(a.t) >= 0);
+}
+function distractors(term, n){
+  var out = [], cand = shuffle(TERMS);
+  for (var i = 0; i < cand.length && out.length < n; i++){
+    if (cand[i].t === term.t) continue;
+    if (blocked(term, cand[i])) continue;
+    out.push(cand[i]);
+  }
+  return out;
+}
+function buildQuestion(term){
+  var dir = Math.random() < 0.5 ? 'toDef' : 'toTerm';
+  var ds = distractors(term, 3);
+  if (dir === 'toTerm'){
+    return {dir:'Which term fits this definition?',
+            q:'<em>' + esc(term.d) + '</em>',
+            opts: shuffle([term.t].concat(ds.map(function(d){ return d.t; }))),
+            ans: term.t, term: term};
+  }
+  return {dir:'What does this term mean?',
+          q: esc(term.t),
+          opts: shuffle([term.d].concat(ds.map(function(d){ return d.d; }))),
+          ans: term.d, term: term};
+}
+
+timerInterval = setInterval(function(){
+  var e = Math.floor((Date.now() - startTime) / 1000);
+  document.getElementById('tm').textContent = '⏱ ' + Math.floor(e/60) + ':' + (e%60).toString().padStart(2,'0');
+}, 1000);
+
+function start(list){
+  pool = shuffle(list).map(buildQuestion);
+  idx = 0; score = 0; streak = 0; bestStreak = 0; missed = [];
+  startTime = Date.now();
+  document.getElementById('sv').textContent = '0';
+  document.getElementById('stk').textContent = '🔥 0';
+  document.getElementById('rsd').classList.remove('show');
+  document.getElementById('card').style.display = 'block';
+  render();
+}
+
+function render(){
+  answered = false;
+  var q = pool[idx];
+  document.getElementById('dir').textContent = q.dir;
+  document.getElementById('qt').innerHTML = q.q;
+  var h = '';
+  q.opts.forEach(function(o, i){
+    h += '<button class="ob" data-v="' + esc(o) + '">' + (i+1) + '. ' + esc(o) + '</button>';
+  });
+  document.getElementById('og').innerHTML = h;
+  var fb = document.getElementById('fb');
+  fb.className = 'fb'; fb.textContent = '';
+  document.getElementById('nx').classList.remove('show');
+  document.getElementById('nx').textContent = (idx === pool.length - 1) ? 'See result →' : 'Next →';
+  document.getElementById('pt').textContent = idx + ' / ' + pool.length;
+  document.getElementById('pf').style.width = Math.round(idx / pool.length * 100) + '%';
+}
+
+function answer(btn){
+  if (answered) return;
+  answered = true;
+  var q = pool[idx];
+  document.getElementById('og').querySelectorAll('.ob').forEach(function(b){
+    b.disabled = true;
+    if (b.dataset.v === q.ans) b.classList.add('correct');
+  });
+  var fb = document.getElementById('fb');
+  if (btn.dataset.v === q.ans){
+    score++; streak++; if (streak > bestStreak) bestStreak = streak;
+    fb.className = 'fb ok';
+    fb.textContent = '✅ ' + q.term.t + ' — ' + q.term.d;
+  } else {
+    btn.classList.add('incorrect');
+    streak = 0;
+    missed.push(q.term);
+    fb.className = 'fb no';
+    fb.textContent = '❌ ' + q.term.t + ' — ' + q.term.d;
+  }
+  document.getElementById('sv').textContent = score;
+  document.getElementById('stk').textContent = '🔥 ' + streak;
+  document.getElementById('pt').textContent = (idx + 1) + ' / ' + pool.length;
+  document.getElementById('pf').style.width = Math.round((idx + 1) / pool.length * 100) + '%';
+  document.getElementById('nx').classList.add('show');
+}
+
+function next(){
+  if (!answered) return;
+  if (idx < pool.length - 1){ idx++; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+  else finish();
+}
+
+function finish(){
+  clearInterval(timerInterval);
+  var e = Math.floor((Date.now() - startTime) / 1000);
+  var time = Math.floor(e/60) + ':' + (e%60).toString().padStart(2,'0');
+  var pct = Math.round(score / pool.length * 100);
+  var cfgs = [
+    {min:92, emoji:'🏆', title:'Terms mastered!', msg:'You can define every key term in Section 1.'},
+    {min:76, emoji:'🌟', title:'Strong!',         msg:'Only a few terms left to nail down.'},
+    {min:56, emoji:'👍', title:'Getting there.',  msg:'Drill the misses below, then run the full set again.'},
+    {min:0,  emoji:'📚', title:'Keep drilling.',  msg:'Reread the Terms and Names box on page 564 first.'}
+  ];
+  var cfg = cfgs.find(function(c){ return pct >= c.min; });
+  document.getElementById('re').textContent = cfg.emoji;
+  document.getElementById('rt').textContent = cfg.title;
+  document.getElementById('rsc').textContent = score + ' / ' + pool.length;
+  document.getElementById('rm').textContent = cfg.msg;
+  document.getElementById('stPct').textContent = pct + '%';
+  document.getElementById('stStk').textContent = bestStreak;
+  document.getElementById('stT').textContent = time;
+
+  var m = document.getElementById('miss'), h = '';
+  if (missed.length){
+    h = '<div class="msh">Terms to review (' + missed.length + ')</div>';
+    missed.forEach(function(t){
+      h += '<div class="mi"><span class="mit2">' + esc(t.t) + '</span><span class="mid">' + esc(t.d) + '</span></div>';
+    });
+  }
+  m.innerHTML = h;
+  document.getElementById('again').disabled = missed.length === 0;
+  document.getElementById('card').style.display = 'none';
+  document.getElementById('rsd').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+  try {
+    var prev = JSON.parse(localStorage.getItem('drill_ch19_s1') || '{}');
+    if (!prev.pct || pct > prev.pct)
+      localStorage.setItem('drill_ch19_s1', JSON.stringify({pct:pct, time:time, date:new Date().toLocaleDateString()}));
+  } catch(err){}
+}
+
+document.getElementById('og').addEventListener('click', function(ev){
+  var b = ev.target.closest('.ob');
+  if (b) answer(b);
+});
+document.getElementById('nx').addEventListener('click', next);
+document.getElementById('restart').addEventListener('click', function(){
+  clearInterval(timerInterval);
+  timerInterval = setInterval(function(){
+    var e = Math.floor((Date.now() - startTime) / 1000);
+    document.getElementById('tm').textContent = '⏱ ' + Math.floor(e/60) + ':' + (e%60).toString().padStart(2,'0');
+  }, 1000);
+  start(TERMS);
+});
+document.getElementById('again').addEventListener('click', function(){
+  var list = missed.slice();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(function(){
+    var e = Math.floor((Date.now() - startTime) / 1000);
+    document.getElementById('tm').textContent = '⏱ ' + Math.floor(e/60) + ':' + (e%60).toString().padStart(2,'0');
+  }, 1000);
+  start(list);
+});
+document.addEventListener('keydown', function(ev){
+  if (document.getElementById('rsd').classList.contains('show')) return;
+  if (ev.key === 'Enter'){ ev.preventDefault(); next(); return; }
+  var n = parseInt(ev.key, 10);
+  if (n >= 1 && n <= 4){
+    var bs = document.getElementById('og').querySelectorAll('.ob');
+    if (bs[n-1]) answer(bs[n-1]);
+  }
+});
+
+start(TERMS);
+</script>
+</body>
+</html>
