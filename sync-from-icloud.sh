@@ -109,27 +109,6 @@ else
 CARD_END
   done
 
-  # Add upload and parent dashboard cards
-  cat >> "$CARDS_TMP" <<'EXTRA_CARDS'
-
-  <a class="card" href="upload.html">
-    <div class="card-icon upload">📎</div>
-    <div class="card-body">
-      <h2>Nahrať súbor pre mamu</h2>
-      <p>Pošli poznámky, zadania alebo fotky</p>
-    </div>
-    <span class="arrow">→</span>
-  </a>
-
-  <a class="card" href="rodic.html">
-    <div class="card-icon parent">👨‍👩‍👦</div>
-    <div class="card-body">
-      <h2>Rodičovský prehľad</h2>
-      <p>Výsledky kvízov a worksheetov</p>
-    </div>
-    <span class="arrow">→</span>
-  </a>
-EXTRA_CARDS
 
   # Replace the cards section in index.html using python
   python3 - "$REPO_DIR/index.html" "$CARDS_TMP" <<'PYEOF'

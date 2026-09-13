@@ -43,10 +43,21 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
 /* Header */
 .header {
   background:linear-gradient(135deg,#7c3aed 0%,#8b5cf6 40%,#a78bfa 70%,#c4b5fd 100%);
-  padding:36px 24px 32px; text-align:center; color:white;
+  padding:36px 24px 32px; text-align:center; color:white; position:relative; overflow:hidden;
 }
 .header h1 { font-family:'Lora',serif; font-style:italic; font-size:2rem; margin-bottom:8px; }
 .header p { font-size:15px; opacity:.9; max-width:500px; margin:0 auto; }
+.navbar {
+  display:flex; justify-content:flex-end; gap:8px;
+  padding:12px 20px; position:absolute; top:0; right:0; z-index:2;
+}
+.nav-btn {
+  display:flex; align-items:center; gap:6px; padding:8px 14px;
+  background:rgba(255,255,255,.18); border-radius:10px; text-decoration:none;
+  color:white; font-size:13px; font-weight:700; backdrop-filter:blur(6px); transition:background .2s;
+}
+.nav-btn:hover { background:rgba(255,255,255,.32); }
+.nav-btn .nav-icon { font-size:16px; }
 
 /* Dashboard */
 .dash { max-width:700px; margin:-20px auto 40px; padding:0 16px; position:relative; z-index:1; }
@@ -144,6 +155,10 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
 
 <div id="content">
 <div class="header">
+  <div class="navbar">
+    <a class="nav-btn" href="index.html"><span class="nav-icon">📚</span> Učenie</a>
+    <a class="nav-btn" href="upload.html"><span class="nav-icon">📎</span> Nahrať</a>
+  </div>
   <h1>Edkove výsledky</h1>
   <p>Prehľad všetkých kvízov a worksheetov</p>
 </div>
