@@ -49,7 +49,8 @@ CARDS_TMP="$(mktemp)"
 
 for file in "${CARD_FILES[@]}"; do
   # Extract <title> from the HTML file
-  title="$(grep -oPm1 '(?<=<title>)[^<]+' "$REPO_DIR/$file" 2>/dev/null || echo "$file")"
+  title="$(sed -n 's/.*<title>\([^<]*\)<\/title>.*/\1/p' "$REPO_DIR/$file" 2>/dev/null | head -1)"
+  [ -z "$title" ] && title="$file"
 
   # Determine icon and class based on filename keywords
   lower="$(echo "$file $title" | tr '[:upper:]' '[:lower:]')"
