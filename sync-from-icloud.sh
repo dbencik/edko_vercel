@@ -70,42 +70,40 @@ else
   # Build cards HTML into a temp file
   CARDS_TMP="$(mktemp)"
 
+  # Number cards: oldest = #1 (reverse the newest-first list)
+  TOTAL=${#CARD_FILES[@]}
+
   for file in "${CARD_FILES[@]}"; do
     # Extract <title> from the HTML file
     title="$(sed -n 's/.*<title>\([^<]*\)<\/title>.*/\1/p' "$REPO_DIR/$file" 2>/dev/null | head -1)"
     [ -z "$title" ] && title="$file"
 
-    # Determine icon and class based on filename keywords
+    # Determine description based on filename keywords
     lower="$(echo "$file $title" | tr '[:upper:]' '[:lower:]')"
 
     if echo "$lower" | grep -qiE 'flashcard|kartic'; then
-      icon='🃏'; icon_class='flash'; desc='Precvic si pojmy pomocou karticiek'
+      desc='Karty'
     elif echo "$lower" | grep -qiE 'exam|test|quiz|kviz'; then
-      icon='📝'; icon_class='exam'; desc='Otestuj si svoje vedomosti'
+      desc='Kviz'
     elif echo "$lower" | grep -qiE 'worksheet|pracovn|interactive|drill'; then
-      icon='✍️'; icon_class='worksheet'; desc='Interaktivny pracovny list'
-    elif echo "$lower" | grep -qiE 'volb|election|obcian'; then
-      icon='🗳️'; icon_class='history'; desc='Obcianska nauka'
-    elif echo "$lower" | grep -qiE 'histor|dejep|revolution|enlighten|osvietens'; then
-      icon='🏛️'; icon_class='history'; desc='Dejepis'
-    elif echo "$lower" | grep -qiE 'video'; then
-      icon='▶️'; icon_class='video'; desc='Video na pozretie'
+      desc='Worksheet'
     elif echo "$lower" | grep -qiE 'kniha|citanie|reading|book'; then
-      icon='📖'; icon_class='exam'; desc='Citanie a porozumenie textu'
+      desc='Citanie'
     else
-      icon='📚'; icon_class='exam'; desc='Ucebny material'
+      desc='Ucenie'
     fi
 
     cat >> "$CARDS_TMP" <<CARD_END
 
   <a class="card" href="$file">
-    <div class="card-top"><div class="card-icon $icon_class">$icon</div><span class="arrow">→</span></div>
+    <div class="card-num">$TOTAL</div>
     <div class="card-body">
       <h2>$title</h2>
       <p>$desc</p>
     </div>
   </a>
 CARD_END
+    TOTAL=$((TOTAL - 1))
   done
 
 

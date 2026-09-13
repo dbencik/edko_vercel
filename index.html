@@ -47,88 +47,70 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
 
 /* Cards */
 .cards {
-  max-width: 800px;
+  max-width: 960px;
   margin: -24px auto 40px;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
   position: relative;
   z-index: 1;
 }
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 440px) {
   .cards { grid-template-columns: 1fr; }
 }
 .card {
   background: white;
-  border-radius: 14px;
-  padding: 16px;
+  border-radius: 12px;
+  padding: 12px 14px;
   text-decoration: none;
   color: var(--text);
-  box-shadow: 0 2px 12px rgba(0,0,0,.06);
-  border: 2px solid var(--border);
+  box-shadow: 0 1px 6px rgba(0,0,0,.05);
+  border: 1.5px solid var(--border);
   transition: all .2s ease;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 8px;
 }
 .card:hover {
   border-color: var(--sea);
-  box-shadow: 0 4px 20px rgba(14,165,233,.15);
-  transform: translateY(-2px);
+  box-shadow: 0 3px 12px rgba(14,165,233,.12);
+  transform: translateY(-1px);
 }
-.card-icon {
-  font-size: 28px;
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
+.card-num {
+  font-size: 11px; font-weight: 900; color: white;
+  background: var(--sea); border-radius: 6px;
+  width: 22px; height: 22px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 1px;
 }
-.card-icon.video { background: #fee2e2; }
-.card-icon.exam { background: #dbeafe; }
-.card-icon.flash { background: #fef3c7; }
-.card-icon.history { background: #ede9fe; }
-.card-icon.worksheet { background: #d1fae5; }
-.card-icon.upload { background: #e0e7ff; }
-.card-icon.parent { background: #fce7f3; }
-.card-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.card-body { flex: 1; min-width: 0; }
 .card-body h2 {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
   line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .card-body p {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--muted);
-  line-height: 1.3;
-}
-.arrow {
-  margin-left: auto;
-  font-size: 16px;
-  color: var(--muted);
-  flex-shrink: 0;
-  transition: transform .2s;
-}
-.card:hover .arrow {
-  transform: translateX(4px);
-  color: var(--sea);
+  line-height: 1.2;
+  margin-top: 2px;
 }
 .card.done { border-color: #bbf7d0; background: #f0fdf4; }
-.card.done .card-icon { position: relative; }
-.card.done .card-icon::after {
-  content: '✅'; position: absolute; bottom: -4px; right: -4px;
-  font-size: 16px; line-height: 1;
+.card.done .card-num { background: var(--olive); }
+.card.done::after {
+  content: '✅'; font-size: 12px; flex-shrink: 0; margin-top: 1px;
 }
 .card .badge {
-  font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px;
-  display: inline-block; margin-top: 4px;
+  font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 5px;
+  display: inline-block; margin-top: 3px;
 }
 .badge.good { background: #dcfce7; color: #16a34a; }
 .badge.ok { background: #fef3c7; color: #d97706; }
@@ -255,82 +237,82 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
 <div class="cards">
 
   <a class="card" href="worksheet_history_enlightenment_565-567.html">
-    <div class="card-top"><div class="card-icon worksheet">✍️</div><span class="arrow">→</span></div>
+    <div class="card-num">10</div>
     <div class="card-body">
       <h2>The Enlightenment in Europe — Interactive Worksheet (pp. 565–567)</h2>
-      <p>Interaktivny pracovny list</p>
+      <p>Worksheet</p>
     </div>
   </a>
 
   <a class="card" href="women-salons-and-the-enlightened-despots-interactive-worksheet-pp.-568-571.html">
-    <div class="card-top"><div class="card-icon worksheet">✍️</div><span class="arrow">→</span></div>
+    <div class="card-num">9</div>
     <div class="card-body">
       <h2>Women, Salons and the Enlightened Despots — Interactive Worksheet (pp. 568–571)</h2>
-      <p>Interaktivny pracovny list</p>
+      <p>Worksheet</p>
     </div>
   </a>
 
   <a class="card" href="understanding-test-the-enlightenment-section-1-pp.-564-571.html">
-    <div class="card-top"><div class="card-icon exam">📝</div><span class="arrow">→</span></div>
+    <div class="card-num">8</div>
     <div class="card-body">
       <h2>Understanding Test — The Enlightenment, Section 1 (pp. 564–571)</h2>
-      <p>Otestuj si svoje vedomosti</p>
+      <p>Kviz</p>
     </div>
   </a>
 
   <a class="card" href="kviz_tato-kniha-zabija_kapitola-2.html">
-    <div class="card-top"><div class="card-icon exam">📝</div><span class="arrow">→</span></div>
+    <div class="card-num">7</div>
     <div class="card-body">
       <h2>Táto kniha zabíja — 2. kapitola · čítanie s porozumením</h2>
-      <p>Otestuj si svoje vedomosti</p>
+      <p>Kviz</p>
     </div>
   </a>
 
   <a class="card" href="drill_enlightenment_terms_section1.html">
-    <div class="card-top"><div class="card-icon worksheet">✍️</div><span class="arrow">→</span></div>
+    <div class="card-num">6</div>
     <div class="card-body">
       <h2>Term Drill — The Enlightenment, Section 1 (pp. 564–571)</h2>
-      <p>Interaktivny pracovny list</p>
+      <p>Worksheet</p>
     </div>
   </a>
 
   <a class="card" href="slovak_elections_quiz.html">
-    <div class="card-top"><div class="card-icon exam">📝</div><span class="arrow">→</span></div>
+    <div class="card-num">5</div>
     <div class="card-body">
       <h2>Slovak Elections — Interactive Quiz</h2>
-      <p>Otestuj si svoje vedomosti</p>
+      <p>Kviz</p>
     </div>
   </a>
 
   <a class="card" href="endocrine_system_worksheet.html">
-    <div class="card-top"><div class="card-icon worksheet">✍️</div><span class="arrow">→</span></div>
+    <div class="card-num">4</div>
     <div class="card-body">
       <h2>Endocrine System — Interactive Worksheet</h2>
-      <p>Interaktivny pracovny list</p>
+      <p>Worksheet</p>
     </div>
   </a>
 
   <a class="card" href="history_scientific-revolution.html">
-    <div class="card-top"><div class="card-icon exam">📝</div><span class="arrow">→</span></div>
+    <div class="card-num">3</div>
     <div class="card-body">
       <h2>The Scientific Revolution — MCQ Quiz</h2>
-      <p>Otestuj si svoje vedomosti</p>
+      <p>Kviz</p>
     </div>
   </a>
 
   <a class="card" href="exam_biology_reproductive_system.html">
-    <div class="card-top"><div class="card-icon exam">📝</div><span class="arrow">→</span></div>
+    <div class="card-num">2</div>
     <div class="card-body">
       <h2>Biology Exam — Human Reproductive System</h2>
-      <p>Otestuj si svoje vedomosti</p>
+      <p>Kviz</p>
     </div>
   </a>
 
   <a class="card" href="flashcards_reproductive_system.html">
-    <div class="card-top"><div class="card-icon flash">🃏</div><span class="arrow">→</span></div>
+    <div class="card-num">1</div>
     <div class="card-body">
       <h2>Reproductive System Flashcards</h2>
-      <p>Precvic si pojmy pomocou karticiek</p>
+      <p>Karty</p>
     </div>
   </a>
 
