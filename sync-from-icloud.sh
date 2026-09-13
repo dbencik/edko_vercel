@@ -30,7 +30,7 @@ for src in "$ICLOUD_DIR"/*.html; do
 
   # Copy if new or changed
   if [ ! -f "$REPO_DIR/$normalized" ] || ! diff -q "$src" "$REPO_DIR/$normalized" > /dev/null 2>&1; then
-    cp "$src" "$REPO_DIR/$normalized"
+    cp -p "$src" "$REPO_DIR/$normalized"
     echo "Copied: $fname -> $normalized"
     CHANGED=1
   fi

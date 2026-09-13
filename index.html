@@ -112,6 +112,19 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
   transform: translateX(4px);
   color: var(--sea);
 }
+.card.done { border-color: #bbf7d0; background: #f0fdf4; }
+.card.done .card-icon { position: relative; }
+.card.done .card-icon::after {
+  content: '✅'; position: absolute; bottom: -4px; right: -4px;
+  font-size: 16px; line-height: 1;
+}
+.card .badge {
+  font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px;
+  display: inline-block; margin-top: 4px;
+}
+.badge.good { background: #dcfce7; color: #16a34a; }
+.badge.ok { background: #fef3c7; color: #d97706; }
+.badge.bad { background: #fee2e2; color: #dc2626; }
 
 /* Navbar */
 .navbar {
@@ -260,15 +273,6 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
     <span class="arrow">→</span>
   </a>
 
-  <a class="card" href="slovak_elections_quiz.html">
-    <div class="card-icon exam">📝</div>
-    <div class="card-body">
-      <h2>Slovak Elections — Interactive Quiz</h2>
-      <p>Otestuj si svoje vedomosti</p>
-    </div>
-    <span class="arrow">→</span>
-  </a>
-
   <a class="card" href="kviz_tato-kniha-zabija_kapitola-2.html">
     <div class="card-icon exam">📝</div>
     <div class="card-body">
@@ -278,28 +282,19 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
     <span class="arrow">→</span>
   </a>
 
-  <a class="card" href="history_scientific-revolution.html">
-    <div class="card-icon exam">📝</div>
+  <a class="card" href="drill_enlightenment_terms_section1.html">
+    <div class="card-icon worksheet">✍️</div>
     <div class="card-body">
-      <h2>The Scientific Revolution — MCQ Quiz</h2>
-      <p>Otestuj si svoje vedomosti</p>
+      <h2>Term Drill — The Enlightenment, Section 1 (pp. 564–571)</h2>
+      <p>Interaktivny pracovny list</p>
     </div>
     <span class="arrow">→</span>
   </a>
 
-  <a class="card" href="flashcards_reproductive_system.html">
-    <div class="card-icon flash">🃏</div>
-    <div class="card-body">
-      <h2>Reproductive System Flashcards</h2>
-      <p>Precvic si pojmy pomocou karticiek</p>
-    </div>
-    <span class="arrow">→</span>
-  </a>
-
-  <a class="card" href="exam_biology_reproductive_system.html">
+  <a class="card" href="slovak_elections_quiz.html">
     <div class="card-icon exam">📝</div>
     <div class="card-body">
-      <h2>Biology Exam — Human Reproductive System</h2>
+      <h2>Slovak Elections — Interactive Quiz</h2>
       <p>Otestuj si svoje vedomosti</p>
     </div>
     <span class="arrow">→</span>
@@ -314,15 +309,32 @@ body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text);
     <span class="arrow">→</span>
   </a>
 
-  <a class="card" href="drill_enlightenment_terms_section1.html">
-    <div class="card-icon worksheet">✍️</div>
+  <a class="card" href="history_scientific-revolution.html">
+    <div class="card-icon exam">📝</div>
     <div class="card-body">
-      <h2>Term Drill — The Enlightenment, Section 1 (pp. 564–571)</h2>
-      <p>Interaktivny pracovny list</p>
+      <h2>The Scientific Revolution — MCQ Quiz</h2>
+      <p>Otestuj si svoje vedomosti</p>
     </div>
     <span class="arrow">→</span>
   </a>
 
+  <a class="card" href="exam_biology_reproductive_system.html">
+    <div class="card-icon exam">📝</div>
+    <div class="card-body">
+      <h2>Biology Exam — Human Reproductive System</h2>
+      <p>Otestuj si svoje vedomosti</p>
+    </div>
+    <span class="arrow">→</span>
+  </a>
+
+  <a class="card" href="flashcards_reproductive_system.html">
+    <div class="card-icon flash">🃏</div>
+    <div class="card-body">
+      <h2>Reproductive System Flashcards</h2>
+      <p>Precvic si pojmy pomocou karticiek</p>
+    </div>
+    <span class="arrow">→</span>
+  </a>
 
 </div>
 
@@ -348,6 +360,31 @@ document.getElementById('pwd').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') tryLogin();
 });
 if (sessionStorage.getItem('ok') === '1') show();
+
+/* Mark completed worksheets */
+function markDone() {
+  fetch('/api/results').then(function(r){ return r.json(); }).then(function(results) {
+    if (!results.length) return;
+    /* Build map: file id → best pct */
+    var best = {};
+    results.forEach(function(r) {
+      var id = r.id || '';
+      if (!best[id] || r.pct > best[id].pct) best[id] = r;
+    });
+    document.querySelectorAll('.card[href]').forEach(function(card) {
+      var href = card.getAttribute('href').replace('.html','');
+      var r = best[href];
+      if (!r) return;
+      card.classList.add('done');
+      var cls = r.pct >= 80 ? 'good' : r.pct >= 50 ? 'ok' : 'bad';
+      var badge = document.createElement('span');
+      badge.className = 'badge ' + cls;
+      badge.textContent = r.pct + '% · ' + new Date(r.date).toLocaleDateString('sk-SK');
+      card.querySelector('.card-body').appendChild(badge);
+    });
+  }).catch(function(){});
+}
+markDone();
 </script>
 </body>
 </html>
